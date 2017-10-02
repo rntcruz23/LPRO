@@ -16,9 +16,9 @@ public class Board {
 		int row, col;
 		for (row = 0; row < 8 ; row++) {
 			for (col = 0; col < 8; col++) {
-				if ((col & 1) == 0)
-					board[row][col] = ' ';
-				else board[row][col] = 'X';
+				if (((col+ (row & 1)) & 1) == 1)
+					board[row][col] = 'X';
+				else board[row][col] = ' ';
 			}
 		}
 	}
