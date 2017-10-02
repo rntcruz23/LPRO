@@ -1,6 +1,6 @@
 package mainQuest;
 import pieces.*;
-
+//o Artur esteve aqui
 public class Board {
 	private static char [][] board = new char[8][8];
 	
