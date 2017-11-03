@@ -1,5 +1,7 @@
 package pieces;
- 
+
+import mainQuest.Board;
+
 public abstract class Peca {
 	private int points;
 	private char piece;
@@ -8,7 +10,7 @@ public abstract class Peca {
 	private int[][] availableMoves;
 	private int[] pos;
 	private boolean alive;
-	
+	protected int [][] calcMoves;
 	public static final int[] sk1w = {0,1};
 	public static final int[] sk2w = {0,6};
 	public static final int[] sk1b = {7,1};
@@ -74,5 +76,21 @@ public abstract class Peca {
 	public void setColor(color pcolor) {
 		this.pieceColor = pcolor;
 	}
-	public abstract void claculateMoves();
+	public void claculateMoves() {
+		int[] currPos = getPos();
+		int [][] available;
+		int i;
+		available = new int[calcMoves.length][2];
+		for (i = 0;i < available.length; i++ ) {
+			int nextR = currPos[0] + calcMoves[i][0];
+			int nextC = currPos[1] + calcMoves[i][1];
+			if(!Board.inMap(nextR,nextC)) {
+				nextR = 0;
+				nextC = 0;
+			}
+			available[i][0] = nextR;
+			available[i][1] = nextC;
+		}	
+		setAvailable(available);	
+	}
 }
