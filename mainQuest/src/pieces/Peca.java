@@ -1,7 +1,10 @@
 package pieces;
  
-public class Peca {
+public abstract class Peca {
 	private int points;
+	private char piece;
+	public static enum color {white,black,none};
+	private color pieceColor;
 	private int[][] availableMoves;
 	private int[] pos;
 	private boolean alive;
@@ -36,9 +39,11 @@ public class Peca {
 	public void setState(boolean state) {
 		alive = state;
 	}
-	public Peca(int[] startPos) {
+	public Peca(int[] startPos,color pieceColor,char piece) {
 		setPos(startPos);
 		setState(true);
+		setColor(pieceColor);
+		setPiece(piece);
 	}
 	public int[] getPos(){
 		return pos;
@@ -54,7 +59,20 @@ public class Peca {
 	public int[][] getAvailable(){
 		return availableMoves;
 	}
-	protected void setAvailable(int[][] newMoves) {
+	public void setAvailable(int[][] newMoves) {
 		availableMoves = newMoves;
 	}
+	public char getPiece() {
+		return piece;
+	}
+	public void setPiece(char piece) {
+		this.piece = piece;
+	}
+	public color getColor() {
+		return pieceColor;
+	}
+	public void setColor(color pcolor) {
+		this.pieceColor = pcolor;
+	}
+	public abstract void claculateMoves();
 }

@@ -2,9 +2,13 @@ package pieces;
 
 public class Rook extends Peca {
 
-	public Rook(int[] startPos) {
-		super(startPos);
-		// TODO Auto-generated constructor stub
+	public Rook(int[] startPos,color piece) {
+		super(startPos,piece,'R');
+	}
+
+	@Override
+	public void claculateMoves() {
+		
 	}
 
 }
