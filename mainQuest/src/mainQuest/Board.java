@@ -11,7 +11,7 @@ import pieces.Queen;
 import pieces.Rook;
 public class Board {
 	private static char [][] board = new char[8][8];
-	
+	private int[] scores; //0 -> white score; 1 -> black score
 	private Knight k1w,k2w,k1b,k2b;
 	private Bishop b1w,b2w,b1b,b2b;
 	private Rook r1w,r2w,r1b,r2b;
@@ -24,6 +24,7 @@ public class Board {
 	private LinkedList<Peca> blacks;
 	public Board() {
 		int row, col;
+		scores = new int[] {0,0};
 		list = new LinkedList<Peca>();
 		whites = new LinkedList<Peca>();
 		blacks = new LinkedList<Peca>();
@@ -177,19 +178,35 @@ public class Board {
 		return (index);
 	}
 	public static boolean inMap(int nextR,int nextC) {
-		if(nextR >= 8 || nextR < 0)
-			return false;
-		if(nextC >= 8 || nextC < 0)
-			return false;
-		return true;
+		return (!((nextR >= 8) || (nextR < 0) && !((nextC >= 8) || (nextC < 0))));
 	}
-	public boolean moveP(char piece,int[] move,Peca.color color) {
+	public boolean moveP(String input,Peca.color color) {
+		char piece = input.charAt(0);
+		int[] move = new int[] {input.charAt(1)-'0'-1,input.charAt(2)-'0'-1};
 		Peca toMove;
-		int index;
+		int index,player;
 		if((index = checkMove(piece,move,color)) >= 0) {
 			toMove = list.get(index);
-			if(checkColor(toMove,move,color) != color) {
+			LinkedList<Peca> link;
+			Peca.color c;
+			if((c = checkColor(toMove,move,color)) != color) {
 				toMove.setPos(move);
+				if(c == Peca.color.white) {
+					player = 0;
+					link = whites;
+				} else if (c == Peca.color.black) {
+					player = 1;
+					link = blacks;
+				}
+				else return true;
+				for(Peca aux : link) {
+					if((move[0] == aux.getPos()[0]) && (move[1] == aux.getPos()[1])) {
+						scores[player]++;
+						link.remove(aux);
+						list.remove(aux);
+						return true;
+					}
+				}
 			}
 			else {
 				System.out.println("Can't move there, a piece is already there");
