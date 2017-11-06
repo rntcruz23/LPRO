@@ -1,7 +1,5 @@
 package pieces;
 
-import mainQuest.Board;
-
 public class Knight extends Peca {
 	public Knight(int[] startPos,color piece) {
 		super(startPos,piece,'K');

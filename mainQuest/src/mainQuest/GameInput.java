@@ -48,10 +48,11 @@ public class GameInput {
 		boolean moved = false;
 		while(!moved) {
 			String move = getInput(scan);
-			if((moved = (board.moveP(move,color))))
+			if((moved = board.moveP(move,color))) {
 				System.out.println("Movement available");
-			else
-				System.out.println("Wrong move");
+				return ;
+			}
+			System.out.println("Wrong move");
 		}
 	}
 }

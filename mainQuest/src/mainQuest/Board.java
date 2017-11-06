@@ -1,5 +1,4 @@
 package mainQuest;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import pieces.Bishop;
@@ -92,8 +91,6 @@ public class Board {
 		whites.add(k2w);
 		blacks.add(k1b);
 		blacks.add(k2b);
-		
-		k1w.setAvailable(new int[][] {{1,6},{3,6}});
 	}
 	private void putKings(){
 		kw = new King(Peca.kw,Peca.color.white);
@@ -157,39 +154,54 @@ public class Board {
 	}
 	public int checkMove(char piece,int[] move,Peca.color color) {
 		Peca aux = null;
+		int e = 10;
 		int found = 0,index=-1;
 		for(Peca p: list) {
 			if((p.getPiece() == piece) && (p.getColor() == color)) {
 				aux = p;
-				aux.claculateMoves();
+				aux.calculateMoves();
 				int[][] mAux = aux.getAvailable();
-				for(int[] i: mAux) {
-					if((move[0] == i[0]) && (move[1] == i[1])) {
-						if(found > 0) {
-							System.out.println("Ambiguous movement");
-							return -1;
+				if(piece == 'P') {
+					Pawn aP = (Pawn)p;
+					e = aP.pawnMove(this,move,whites,blacks);
+				}
+				if(e == 2 || e == -4 || e == 10) {  //Move é posiçao adjacente e peça adversaria, ou move é posiçao em frente e nao tem peça adversaria
+					int j = 0;
+					for(int[] i: mAux) {
+						Pawn pa;
+						int[]f = i;
+						if(e == 2) {
+							pa = (Pawn) aux;
+							f = pa.getEat()[j++];
 						}
-						index = list.indexOf(p);
-						found++;
+						if((move[0] == i[0]) && (move[1] == i[1]) || ((f[0] == move[0]) && (f[1] == move[1]))) {
+							if(found > 0) {
+								System.out.println("Ambiguous movement");
+								return -1;
+							}
+							index = list.indexOf(p);
+							found++;
+						}
 					}
 				}
 			}
 		}
-		return (index);
+		return index;
 	}
 	public static boolean inMap(int nextR,int nextC) {
-		return (!((nextR >= 8) || (nextR < 0) && !((nextC >= 8) || (nextC < 0))));
+		return (!((nextR >= 8) || (nextR < 0)) && !((nextC >= 8) || (nextC < 0)));
 	}
 	public boolean moveP(String input,Peca.color color) {
 		char piece = input.charAt(0);
 		int[] move = new int[] {input.charAt(1)-'0'-1,input.charAt(2)-'0'-1};
 		Peca toMove;
 		int index,player;
-		if((index = checkMove(piece,move,color)) >= 0) {
+		index = checkMove(piece,move,color);
+		if(index >= 0) {
 			toMove = list.get(index);
 			LinkedList<Peca> link;
 			Peca.color c;
-			if((c = checkColor(toMove,move,color)) != color) {
+			if(((c = checkColor(toMove,move,color)) != color)) {
 				toMove.setPos(move);
 				if(c == Peca.color.white) {
 					player = 0;
@@ -243,5 +255,8 @@ public class Board {
 			}
 			System.out.println('\n');
 		}
+	}
+	public static char[][] getBoard(){
+		return board;
 	}
 }

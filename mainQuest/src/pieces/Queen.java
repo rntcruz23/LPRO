@@ -7,7 +7,7 @@ public class Queen extends Peca {
 	}
 
 	@Override
-	public void claculateMoves() {
+	public void calculateMoves() {
 		
 	}
 

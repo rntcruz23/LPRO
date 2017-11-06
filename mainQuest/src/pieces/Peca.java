@@ -53,7 +53,7 @@ public abstract class Peca {
 	public void setPos(int[] newPos) {
 		if (newPos[0] >= 8 || newPos[0] < 0 || newPos[1] < 0 || newPos[1] >= 8)
 			return ;
-		pos = newPos.clone();
+		pos = newPos;
 	}
 	public int getPoints(){
 		return points;
@@ -76,7 +76,7 @@ public abstract class Peca {
 	public void setColor(color pcolor) {
 		this.pieceColor = pcolor;
 	}
-	public void claculateMoves() {
+	public void calculateMoves() {
 		int[] currPos = getPos();
 		int [][] available;
 		int i;
@@ -85,12 +85,96 @@ public abstract class Peca {
 			int nextR = currPos[0] + calcMoves[i][0];
 			int nextC = currPos[1] + calcMoves[i][1];
 			if(!Board.inMap(nextR,nextC)) {
-				nextR = 0;
-				nextC = 0;
+				nextR = -1;
+				nextC = -1;
 			}
 			available[i][0] = nextR;
 			available[i][1] = nextC;
 		}	
 		setAvailable(available);	
+	}
+	public void printAvailable() {
+		int r;
+		System.out.println("Printing available moves");
+		for(r = 0;r < availableMoves.length;r++) {
+			System.out.println(String.format("%d-%d", availableMoves[r][0],availableMoves[r][1]));
+		}
+	}
+	protected void setAvailableFirstHalf() {
+		int[][] available = getAvailable();
+		int row;
+		int stopPoint = 0;
+		boolean flag = false;
+		char[][] board = Board.getBoard();
+		for(row = available.length/4 - 1;row >= 0;row--) {
+			int[] next = available[row];
+			if(next[0] == -1)continue;
+			char nextP = board[next[0]][next[1]];
+			if((nextP != ' ') && (nextP != 'X')){
+				stopPoint = row;
+				flag = true;
+				break;				
+			}	
+		}
+		if(flag)
+			for(row = stopPoint-1; row >= 0; row--) {
+				available[row][0] = -1;
+				available[row][1] = -1;
+			}
+		flag = false;
+		for(row = available.length/4 ; row < available.length/2; row++) {
+			int[] next = available[row];
+			if(next[0] == -1)continue;
+			char nextP = board[next[0]][next[1]];
+			if((nextP != ' ') && (nextP != 'X')){
+				stopPoint = row;
+				flag = true;
+				break;				
+			}
+		}
+		if(flag)
+		for(row = stopPoint+1; row < available.length/2; row++) {
+			available[row][0] = -1;
+			available[row][1] = -1;
+		}
+		setAvailable(available);
+	}
+	protected void setAvailableSecondHalf() {
+		int[][] available = getAvailable();
+		int row;
+		int stopPoint = 0;
+		boolean flag = false;
+		char[][] board = Board.getBoard();
+		for(row = available.length*3/4-1; row >= available.length/2 ; row--) {
+			int[] next = available[row];
+			if(next[0] == -1)continue;
+			char nextP = board[next[0]][next[1]];
+			if((nextP != ' ') && (nextP != 'X')){
+				stopPoint = row;
+				flag = true;
+				break;				
+			}
+		}
+		if(flag)
+			for(row = stopPoint-1; row >= available.length/2; row--) {
+				available[row][0] = -1;
+				available[row][1] = -1;
+			}
+		for(row = available.length*3/4 ; row < available.length; row++) {
+			int[] next = available[row];
+			if(next[0] == -1)continue;
+			char nextP = board[next[0]][next[1]];
+			if((nextP != ' ') && (nextP != 'X')){
+				stopPoint = row;
+				flag = true;
+				break;				
+			}
+		}
+		if(flag)
+			for(row = stopPoint+1; row < available.length; row++) {
+				available[row][0] = -1;
+				available[row][1] = -1;
+			}
+		setAvailable(available);
 	}
 }
