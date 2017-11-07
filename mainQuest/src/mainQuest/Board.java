@@ -240,6 +240,7 @@ public class Board {
 					list.add(temp);
 				}
 				toMove.setPos(oldPos);				//Color piece moved and color king still in check return to old position
+				System.out.println("Can't move there, king still in check");
 				return false;						//Movement unavailable -> color king still in check
 			}
 			return true;
