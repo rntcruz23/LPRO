@@ -50,13 +50,16 @@ public class Board {
 	}
 	private void refreshBoard() {
 		cleanBoard();
+		updateBoard();
+		showBoard();
+	}
+	private void updateBoard() {
 		int row,col;
 		for(Peca it:list) {
 			row = it.getPos()[0];
 			col = it.getPos()[1];
 			board[row][col] = it.getPiece();
 		}
-		showBoard();
 	}
 	private void putPawns() {
 		int i;
@@ -193,8 +196,10 @@ public class Board {
 	}
 	public boolean moveP(String input,Peca.color color) {
 		char piece = input.charAt(0);
+		int flag = 0;
+		int[] oldPos;
 		int[] move = new int[] {input.charAt(1)-'0'-1,input.charAt(2)-'0'-1};
-		Peca toMove;
+		Peca toMove,temp = null;
 		int index,player;
 		index = checkMove(piece,move,color);
 		if(index >= 0) {
@@ -202,6 +207,8 @@ public class Board {
 			LinkedList<Peca> link;
 			Peca.color c;
 			if(((c = checkColor(toMove,move,color)) != color)) {
+				flag++;
+				oldPos = toMove.getPos();
 				toMove.setPos(move);
 				if(c == Peca.color.white) {
 					player = 0;
@@ -213,16 +220,27 @@ public class Board {
 				else return true;
 				for(Peca aux : link) {
 					if((move[0] == aux.getPos()[0]) && (move[1] == aux.getPos()[1])) {
+						temp = aux;
 						scores[player]++;
 						link.remove(aux);
 						list.remove(aux);
-						return true;
+						flag++;
+						break;
 					}
 				}
 			}
 			else {
 				System.out.println("Can't move there, a piece is already there");
 				return false;
+			}
+			if(checkKing(color) && (flag > 0)){		//Check if color king is still in check and color piece moved
+				if (flag == 2) {					//Check if !color piece was captured and color king still in check -> uncapture piece
+					scores[player]--;
+					link.add(temp);
+					list.add(temp);
+				}
+				toMove.setPos(oldPos);				//Color piece moved and color king still in check return to old position
+				return false;						//Movement unavailable -> color king still in check
 			}
 			return true;
 		}
@@ -258,5 +276,38 @@ public class Board {
 	}
 	public static char[][] getBoard(){
 		return board;
+	}
+	public boolean checkKing(Peca.color color) {
+		cleanBoard();
+		updateBoard();
+		if(color == Peca.color.white)
+			return checkWhiteKing();
+		return checkBlackKing();
+	}
+	public boolean checkBlackKing() {
+		int[] kbP = kb.getPos();
+		for(Peca p: whites) {
+			p.calculateMoves();
+			if(existsIn(kbP,p.getAvailable())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean checkWhiteKing() {
+		int[] kwP = kw.getPos();
+		for(Peca p: blacks) {
+			p.calculateMoves();
+			if(existsIn(kwP,p.getAvailable())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	private boolean existsIn(int[] test,int[][] ex) {
+		for(int[] a:ex)
+			if((a[0] == test[0]) && (a[1] == test[1]))
+				return true;
+		return false;
 	}
 }
