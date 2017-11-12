@@ -36,7 +36,7 @@ public class Board {
 		}
 	}
 	public void printBoard(){
-		String letters = new String(" ||1||2||3||4||5||6||7||8|");
+		String letters = new String(" ||a||b||c||d||e||f||g||h|");
 		System.out.println(letters);
 		refreshBoard();
 	}

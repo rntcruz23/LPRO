@@ -18,6 +18,7 @@ public class GameInput {
 				continue;
 			}
 			input = input.toUpperCase();
+			input = algebraicNotToVector(input);
 			valid = avaliateInput(input);
 		}
 		return input;
@@ -30,12 +31,12 @@ public class GameInput {
 			char l = input.charAt(0);
 			
 			switch (l) {
-			case 'K':
+			case 'N':
 			case 'Q':
 			case 'R':
 			case 'P':
 			case 'B':
-			case 'S':
+			case 'K':
 				valid = true;
 				break;
 			default: System.out.println("Unkown piece"); valid = false;
@@ -54,5 +55,11 @@ public class GameInput {
 			}
 			System.out.println("Wrong move");
 		}
+	}
+	public static String algebraicNotToVector(String input) {
+		StringBuilder newInput = new StringBuilder(input);
+		newInput.setCharAt(1, input.charAt(2));
+		newInput.setCharAt(2, (char)(input.charAt(1)-'A'+'1'));
+		return newInput.toString();
 	}
 }
