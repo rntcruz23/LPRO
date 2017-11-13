@@ -6,7 +6,7 @@ public class Board {
 	private Cell[] cells = new Cell[64];
 	
 	public Board() {
-		for(int i = 0; i < 8; i++) {
+		/*for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(i == 0) { //white back row
 					if(j == 0 || j == 7) {
@@ -52,11 +52,61 @@ public class Board {
 					}
 				}
 			}
+		}*/
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				if(j == 0) { //white back row
+					if(i == 0 || i == 7) {
+						cells[i * 8 + j] = new Cell(i, j, 'R', Piece.color.white);
+					}
+					else if(i == 1 || i == 6) {
+						cells[i * 8 + j] = new Cell(i, j, 'N', Piece.color.white);
+					}
+					else if(i == 2 || i == 5) {
+						cells[i * 8 + j] = new Cell(i, j, 'B', Piece.color.white);
+					}
+					else if( i == 3) {
+						cells[i * 8 + j] = new Cell(i, j, 'Q', Piece.color.white);
+					}
+					else if(i == 4) {
+						cells[i * 8 + j] = new Cell(i, j, 'K', Piece.color.white);
+					}
+				}
+				else if(j == 1) { //white pawn row
+					cells[i * 8 + j] = new Cell(i, j, 'P', Piece.color.white);
+				}
+				else if(j > 1 && j < 6) {
+					cells[i * 8 + j] = new Cell(i, j, ' ', Piece.color.none);
+				}
+				else if(j == 6) {
+					cells[i * 8 + j] = new Cell(i, j, 'P', Piece.color.black);
+				}
+				else if(j == 7) { //black back row
+					if(i == 0 || i == 7) {
+						cells[i * 8 + j] = new Cell(i, j, 'R', Piece.color.white);
+					}
+					else if(i == 1 || i == 6) {
+						cells[i * 8 + j] = new Cell(i, j, 'N', Piece.color.white);
+					}
+					else if(i == 2 || i == 5) {
+						cells[i * 8 + j] = new Cell(i, j, 'B', Piece.color.white);
+					}
+					else if( i == 3) {
+						cells[i * 8 + j] = new Cell(i, j, 'Q', Piece.color.white);
+					}
+					else if(i == 4) {
+						cells[i * 8 + j] = new Cell(i, j, 'K', Piece.color.white);
+					}
+				}
+			}
 		}
+		
 	}
 	
 	public int move(int[] initialPos, int[] finalPos) {
-			//cells[initialPos[0] * 8 + initialPos[1]]
+		Piece piece = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
+		cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
+		cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
 		return 0;
 	}
 	public int checkMoves(Cell cell, int[] finalPos) {
@@ -148,24 +198,45 @@ public class Board {
 			}
 		return 0;
 	}
-	public void printBoard() {
-		System.out.println(" abcdefgh");
-		for(int i = 0; i < 8; i++) {
-			System.out.print((i + 1));
-			for(int j = 0; j < 8; j++) {
-				if(cells[i * 8 + j].isEmpty()) {
-					if(cells[i * 8 + j].showColor() == Cell.ccolor.white) {
-						System.out.print(" ");
+	public void printBoard(Piece.color side) {
+		System.out.println("  a b c d e f g h");
+		if(side == Piece.color.white) {
+			for(int j = 7; j >= 0; j--) {
+				System.out.print((j + 1) + " ");
+				for(int i = 0; i < 8; i++) {
+					if(cells[i * 8 + j].isEmpty()) {
+						if(cells[i * 8 + j].showColor() == Cell.ccolor.white) {
+							System.out.print("  ");
+						}
+						else if(cells[i * 8 + j].showColor() == Cell.ccolor.black) {
+							System.out.print("X ");
+						}
 					}
-					else if(cells[i * 8 + j].showColor() == Cell.ccolor.black) {
-						System.out.print("X");
+					else {
+						System.out.print(cells[i * 8 + j].showPieceName() + " ");
 					}
 				}
-				else {
-					System.out.print(cells[i * 8 + j].showPieceName());
-				}
+				System.out.println((j + 1));
 			}
-			System.out.println((i + 1));
+		}
+		else if(side == Piece.color.black) {
+			for(int j = 0; j < 8; j++) {
+				System.out.print((j + 1) + " ");
+				for(int i = 0; i < 8; i++) {
+					if(cells[i * 8 + j].isEmpty()) {
+						if(cells[i * 8 + j].showColor() == Cell.ccolor.white) {
+							System.out.print("  ");
+						}
+						else if(cells[i * 8 + j].showColor() == Cell.ccolor.black) {
+							System.out.print("X ");
+						}
+					}
+					else {
+						System.out.print(cells[i * 8 + j].showPieceName() + " ");
+					}
+				}
+				System.out.println((j + 1));
+			}
 		}
 	}
 }
