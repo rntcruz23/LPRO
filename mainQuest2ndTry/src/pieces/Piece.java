@@ -6,11 +6,13 @@ public abstract class Piece {
 	protected int[][] possibleMoves;
 	public static enum color {white,black,none};
 	private color pieceColor;
+	private boolean neverMoved;
 	
 	public Piece(char piece, color pColor) {
 		this.piece = piece;
 		this.pieceColor = pColor;
 		alive = true;
+		neverMoved = true;
 	}
 	public char showPiece() {
 		return piece;
@@ -24,7 +26,13 @@ public abstract class Piece {
 	public int[][] showPossibleMoves() {
 		return possibleMoves;
 	}
-	public void calculateMoves() {
-		
+	public char showName() {
+		return piece;
+	}
+	public boolean showNeverMoved() {
+		return neverMoved;
+	}
+	public void movePiece() {
+		neverMoved = false;
 	}
 }
