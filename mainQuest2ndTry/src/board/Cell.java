@@ -78,7 +78,12 @@ public class Cell {
 		return position;
 	}
 	public Piece.color showPieceColor() {
-		return piece.showColor();
+		if(empty) {
+			return null;
+		}
+		else {
+			return piece.showColor();
+		}
 	}
 	public void moveOutPiece() {
 		piece.movePiece();
