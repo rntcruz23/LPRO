@@ -106,7 +106,7 @@ public class Board {
 						}
 						if((cell.showPosition()[0] - finalPos[0]) == 0) { //vertical movement (same column)
 							for(int i = cell.showPosition()[1] + 1; i < finalPos[1]; i++) {
-								if(!cells[(cell.showPosition()[0]) * 8 + i].isEmpty()) {
+								if(!cells[(cell.showPosition()[1]) * 8 + i].isEmpty()) {
 									return 3; //another piece on the way
 								}
 							}
@@ -117,7 +117,7 @@ public class Board {
 						}
 						if((cell.showPosition()[1] - finalPos[1]) == 0) { //horizontal movement (same row)
 							for(int i = cell.showPosition()[0] + 1; i < finalPos[0]; i++) {
-								if(!cells[(cell.showPosition()[1]) * 8 + i].isEmpty()) {
+								if(!cells[(cell.showPosition()[0]) * 8 + i].isEmpty()) {
 									return 3; //another piece on the way
 								}
 							}
