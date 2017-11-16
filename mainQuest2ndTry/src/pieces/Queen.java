@@ -6,6 +6,7 @@ public class Queen extends Piece implements Move{
 	public Queen(color pColor) {
 		super('Q', pColor);
 		calculateMoves();
+		points = 9;
 	}
 	
 	public void calculateMoves() {

@@ -53,7 +53,17 @@ public class TesteGameLogic {
 		assertEquals(board.checkMoves(board.cells[8], finalPos), 0); //invalid movement - not on movement list
 		finalPos[0] = 0;
 		finalPos[1] = 2;
-		assertEquals(board.checkMoves(board.cells[8], finalPos), 0);
+		assertEquals(board.checkMoves(board.cells[8], finalPos), 0); //invalid movement - diagonal movement with no piece to capture
+		finalPos[0] = 0;
+		finalPos[1] = 1;
+		Piece piece1 = new Pawn(Piece.color.black);
+		board.cells[0 * 8 + 1].moveInPiece(piece1);
+		assertEquals(board.checkMoves(board.cells[8], finalPos), 4); //valid movement - diagonal movement to capture piece
+		board.cells[0 * 8 + 1].moveOutPiece();
+		Piece piece2 = new Pawn(Piece.color.white);
+		board.cells[0 * 8 + 1].moveInPiece(piece2);
+		assertEquals(board.checkMoves(board.cells[8], finalPos), 2); //valid movement - diagonal movement to capture piece
+		board.cells[0 * 8 + 1].moveOutPiece();
 	}
 	
 	@Test
@@ -125,7 +135,7 @@ public class TesteGameLogic {
 		board.cells[6 * 8 + 3].moveInPiece(piece2);
 		finalPos[0] = 7;
 		finalPos[1] = 3;
-		//assertEquals(board.checkMoves(board.cells[4 * 8 + 3], finalPos), 3); //invalid movement - another piece on the way
+		assertEquals(board.checkMoves(board.cells[4 * 8 + 3], finalPos), 3); //invalid movement - another piece on the way
 		board.cells[6 * 8 + 3].moveOutPiece();
 		Piece piece3 = new Pawn(Piece.color.black);
 		board.cells[4 * 8 + 5].moveInPiece(piece3);

@@ -6,6 +6,7 @@ public class Bishop extends Piece implements Move{
 	public Bishop(color pColor) {
 		super('B', pColor);
 		calculateMoves();
+		points = 3;
 	}
 	
 	public void calculateMoves() {

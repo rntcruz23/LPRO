@@ -6,6 +6,7 @@ public class Rook extends Piece implements Move{
 	public Rook(color pColor) {
 		super('R', pColor);
 		calculateMoves();
+		points = 5;
 	}
 	
 	public void calculateMoves() {

@@ -7,6 +7,7 @@ public abstract class Piece {
 	public static enum color {white,black,none};
 	private color pieceColor;
 	private boolean neverMoved;
+	protected int points;
 	
 	public Piece(char piece, color pColor) {
 		this.piece = piece;
@@ -34,5 +35,8 @@ public abstract class Piece {
 	}
 	public void movePiece() {
 		neverMoved = false;
+	}
+	public int getPoints() {
+		return points;
 	}
 }

@@ -6,6 +6,7 @@ public class King extends Piece implements Move{
 	public King(color pColor) {
 		super('K', pColor);
 		calculateMoves();
+		points = 999;
 	}
 	
 	public void calculateMoves() {
