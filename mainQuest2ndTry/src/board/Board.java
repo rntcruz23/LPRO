@@ -2,6 +2,7 @@ package board;
 
 import java.util.LinkedList;
 
+import pieces.King;
 import pieces.Piece;
 
 public class Board {
@@ -257,6 +258,51 @@ public class Board {
 			}
 		}
 	return 0;
+	}
+	
+	public boolean checkCheck(Piece.color attackingSide) {
+		Cell kingCell = null;
+		if(attackingSide == Piece.color.white) {
+			for(Cell cell: cells) {
+				if(cell.showPieceColor() == Piece.color.black && cell.showPieceName() == 'K') {
+					kingCell = cell;
+					break;
+				}
+			}
+			if(kingCell == null) return false;
+			for(Cell cell: cells) {
+				if(cell.isEmpty()) {
+					continue;
+				}
+				if(cell.showPieceColor() == Piece.color.black) {
+					continue;
+				}
+				if(checkMoves(cell, kingCell.showPosition()) == 4) {
+					return true;
+				}
+			}
+		}
+		else if(attackingSide == Piece.color.black) {
+			for(Cell cell: cells) {
+				if(cell.showPieceColor() == Piece.color.white && cell.showPieceName() == 'K') {
+					kingCell = cell;
+					break;
+				}
+			}
+			if(kingCell == null) return false;
+			for(Cell cell: cells) {
+				if(cell.isEmpty()) {
+					continue;
+				}
+				if(cell.showPieceColor() == Piece.color.white) {
+					continue;
+				}
+				if(checkMoves(cell, kingCell.showPosition()) == 4) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	public void printBoard(Piece.color side) {
 		System.out.println("  a b c d e f g h");
