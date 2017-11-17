@@ -6,7 +6,7 @@ public abstract class Piece {
 	protected int[][] possibleMoves;
 	public static enum color {white,black,none};
 	private color pieceColor;
-	private boolean neverMoved;
+	protected boolean neverMoved;
 	protected int points;
 	
 	public Piece(char piece, color pColor) {

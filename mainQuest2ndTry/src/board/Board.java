@@ -298,5 +298,6 @@ public class Board {
 				System.out.println((j + 1));
 			}
 		}
+		System.out.println("  a b c d e f g h");
 	}
 }
