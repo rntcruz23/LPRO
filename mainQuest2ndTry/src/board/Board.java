@@ -11,6 +11,8 @@ public class Board {
 	private LinkedList<Piece> capturedPiecesByBlack = new LinkedList();
 	private int whitePoints = 0;
 	private int blackPoints = 0;
+	private boolean flagCheckWhite = false;
+	private boolean flagCheckBlack = false;
 	
 	public Board() {
 		for(int i = 0; i < 8; i++) {
@@ -278,6 +280,7 @@ public class Board {
 					continue;
 				}
 				if(checkMoves(cell, kingCell.showPosition()) == 4) {
+					flagCheckBlack = true; //black king is in check
 					return true;
 				}
 			}
@@ -298,6 +301,7 @@ public class Board {
 					continue;
 				}
 				if(checkMoves(cell, kingCell.showPosition()) == 4) {
+					flagCheckWhite = true; //white king is in check
 					return true;
 				}
 			}

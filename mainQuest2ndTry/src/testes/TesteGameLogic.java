@@ -10,6 +10,7 @@ import board.Board;
 import pieces.Piece;
 import pieces.Pawn;
 import pieces.Bishop;
+import pieces.King;
 import pieces.Rook;
 
 public class TesteGameLogic {
@@ -143,5 +144,24 @@ public class TesteGameLogic {
 		finalPos[1] = 6;
 		assertEquals(board.checkMoves(board.cells[4 * 8 + 3], finalPos), 3); //invalid movement - another piece on the way
 		board.cells[6 * 8 + 3].moveOutPiece();
+	}
+	
+	@Test
+	public void checkKingCheck() {
+		Piece king = new King(Piece.color.white);
+		board.cells[0].moveInPiece(king);
+		Piece piece = new Rook(Piece.color.black);
+		board.cells[0 * 0 + 5].moveInPiece(piece);
+		assertTrue(board.checkCheck(Piece.color.black));
+		Piece piece1 = new Rook(Piece.color.white);
+		board.cells[5].moveOutPiece();
+		board.cells[5].moveInPiece(piece1);
+		assertFalse(board.checkCheck(Piece.color.black));
+		board.cells[0].moveOutPiece();
+		board.cells[5].moveOutPiece();
+		Piece king1 = new King(Piece.color.black);
+		board.cells[0].moveInPiece(king1);
+		board.cells[5].moveInPiece(piece1);
+		assertTrue(board.checkCheck(Piece.color.white));
 	}
 }
