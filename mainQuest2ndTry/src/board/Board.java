@@ -1,8 +1,13 @@
 package board;
 
 import java.util.LinkedList;
+import java.util.Scanner;
 
+import pieces.Bishop;
+import pieces.Knight;
 import pieces.Piece;
+import pieces.Queen;
+import pieces.Rook;
 
 public class Board {
 	public Cell[] cells = new Cell[64];
@@ -74,11 +79,33 @@ public class Board {
 	
 	public int move(int[] initialPos, int[] finalPos) {
 		Piece piece = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
+		Piece aux;
 		int check = checkMoves(cells[initialPos[0] * 8 + initialPos[1]], finalPos);
 		switch(check) {
 		case 0:
 			return 0;
 		case 1:
+			if(piece.showName() == 'P' && finalPos[1] == 7) { //pawn promotion
+				switch(getPromotion()) {
+				case 'Q':
+					aux = new Queen(piece.showColor());
+					break;
+				case 'R':
+					aux = new Rook(piece.showColor());
+					break;
+				case 'N':
+					aux = new Knight(piece.showColor());
+					break;
+				case 'B':
+					aux = new Bishop(piece.showColor());
+					break;
+				default:
+					return -3;
+				}
+				cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
+				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux);
+				aux.movePiece();
+			}
 			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
 			return 1;
@@ -89,8 +116,32 @@ public class Board {
 		case 4: 
 			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 			Piece capturedPiece = cells[finalPos[0] * 8 + finalPos[1]].getPiece();
-			cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
-			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
+			Piece aux1;
+			if(piece.showName() == 'P' && finalPos[1] == 7) { //pawn promotion
+				switch(getPromotion()) {
+				case 'Q':
+					aux1 = new Queen(piece.showColor());
+					break;
+				case 'R':
+					aux1 = new Rook(piece.showColor());
+					break;
+				case 'N':
+					aux1 = new Knight(piece.showColor());
+					break;
+				case 'B':
+					aux1 = new Bishop(piece.showColor());
+					break;
+				default:
+						return -3;
+				}
+				cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux1);
+				aux1.movePiece();
+			}
+			else {
+				cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
+			}
 			if(cells[finalPos[0] * 8 + finalPos[1]].showPieceColor() == Piece.color.white) {
 				whitePoints += capturedPiece.getPoints();
 				capturedPiecesByWhite.add(capturedPiece);
@@ -104,23 +155,23 @@ public class Board {
 			int i = 0;
 			if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.white) i = 0;
 			else if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.black) i = 7;
-			Piece aux = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
+			Piece aux2 = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
 			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
-			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux);
-			aux = cells[7 * 8 + i].getPiece();
+			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux2);
+			aux2 = cells[7 * 8 + i].getPiece();
 			cells[7 * 8 + i].moveOutPiece();
-			cells[5 * 8 + i].moveInPiece(aux);
+			cells[5 * 8 + i].moveInPiece(aux2);
 			return 5;
 		case 6:
 			int j = 0;
 			if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.white) j = 0;
 			else if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.black) j = 7;
-			Piece aux1 = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
+			Piece aux3 = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
 			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
-			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux1);
+			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux3);
 			aux1 = cells[0 * 8 + j].getPiece();
 			cells[0 * 8 + j].moveOutPiece();
-			cells[3 * 8 + j].moveInPiece(aux1);
+			cells[3 * 8 + j].moveInPiece(aux3);
 			return 6;
 		case -1:
 			return -1;
@@ -478,5 +529,17 @@ public class Board {
 			}
 		}
 		System.out.println("  a b c d e f g h");
+	}
+	
+	public char getPromotion() {
+		Scanner in = new Scanner(System.in);
+		System.out.println("What piece do you want? (Q, R, N, B)");
+		char inc;
+		while(true) {
+			inc = in.nextLine().toUpperCase().charAt(0);
+			if(inc == 'Q' || inc == 'R' || inc == 'N' || inc == 'B') {
+				return inc;
+			}
+		}
 	}
 }
