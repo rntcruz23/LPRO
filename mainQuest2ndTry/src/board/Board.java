@@ -288,9 +288,11 @@ public class Board {
 						(cell.showPosition()[0] - finalPos[0]) == -(cell.showPosition()[1] - finalPos[1])) { //diagonal movement
 						if(cell.showPosition()[0] > finalPos[0]) { //movement to left
 							if(cell.showPosition()[1] > finalPos[1]) { //movement down
-								for(int i = cell.showPosition()[0] + 1; i > finalPos[0]; i--) {
-									for(int j = cell.showPosition()[1] + 1; j > finalPos[1]; j--) {
-										if(!cells[(cell.showPosition()[1]) * 8 + i].isEmpty()) {
+								for(int i = cell.showPosition()[0] - 1; i > finalPos[0]; i--) {
+									for(int j = cell.showPosition()[1] - 1; j > finalPos[1]; j--) {
+										if(!cells[j * 8 + i].isEmpty()) {
+											System.out.print(i);
+											System.out.println(j);
 											return 3; //another piece on the way
 										}
 									}
@@ -301,9 +303,11 @@ public class Board {
 								return 1; //valid movement
 							}
 							if(cell.showPosition()[1] < finalPos[1]) { //movement up
-								for(int i = cell.showPosition()[0] + 1; i > finalPos[0]; i--) {
+								for(int i = cell.showPosition()[0] - 1; i > finalPos[0]; i--) {
 									for(int j = cell.showPosition()[1] + 1; j < finalPos[1]; j++) {
-										if(!cells[(cell.showPosition()[1]) * 8 + i].isEmpty()) {
+										if(!cells[j * 8 + i].isEmpty()) {
+											System.out.print(i);
+											System.out.println(j);
 											return 3; //another piece on the way
 										}
 									}
@@ -317,8 +321,10 @@ public class Board {
 						else if(cell.showPosition()[0] < finalPos[0]) { //movement to right
 							if(cell.showPosition()[1] > finalPos[1]) { //movement down
 								for(int i = cell.showPosition()[0] + 1; i < finalPos[0]; i++) {
-									for(int j = cell.showPosition()[1] + 1; j > finalPos[1]; j--) {
-										if(!cells[(cell.showPosition()[1]) * 8 + i].isEmpty()) {
+									for(int j = cell.showPosition()[1] - 1; j > finalPos[1]; j--) {
+										if(!cells[j * 8 + i].isEmpty()) {
+											System.out.print(i);
+											System.out.println(j);
 											return 3; //another piece on the way
 										}
 									}
@@ -331,7 +337,9 @@ public class Board {
 							if(cell.showPosition()[1] < finalPos[1]) { //movement up
 								for(int i = cell.showPosition()[0] + 1; i < finalPos[0]; i++) {
 									for(int j = cell.showPosition()[1] + 1; j < finalPos[1]; j++) {
-										if(!cells[(cell.showPosition()[1]) * 8 + i].isEmpty()) {
+										if(!cells[j * 8 + i].isEmpty()) {
+											System.out.print(i);
+											System.out.println(j);
 											return 3; //another piece on the way
 										}
 									}

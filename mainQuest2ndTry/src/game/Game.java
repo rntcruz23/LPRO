@@ -58,6 +58,12 @@ public class Game {
 		case 4:
 			flagChange = true;
 			break;
+		case 5:
+			flagChange = true;
+			break;
+		case 6:
+			flagChange = true;
+			break;
 		default:
 			break;
 			
