@@ -19,7 +19,8 @@ public class Game {
 			board.printBoard(side);
 			move = input.nextLine();
 			in = inputInt(move);
-			retHandler(board.move(in[0], in[1]));
+			if(in == null) continue;
+			if(board.move(in[0], in[1])) flagChange = !flagChange;
 			if(flagChange && side == Piece.color.white) side = Piece.color.black;
 			else if(flagChange && side == Piece.color.black) side = Piece.color.white;
 		}
