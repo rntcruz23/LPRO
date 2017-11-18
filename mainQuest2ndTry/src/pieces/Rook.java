@@ -1,7 +1,5 @@
 package pieces;
 
-import pieces.Piece.color;
-
 public class Rook extends Piece implements Move{
 	public Rook(color pColor) {
 		super('R', pColor);

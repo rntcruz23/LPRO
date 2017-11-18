@@ -1,7 +1,5 @@
 package pieces;
 
-import pieces.Piece.color;
-
 public class Knight extends Piece implements Move{
 	public Knight(color pColor) {
 		super('N', pColor);

@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import board.Cell;
 import board.Board;
 
 import pieces.Piece;
@@ -163,5 +162,20 @@ public class TesteGameLogic {
 		board.cells[0].moveInPiece(king1);
 		board.cells[5].moveInPiece(piece1);
 		assertTrue(board.checkCheck(Piece.color.white));
+		assertTrue(board.checkCheck(board.cells[0]));
+	}
+
+	@Test
+	public void checkCastling() {
+		Piece wking = new King(Piece.color.white);
+		Piece wkrook = new Rook(Piece.color.white);
+		Piece wqrook = new Rook(Piece.color.white);
+		board.cells[0].moveInPiece(wqrook);
+		board.cells[4 * 8 + 0].moveInPiece(wking);
+		board.cells[7 * 8 + 0].moveInPiece(wkrook);
+		int[] fin = {6, 0};
+		assertEquals(board.checkMoves(board.cells[4 * 8 + 0], fin), 5);
+		fin[0] = 2;
+		assertEquals(board.checkMoves(board.cells[4 * 8 + 0], fin), 6);
 	}
 }

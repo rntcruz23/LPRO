@@ -1,7 +1,5 @@
 package pieces;
 
-import pieces.Piece.color;
-
 public class King extends Piece implements Move{
 	public King(color pColor) {
 		super('K', pColor);
@@ -10,6 +8,17 @@ public class King extends Piece implements Move{
 	}
 	
 	public void calculateMoves() {
-		possibleMoves = new int[][] { {-1,0}, {-1,1}, {0,1}, {1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1} };
+		if(neverMoved) {
+			possibleMoves = new int[][] { {-1,0}, {-1,1}, {0,1}, {1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {2,0}, {-2,0} };
+		}
+		else {
+			possibleMoves = new int[][] { {-1,0}, {-1,1}, {0,1}, {1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1} };
+		}
+	}
+	
+	@Override
+	public void movePiece() {
+		neverMoved = false;
+		calculateMoves();
 	}
 }

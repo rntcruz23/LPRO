@@ -2,13 +2,12 @@ package board;
 
 import java.util.LinkedList;
 
-import pieces.King;
 import pieces.Piece;
 
 public class Board {
 	public Cell[] cells = new Cell[64];
-	private LinkedList<Piece> capturedPiecesByWhite = new LinkedList();
-	private LinkedList<Piece> capturedPiecesByBlack = new LinkedList();
+	private LinkedList<Piece> capturedPiecesByWhite = new LinkedList<Piece>();
+	private LinkedList<Piece> capturedPiecesByBlack = new LinkedList<Piece>();
 	private int whitePoints = 0;
 	private int blackPoints = 0;
 	private boolean flagCheckWhite = false;
@@ -101,12 +100,34 @@ public class Board {
 				capturedPiecesByBlack.add(capturedPiece);
 			}
 			return 4;
+		case 5:
+			int i = 0;
+			if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.white) i = 0;
+			else if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.black) i = 7;
+			Piece aux = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
+			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
+			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux);
+			aux = cells[7 * 8 + i].getPiece();
+			cells[7 * 8 + i].moveOutPiece();
+			cells[5 * 8 + i].moveInPiece(aux);
+			return 5;
+		case 6:
+			int j = 0;
+			if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.white) j = 0;
+			else if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.black) j = 7;
+			Piece aux1 = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
+			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
+			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux1);
+			aux1 = cells[0 * 8 + j].getPiece();
+			cells[0 * 8 + j].moveOutPiece();
+			cells[3 * 8 + j].moveInPiece(aux1);
+			return 6;
 		case -1:
 			return -1;
 		case -2:
 			return -2;
 		default:
-			return -3;
+			return check;
 			
 		}
 	}
@@ -120,6 +141,8 @@ public class Board {
 		 * 		2 - movimento inválido, peça da mesma cor na posição final
 		 * 		3 - movimento inválido, outra peça no caminho
 		 * 		4 - movimento válido, peça da outra cor na posição final, pode capturar
+		 * 		5 - movimento válido, castling king side
+		 * 		6 - movimento válido, castling queen side
 		 * 		-1 - erro: celula vazia (sem peça)
 		 * 		-2 - erro: posição final fora do tabuleiro de jogo
 		 */
@@ -148,6 +171,70 @@ public class Board {
 							return 4;
 						}
 						return 1; //the knight can jump pieces
+					}
+					if(cell.showPieceName() == 'K' && cell.showPieceColor() == Piece.color.white) { //white king castling
+						if(move[0] == 2 && move[1] == 0) { //castling king side (short)
+							if(cell.getPiece().showNeverMoved()) { // king never moved
+								if(cells[7 * 8 + 0].showPieceName() == 'R' && cells[7 * 8 + 0].getPiece().showNeverMoved()) { //rook never moved
+									if(cells[6 * 8 + 0].isEmpty() && cells[5 * 8 + 0].isEmpty()) { //cells between king and rook are empty
+										if(checkCheck(Piece.color.black) == false) { //king is not in check
+											if(checkCheck(cells[5 * 8 + 0]) == false) { //king does not pass through a cell that is in check
+												if(checkCheck(cells[6 * 8 + 0]) == false) { //king does not go to a cell that puts him in check
+													return 5;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						else if(move[0] == -2 && move[1] == 0) { //castling queen side (long)
+							if(cell.getPiece().showNeverMoved()) { // king never moved
+								if(cells[0 * 8 + 0].showPieceName() == 'R' && cells[0 * 8 + 0].getPiece().showNeverMoved()) { //rook never moved
+									if(cells[3 * 8 + 0].isEmpty() && cells[2 * 8 + 0].isEmpty() && cells[1 * 8 + 0].isEmpty()) { //cells between king and rook are empty
+										if(checkCheck(Piece.color.black) == false) { //king is not in check
+											if(checkCheck(cells[3 * 8 + 0]) == false) { //king does not pass through a cell that is in check
+												if(checkCheck(cells[2 * 8 + 0]) == false) { //king does not go to a cell that puts him in check
+													return 6;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					if(cell.showPieceName() == 'K' && cell.showPieceColor() == Piece.color.black) { //black king castling
+						if(move[0] == 2 && move[1] == 0) { //castling king side (short)
+							if(cell.getPiece().showNeverMoved()) { // king never moved
+								if(cells[7 * 8 + 7].showPieceName() == 'R' && cells[7 * 8 + 7].getPiece().showNeverMoved()) { //rook never moved
+									if(cells[6 * 8 + 7].isEmpty() && cells[5 * 8 + 7].isEmpty()) { //cells between king and rook are empty
+										if(checkCheck(Piece.color.white) == false) { //king is not in check
+											if(checkCheck(cells[5 * 8 + 7]) == false) { //king does not pass through a cell that is in check
+												if(checkCheck(cells[6 * 8 + 7]) == false) { //king does not go to a cell that puts him in check
+													return 5;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						else if(move[0] == -2 && move[1] == 0) { //castling queen side (long)
+							if(cell.getPiece().showNeverMoved()) { // king never moved
+								if(cells[0 * 8 + 7].showPieceName() == 'R' && cells[0 * 8 + 7].getPiece().showNeverMoved()) { //rook never moved
+									if(cells[3 * 8 + 7].isEmpty() && cells[2 * 8 + 7].isEmpty() && cells[1 * 8 + 7].isEmpty()) { //cells between king and rook are empty
+										if(checkCheck(Piece.color.white) == false) { //king is not in check
+											if(checkCheck(cells[3 * 8 + 7]) == false) { //king does not pass through a cell that is in check
+												if(checkCheck(cells[2 * 8 + 7]) == false) { //king does not go to a cell that puts him in check
+													return 6;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
 					}
 					if((cell.showPosition()[0] - finalPos[0]) == 0) { //vertical movement (same column)
 						if((cell.showPosition()[1] - finalPos[1]) > 0) { //movement down
@@ -260,6 +347,40 @@ public class Board {
 			}
 		}
 	return 0;
+	}
+	
+	public boolean checkCheck(Cell cellCheck) {
+		Piece.color defSide = cellCheck.showPieceColor();
+		if(defSide == Piece.color.white) { //black attacking
+			for(Cell cell: cells) {
+				if(cell.isEmpty()) {
+					continue;
+				}
+				if(cell.showPieceColor() == Piece.color.white) {
+					continue;
+				}
+				if(checkMoves(cell, cellCheck.showPosition()) == 4) {
+					flagCheckBlack = true; //black king is in check
+					return true;
+				}
+			}
+		}
+		else if(defSide == Piece.color.black) { //white attacking
+			for(Cell cell: cells) {
+				if(cell.isEmpty()) {
+					continue;
+				}
+				if(cell.showPieceColor() == Piece.color.black) {
+					continue;
+				}
+				if(checkMoves(cell, cellCheck.showPosition()) == 4) {
+					flagCheckBlack = true; //black king is in check
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public boolean checkCheck(Piece.color attackingSide) {

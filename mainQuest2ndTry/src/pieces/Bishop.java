@@ -1,7 +1,5 @@
 package pieces;
 
-import pieces.Piece.color;
-
 public class Bishop extends Piece implements Move{
 	public Bishop(color pColor) {
 		super('B', pColor);

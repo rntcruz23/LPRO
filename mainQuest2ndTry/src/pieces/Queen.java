@@ -1,7 +1,5 @@
 package pieces;
 
-import pieces.Piece.color;
-
 public class Queen extends Piece implements Move{
 	public Queen(color pColor) {
 		super('Q', pColor);

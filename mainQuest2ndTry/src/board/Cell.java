@@ -53,7 +53,6 @@ public class Cell {
 			cellColor = ccolor.white;
 		}
 	}
-	
 	public boolean isEmpty() {
 		return empty;
 	}
