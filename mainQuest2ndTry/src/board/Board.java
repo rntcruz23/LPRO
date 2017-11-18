@@ -84,6 +84,18 @@ public class Board {
 		Piece aux;
 		int check = checkMoves(cells[initialPos[0] * 8 + initialPos[1]], finalPos);
 		System.out.println(check);
+		System.out.print("lastMoveInit ");
+		System.out.print(lastMoveInit[0]);
+		System.out.println(lastMoveInit[1]);
+		System.out.print("lastMovePos ");
+		System.out.print(lastMovePos[0]);
+		System.out.println(lastMovePos[1]);
+		System.out.print("initialPos ");
+		System.out.print(initialPos[0]);
+		System.out.println(initialPos[1]);
+		System.out.print("finalPos ");
+		System.out.print(finalPos[0]);
+		System.out.println(finalPos[1]);
 		switch(check) {
 		case 0:
 			return false;
@@ -202,6 +214,7 @@ public class Board {
 				System.out.print(finalPos[0]);
 				System.out.println(finalPos[1] - 1);
 				capturedPiece7 = cells[finalPos[0] * 8 + finalPos[1] - 1].getPiece();
+				cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1] - 1].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
 				whitePoints += capturedPiece7.getPoints();
@@ -219,6 +232,7 @@ public class Board {
 				System.out.print(finalPos[0]);
 				System.out.println(finalPos[1] - 1);
 				capturedPiece7 = cells[finalPos[0] * 8 + finalPos[1] + 1].getPiece();
+				cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1] + 1].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
 				blackPoints += capturedPiece7.getPoints();
@@ -408,9 +422,9 @@ public class Board {
 								}
 								if(cell.showPieceName() == 'P') { //en passant
 									if(cell.showPieceColor() == Piece.color.white) {
-										if(cell.showPosition()[0] == 4) {
+										if(cell.showPosition()[1] == 4) {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] - 2)) {
-												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
+												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] - 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
 														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
 														return 7; //white pawn en passant
@@ -420,9 +434,9 @@ public class Board {
 										}
 									}
 									else if(cell.showPieceColor() == Piece.color.black) {
-										if(cell.showPosition()[0] == 3) {
+										if(cell.showPosition()[1] == 3) {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
-												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] - 1)) {
+												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
 														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
 														return 7; //black pawn en passant
@@ -447,9 +461,9 @@ public class Board {
 								}
 								if(cell.showPieceName() == 'P') { //en passant
 									if(cell.showPieceColor() == Piece.color.white) {
-										if(cell.showPosition()[0] == 4) {
+										if(cell.showPosition()[1] == 4) {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] - 2)) {
-												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
+												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] - 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
 														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
 														return 7; //white pawn en passant
@@ -459,9 +473,9 @@ public class Board {
 										}
 									}
 									else if(cell.showPieceColor() == Piece.color.black) {
-										if(cell.showPosition()[0] == 3) {
+										if(cell.showPosition()[1] == 3) {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
-												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] - 1)) {
+												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
 														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
 														return 7; //black pawn en passant
@@ -488,9 +502,9 @@ public class Board {
 								}
 								if(cell.showPieceName() == 'P') { //en passant
 									if(cell.showPieceColor() == Piece.color.white) {
-										if(cell.showPosition()[0] == 4) {
+										if(cell.showPosition()[1] == 4) {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] - 2)) {
-												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
+												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] - 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
 														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
 														return 7; //white pawn en passant
@@ -500,9 +514,9 @@ public class Board {
 										}
 									}
 									else if(cell.showPieceColor() == Piece.color.black) {
-										if(cell.showPosition()[0] == 3) {
+										if(cell.showPosition()[1] == 3) {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
-												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] - 1)) {
+												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
 														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
 														return 7; //black pawn en passant
@@ -527,9 +541,9 @@ public class Board {
 								}
 								if(cell.showPieceName() == 'P') { //en passant
 									if(cell.showPieceColor() == Piece.color.white) {
-										if(cell.showPosition()[0] == 4) {
+										if(cell.showPosition()[1] == 4) {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] - 2)) {
-												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
+												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] - 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
 														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
 														return 7; //white pawn en passant
@@ -539,9 +553,9 @@ public class Board {
 										}
 									}
 									else if(cell.showPieceColor() == Piece.color.black) {
-										if(cell.showPosition()[0] == 3) {
+										if(cell.showPosition()[1] == 3) {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
-												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] - 1)) {
+												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
 														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
 														return 7; //black pawn en passant
