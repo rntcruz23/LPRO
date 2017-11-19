@@ -36,7 +36,7 @@ public class Board {
 		}
 	}
 	public void printBoard(){
-		String letters = new String(" ||1||2||3||4||5||6||7||8|");
+		String letters = new String(" ||a||b||c||d||e||f||g||h|");
 		System.out.println(letters);
 		refreshBoard();
 	}
@@ -167,6 +167,13 @@ public class Board {
 				if(piece == 'P') {
 					Pawn aP = (Pawn)p;
 					e = aP.pawnMove(this,move,whites,blacks);
+				}
+				if(piece == 'K') {
+					if(p.getNeverMoved()) {
+						if(((p.getPos()[0] - move[0]) == 0) && (p.getPos()[1] - move[1]) == 2) {
+							
+						}
+					}
 				}
 				if(e == 2 || e == -4 || e == 10) {  //Move é posiçao adjacente e peça adversaria, ou move é posiçao em frente e nao tem peça adversaria
 					int j = 0;
@@ -310,5 +317,12 @@ public class Board {
 			if((a[0] == test[0]) && (a[1] == test[1]))
 				return true;
 		return false;
+	}
+	private boolean positionEmpty(int[] position) {
+		if(board[position[0]][position[1]] == ' ' || board[position[0]][position[1]] == 'X') {
+			return true;
+		}
+		else
+			return false;
 	}
 }

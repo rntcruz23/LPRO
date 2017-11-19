@@ -10,6 +10,7 @@ public abstract class Peca {
 	private int[][] availableMoves;
 	private int[] pos;
 	private boolean alive;
+	private boolean neverMoved = true;
 	protected int [][] calcMoves;
 	public static final int[] sk1w = {0,1};
 	public static final int[] sk2w = {0,6};
@@ -35,6 +36,9 @@ public abstract class Peca {
 	public static final int[] kw = {0,4};
 	public static final int[] kb = {7,4};
 	
+	public boolean getNeverMoved() {
+		return neverMoved;
+	}
 	public boolean getState() {
 		return alive;
 	}
