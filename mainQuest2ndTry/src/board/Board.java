@@ -84,7 +84,7 @@ public class Board {
 		Piece aux;
 		if(piece == null) return false;
 		if(piece.showColor() != side) return false;
-		boolean flagCheck = piece.showColor() == Piece.color.white ? checkCheck(Piece.color.white) : checkCheck(Piece.color.black);
+		boolean flagCheck = checkCheck(side);
 		System.out.println(flagCheck);
 		int check = checkMoves(cells[initialPos[0] * 8 + initialPos[1]], finalPos);
 		System.out.println(check);
@@ -132,6 +132,8 @@ public class Board {
 					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
 						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
 						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+						flagCheck = checkCheck(side);
+						System.out.println(flagCheck);
 						return false;
 					}
 				}
@@ -139,6 +141,8 @@ public class Board {
 					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
 						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
 						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+						flagCheck = checkCheck(side);
+						System.out.println(flagCheck);
 						return false;
 					}
 				}
@@ -147,6 +151,8 @@ public class Board {
 			lastMoveInit[1] = initialPos[1];
 			lastMovePos[0] = finalPos[0];
 			lastMovePos[1] = finalPos[1];
+			flagCheck = checkCheck(side);
+			System.out.println(flagCheck);
 			return true;
 		case 2: 
 			return false;
@@ -186,6 +192,8 @@ public class Board {
 					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
 						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
 						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+						flagCheck = checkCheck(side);
+						System.out.println(flagCheck);
 						return false;
 					}
 				}
@@ -193,6 +201,8 @@ public class Board {
 					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
 						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
 						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+						flagCheck = checkCheck(side);
+						System.out.println(flagCheck);
 						return false;
 					}
 				}
@@ -210,6 +220,8 @@ public class Board {
 			lastMoveInit[1] = initialPos[1];
 			lastMovePos[0] = finalPos[0];
 			lastMovePos[1] = finalPos[1];
+			flagCheck = checkCheck(side);
+			System.out.println(flagCheck);
 			return true;
 		case 5:
 			int i = 0;
@@ -480,7 +492,7 @@ public class Board {
 						if(cell.showPosition()[0] > finalPos[0]) { //movement to left
 							if(cell.showPosition()[1] > finalPos[1]) { //movement down
 								for(int i = cell.showPosition()[0] - 1, j = cell.showPosition()[1] - 1 ; i > finalPos[0] || j > finalPos[1]; i--, j--) {
-									if(!cells[j * 8 + i].isEmpty()) {
+									if(!cells[i * 8 + j].isEmpty()) {
 										return 3; //another piece on the way
 									}
 								}
@@ -517,9 +529,9 @@ public class Board {
 							}
 							if(cell.showPosition()[1] < finalPos[1]) { //movement up
 								for(int i = cell.showPosition()[0] - 1, j = cell.showPosition()[1] + 1 ; i > finalPos[0] || j < finalPos[1]; i--, j++) {
-										if(!cells[j * 8 + i].isEmpty()) {
-											return 3; //another piece on the way
-										}
+									if(!cells[i * 8 + j].isEmpty()) {
+										return 3; //another piece on the way
+									}
 								}
 								if(capturePiece) {
 									return 4;
@@ -556,7 +568,7 @@ public class Board {
 						else if(cell.showPosition()[0] < finalPos[0]) { //movement to right
 							if(cell.showPosition()[1] > finalPos[1]) { //movement down
 								for(int i = cell.showPosition()[0] + 1, j = cell.showPosition()[1] - 1 ; i < finalPos[0] || j > finalPos[1]; i++, j--) {
-									if(!cells[j * 8 + i].isEmpty()) {
+									if(!cells[i * 8 + j].isEmpty()) {
 										return 3; //another piece on the way
 									}
 								}
@@ -595,7 +607,8 @@ public class Board {
 								for(int i = cell.showPosition()[0] + 1, j = cell.showPosition()[1] + 1 ; i < finalPos[0] || j < finalPos[1]; i++, j++) {
 									System.out.print(i);
 									System.out.println(j);
-									if(!cells[j * 8 + i].isEmpty()) {
+									if(!cells[i * 8 + j].isEmpty()) {
+										System.out.println(cells[j * 8 + i].showPieceName());
 										return 3; //another piece on the way
 									}
 								}
@@ -674,14 +687,19 @@ public class Board {
 	
 	public boolean checkCheck(Piece.color attackingSide) {
 		Cell kingCell = null;
+		int ret;
 		if(attackingSide == Piece.color.white) {
 			for(Cell cell: cells) {
 				if(cell.showPieceColor() == Piece.color.black && cell.showPieceName() == 'K') {
 					kingCell = cell;
+					System.out.print(kingCell.showPosition()[0]);
+					System.out.println(kingCell.showPosition()[1]);
 					break;
 				}
 			}
-			if(kingCell == null) return false;
+			if(kingCell == null) {
+				return false;
+			}
 			for(Cell cell: cells) {
 				if(cell.isEmpty()) {
 					continue;
@@ -689,7 +707,13 @@ public class Board {
 				if(cell.showPieceColor() == Piece.color.black) {
 					continue;
 				}
-				if(checkMoves(cell, kingCell.showPosition()) == 4) {
+				ret = checkMoves(cell, kingCell.showPosition());
+				System.out.println(ret);
+				if(ret == 3) {
+					System.out.println(cell.showPieceColor());
+					System.out.println(kingCell.showPieceColor());
+				}
+				if(ret == 4) {
 					flagCheckBlack = true; //black king is in check
 					return true;
 				}
@@ -699,6 +723,8 @@ public class Board {
 			for(Cell cell: cells) {
 				if(cell.showPieceColor() == Piece.color.white && cell.showPieceName() == 'K') {
 					kingCell = cell;
+					System.out.print(kingCell.showPosition()[0]);
+					System.out.println(kingCell.showPosition()[1]);
 					break;
 				}
 			}
@@ -710,7 +736,13 @@ public class Board {
 				if(cell.showPieceColor() == Piece.color.white) {
 					continue;
 				}
-				if(checkMoves(cell, kingCell.showPosition()) == 4) {
+				ret = checkMoves(cell, kingCell.showPosition());
+				System.out.println(ret);
+				if(ret == 3) {
+					System.out.println(cell.showPieceColor());
+					System.out.println(kingCell.showPieceColor());
+				}
+				if(ret == 4) {
 					flagCheckWhite = true; //white king is in check
 					return true;
 				}
