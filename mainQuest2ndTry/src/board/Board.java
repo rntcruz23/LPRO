@@ -51,19 +51,19 @@ public class Board {
 				}
 				else if(j == 7) { //black back row
 					if(i == 0 || i == 7) {
-						cells[i * 8 + j] = new Cell(i, j, 'R', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'R', Piece.color.black);
 					}
 					else if(i == 1 || i == 6) {
-						cells[i * 8 + j] = new Cell(i, j, 'N', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'N', Piece.color.black);
 					}
 					else if(i == 2 || i == 5) {
-						cells[i * 8 + j] = new Cell(i, j, 'B', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'B', Piece.color.black);
 					}
 					else if( i == 3) {
-						cells[i * 8 + j] = new Cell(i, j, 'Q', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'Q', Piece.color.black);
 					}
 					else if(i == 4) {
-						cells[i * 8 + j] = new Cell(i, j, 'K', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'K', Piece.color.black);
 					}
 				}
 			}
@@ -79,9 +79,13 @@ public class Board {
 		}
 	}
 	
-	public boolean move(int[] initialPos, int[] finalPos) {
+	public boolean move(int[] initialPos, int[] finalPos, Piece.color side) {
 		Piece piece = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
 		Piece aux;
+		if(piece == null) return false;
+		if(piece.showColor() != side) return false;
+		boolean flagCheck = piece.showColor() == Piece.color.white ? checkCheck(Piece.color.white) : checkCheck(Piece.color.black);
+		System.out.println(flagCheck);
 		int check = checkMoves(cells[initialPos[0] * 8 + initialPos[1]], finalPos);
 		System.out.println(check);
 		System.out.print("lastMoveInit ");
@@ -123,6 +127,22 @@ public class Board {
 			}
 			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
+			if(flagCheck) { //estava em check no inicio da jogada
+				if(piece.showColor() == Piece.color.white) {
+					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
+						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+						return false;
+					}
+				}
+				else if(piece.showColor() == Piece.color.white) {
+					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
+						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+						return false;
+					}
+				}
+			}
 			lastMoveInit[0] = initialPos[0];
 			lastMoveInit[1] = initialPos[1];
 			lastMovePos[0] = finalPos[0];
@@ -161,6 +181,22 @@ public class Board {
 				cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
 			}
+			if(flagCheck) { //estava em check no inicio da jogada
+				if(piece.showColor() == Piece.color.white) {
+					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
+						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+						return false;
+					}
+				}
+				else if(piece.showColor() == Piece.color.white) {
+					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
+						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+						return false;
+					}
+				}
+			}
 			if(cells[finalPos[0] * 8 + finalPos[1]].showPieceColor() == Piece.color.white) {
 				whitePoints += capturedPiece.getPoints();
 				capturedPiecesByWhite.add(capturedPiece);
@@ -169,6 +205,7 @@ public class Board {
 				blackPoints += capturedPiece.getPoints();
 				capturedPiecesByBlack.add(capturedPiece);
 			}
+			
 			lastMoveInit[0] = initialPos[0];
 			lastMoveInit[1] = initialPos[1];
 			lastMovePos[0] = finalPos[0];
@@ -217,6 +254,22 @@ public class Board {
 				cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1] - 1].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
+				if(flagCheck) { //estava em check no inicio da jogada
+					if(piece.showColor() == Piece.color.white) {
+						if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
+							cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+							cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+							return false;
+						}
+					}
+					else if(piece.showColor() == Piece.color.white) {
+						if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
+							cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+							cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+							return false;
+						}
+					}
+				}
 				whitePoints += capturedPiece7.getPoints();
 				capturedPiecesByWhite.add(capturedPiece7);
 				lastMoveInit[0] = initialPos[0];
@@ -235,6 +288,22 @@ public class Board {
 				cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1] + 1].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
+				if(flagCheck) { //estava em check no inicio da jogada
+					if(piece.showColor() == Piece.color.white) {
+						if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
+							cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+							cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+							return false;
+						}
+					}
+					else if(piece.showColor() == Piece.color.white) {
+						if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
+							cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+							cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+							return false;
+						}
+					}
+				}
 				blackPoints += capturedPiece7.getPoints();
 				capturedPiecesByBlack.add(capturedPiece7);
 				lastMoveInit[0] = initialPos[0];
@@ -410,11 +479,9 @@ public class Board {
 						(cell.showPosition()[0] - finalPos[0]) == -(cell.showPosition()[1] - finalPos[1])) { //diagonal movement
 						if(cell.showPosition()[0] > finalPos[0]) { //movement to left
 							if(cell.showPosition()[1] > finalPos[1]) { //movement down
-								for(int i = cell.showPosition()[0] - 1; i > finalPos[0]; i--) {
-									for(int j = cell.showPosition()[1] - 1; j > finalPos[1]; j--) {
-										if(!cells[j * 8 + i].isEmpty()) {
-											return 3; //another piece on the way
-										}
+								for(int i = cell.showPosition()[0] - 1, j = cell.showPosition()[1] - 1 ; i > finalPos[0] || j > finalPos[1]; i--, j--) {
+									if(!cells[j * 8 + i].isEmpty()) {
+										return 3; //another piece on the way
 									}
 								}
 								if(capturePiece) {
@@ -449,12 +516,10 @@ public class Board {
 								return 1; //valid movement
 							}
 							if(cell.showPosition()[1] < finalPos[1]) { //movement up
-								for(int i = cell.showPosition()[0] - 1; i > finalPos[0]; i--) {
-									for(int j = cell.showPosition()[1] + 1; j < finalPos[1]; j++) {
+								for(int i = cell.showPosition()[0] - 1, j = cell.showPosition()[1] + 1 ; i > finalPos[0] || j < finalPos[1]; i--, j++) {
 										if(!cells[j * 8 + i].isEmpty()) {
 											return 3; //another piece on the way
 										}
-									}
 								}
 								if(capturePiece) {
 									return 4;
@@ -490,11 +555,9 @@ public class Board {
 						}
 						else if(cell.showPosition()[0] < finalPos[0]) { //movement to right
 							if(cell.showPosition()[1] > finalPos[1]) { //movement down
-								for(int i = cell.showPosition()[0] + 1; i < finalPos[0]; i++) {
-									for(int j = cell.showPosition()[1] - 1; j > finalPos[1]; j--) {
-										if(!cells[j * 8 + i].isEmpty()) {
-											return 3; //another piece on the way
-										}
+								for(int i = cell.showPosition()[0] + 1, j = cell.showPosition()[1] - 1 ; i < finalPos[0] || j > finalPos[1]; i++, j--) {
+									if(!cells[j * 8 + i].isEmpty()) {
+										return 3; //another piece on the way
 									}
 								}
 								if(capturePiece) {
@@ -529,11 +592,11 @@ public class Board {
 								return 1; //valid movement
 							}
 							if(cell.showPosition()[1] < finalPos[1]) { //movement up
-								for(int i = cell.showPosition()[0] + 1; i < finalPos[0]; i++) {
-									for(int j = cell.showPosition()[1] + 1; j < finalPos[1]; j++) {
-										if(!cells[j * 8 + i].isEmpty()) {
-											return 3; //another piece on the way
-										}
+								for(int i = cell.showPosition()[0] + 1, j = cell.showPosition()[1] + 1 ; i < finalPos[0] || j < finalPos[1]; i++, j++) {
+									System.out.print(i);
+									System.out.println(j);
+									if(!cells[j * 8 + i].isEmpty()) {
+										return 3; //another piece on the way
 									}
 								}
 								if(capturePiece) {
@@ -698,6 +761,26 @@ public class Board {
 		System.out.println("  a b c d e f g h");
 	}
 	
+	public void printBoardColor() {
+		for(int j = 7; j >= 0; j--) {
+			System.out.print((j + 1) + " ");
+			for(int i = 0; i < 8; i++) {
+				if(cells[i * 8 + j].isEmpty()) {
+					if(cells[i * 8 + j].showColor() == Cell.ccolor.white) {
+						System.out.print("  ");
+					}
+					else if(cells[i * 8 + j].showColor() == Cell.ccolor.black) {
+						System.out.print("X ");
+					}
+				}
+				else {
+					System.out.print(cells[i * 8 + j].showPieceColor() + " ");
+				}
+			}
+			System.out.println((j + 1));
+		}
+	}
+	
 	public char getPromotion() {
 		Scanner in = new Scanner(System.in);
 		System.out.println("What piece do you want? (Q, R, N, B)");
@@ -705,6 +788,7 @@ public class Board {
 		while(true) {
 			inc = in.nextLine().toUpperCase().charAt(0);
 			if(inc == 'Q' || inc == 'R' || inc == 'N' || inc == 'B') {
+				in.close();
 				return inc;
 			}
 		}

@@ -36,7 +36,7 @@ public class TesteGameLogic {
 		Piece piece = new Pawn(Piece.color.white);
 		board.cells[0].moveInPiece(piece);
 		int[] finalPos = new int[] {0,1};
-		board.move(board.cells[0].showPosition(), finalPos);
+		board.move(board.cells[0].showPosition(), finalPos, Piece.color.white);
 		assertEquals(board.cells[0].isEmpty(), true);
 		assertEquals(board.cells[1].showPieceName(), 'P');
 		assertEquals(board.cells[1].isEmpty(), false);
