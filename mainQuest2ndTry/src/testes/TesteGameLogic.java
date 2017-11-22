@@ -7,6 +7,7 @@ import org.junit.Test;
 import board.Board;
 
 import pieces.Piece;
+import pieces.Queen;
 import pieces.Pawn;
 import pieces.Bishop;
 import pieces.King;
@@ -177,5 +178,27 @@ public class TesteGameLogic {
 		assertEquals(board.checkMoves(board.cells[4 * 8 + 0], fin), 5);
 		fin[0] = 2;
 		assertEquals(board.checkMoves(board.cells[4 * 8 + 0], fin), 6);
+	}
+	
+	@Test
+	public void checkMoveCheck() {
+		Piece wking = new King(Piece.color.white);
+		Piece wqueen = new Queen(Piece.color.white);
+		Piece bqueen = new Queen(Piece.color.black);
+		board.cells[4 * 8 + 1].moveInPiece(wking);
+		board.cells[0 * 8 + 7].moveInPiece(bqueen);
+		board.cells[7 * 8 + 2].moveInPiece(wqueen);
+		board.printBoard(Piece.color.white);
+		int[] init = {0,7};
+		int[] fin = {4,7};
+		assertTrue(board.move(init, fin, Piece.color.black));		
+		board.printBoard(Piece.color.white);
+		assertTrue(board.checkCheck(Piece.color.black));
+		init[0] = 7;
+		init[1] = 2;
+		fin[0] = 6;
+		fin[1] = 2;
+		assertFalse(board.move(init, fin, Piece.color.white));
+		board.printBoard(Piece.color.white);
 	}
 }

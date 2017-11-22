@@ -127,7 +127,7 @@ public class Board {
 			}
 			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
-			if(flagCheck) { //estava em check no inicio da jogada
+			/*if(flagCheck) { //estava em check no inicio da jogada
 				if(piece.showColor() == Piece.color.white) {
 					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
 						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
@@ -146,11 +146,18 @@ public class Board {
 						return false;
 					}
 				}
+			}*/
+			if(side == Piece.color.white && checkCheck(Piece.color.black)) {
+				cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+				cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+				return false;
 			}
-			lastMoveInit[0] = initialPos[0];
-			lastMoveInit[1] = initialPos[1];
-			lastMovePos[0] = finalPos[0];
-			lastMovePos[1] = finalPos[1];
+			else if(side == Piece.color.black && checkCheck(Piece.color.white)) {
+				cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+				cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+				return false;
+			}
+			storeLastMoves(initialPos, finalPos);
 			flagCheck = checkCheck(side);
 			System.out.println(flagCheck);
 			return true;
@@ -215,11 +222,7 @@ public class Board {
 				blackPoints += capturedPiece.getPoints();
 				capturedPiecesByBlack.add(capturedPiece);
 			}
-			
-			lastMoveInit[0] = initialPos[0];
-			lastMoveInit[1] = initialPos[1];
-			lastMovePos[0] = finalPos[0];
-			lastMovePos[1] = finalPos[1];
+			storeLastMoves(initialPos, finalPos);
 			flagCheck = checkCheck(side);
 			System.out.println(flagCheck);
 			return true;
@@ -233,10 +236,7 @@ public class Board {
 			aux2 = cells[7 * 8 + i].getPiece();
 			cells[7 * 8 + i].moveOutPiece();
 			cells[5 * 8 + i].moveInPiece(aux2);
-			lastMoveInit[0] = initialPos[0];
-			lastMoveInit[1] = initialPos[1];
-			lastMovePos[0] = finalPos[0];
-			lastMovePos[1] = finalPos[1];
+			storeLastMoves(initialPos, finalPos);
 			return true;
 		case 6:
 			int j = 0;
@@ -248,10 +248,7 @@ public class Board {
 			aux1 = cells[0 * 8 + j].getPiece();
 			cells[0 * 8 + j].moveOutPiece();
 			cells[3 * 8 + j].moveInPiece(aux3);
-			lastMoveInit[0] = initialPos[0];
-			lastMoveInit[1] = initialPos[1];
-			lastMovePos[0] = finalPos[0];
-			lastMovePos[1] = finalPos[1];
+			storeLastMoves(initialPos, finalPos);
 			return true;
 		case 7:
 			Piece capturedPiece7;
@@ -284,10 +281,7 @@ public class Board {
 				}
 				whitePoints += capturedPiece7.getPoints();
 				capturedPiecesByWhite.add(capturedPiece7);
-				lastMoveInit[0] = initialPos[0];
-				lastMoveInit[1] = initialPos[1];
-				lastMovePos[0] = finalPos[0];
-				lastMovePos[1] = finalPos[1];
+				storeLastMoves(initialPos, finalPos);
 			}
 			else if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.black) {
 				System.out.print(initialPos[0]);
@@ -318,10 +312,7 @@ public class Board {
 				}
 				blackPoints += capturedPiece7.getPoints();
 				capturedPiecesByBlack.add(capturedPiece7);
-				lastMoveInit[0] = initialPos[0];
-				lastMoveInit[1] = initialPos[1];
-				lastMovePos[0] = finalPos[0];
-				lastMovePos[1] = finalPos[1];
+				storeLastMoves(initialPos, finalPos);
 			}
 			return true;
 		case -1:
@@ -608,7 +599,7 @@ public class Board {
 									System.out.print(i);
 									System.out.println(j);
 									if(!cells[i * 8 + j].isEmpty()) {
-										System.out.println(cells[j * 8 + i].showPieceName());
+										//System.out.println(cells[j * 8 + i].showPieceName());
 										return 3; //another piece on the way
 									}
 								}
@@ -824,5 +815,28 @@ public class Board {
 				return inc;
 			}
 		}
+	}
+	
+	public int getWhitePoints() {
+		return whitePoints;
+	}
+	
+	public int getBlackPoints() {
+		return blackPoints;
+	}
+	
+	public int numberPiecesCapturedByWhite() {
+		return capturedPiecesByWhite.size();
+	}
+	
+	public int numberPiecesCapturedByBlack() {
+		return capturedPiecesByBlack.size();
+	}
+	
+	private void storeLastMoves(int[] init, int[] fin) {
+		this.lastMoveInit[0] = init[0];
+		this.lastMoveInit[1] = init[1];
+		this.lastMovePos[0] = fin[0];
+		this.lastMovePos[1] = fin[1];
 	}
 }
