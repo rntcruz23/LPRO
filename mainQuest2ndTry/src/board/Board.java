@@ -304,10 +304,20 @@ public class Board {
 	public void undoMove() {
 		if(capturedPieceLastMove) {
 			if(lastPlayer == Piece.color.white) {
-				
+				Piece aux = cells[lastMovePos[0] * 8 + lastMovePos[1]].getPiece();
+				Piece auxCap = capturedPiecesByWhite.removeLast();
+				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveOutPiece();
+				cells[lastMoveInit[0] * 8 + lastMoveInit[1]].moveInPiece(aux);
+				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveInPiece(auxCap);
+				whitePoints -= auxCap.getPoints();
 			}
 			else {
-				
+				Piece aux = cells[lastMovePos[0] * 8 + lastMovePos[1]].getPiece();
+				Piece auxCap = capturedPiecesByBlack.removeLast();
+				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveOutPiece();
+				cells[lastMoveInit[0] * 8 + lastMoveInit[1]].moveInPiece(aux);
+				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveInPiece(auxCap);
+				blackPoints -= auxCap.getPoints();
 			}
 		}
 		else {
@@ -321,20 +331,18 @@ public class Board {
 		/*
 		 * verifica a validade do movimento
 		 * 
-		 * @return:
-		 * 		0 - movimento inválido, a peça não pode fazer esse movimento
-		 * 		1 - movimento válido
-		 * 		2 - movimento inválido, peça da mesma cor na posição final
-		 * 		3 - movimento inválido, outra peça no caminho
-		 * 		4 - movimento válido, peça da outra cor na posição final, pode capturar
-		 * 		5 - movimento válido, castling king side
-		 * 		6 - movimento válido, castling queen side
-		 * 		7 - movimento válido, en passant
-		 * 		-1 - erro: celula vazia (sem peça)
-		 * 		-2 - erro: posição final fora do tabuleiro de jogo
+		 * @return 0 - movimento inválido, a peça não pode fazer esse movimento
+		 * @return 1 - movimento válido
+		 * @return 2 - movimento inválido, peça da mesma cor na posição final
+		 * @return 3 - movimento inválido, outra peça no caminho
+		 * @return 4 - movimento válido, peça da outra cor na posição final, pode capturar
+		 * @return 5 - movimento válido, castling king side
+		 * @return 6 - movimento válido, castling queen side
+		 * @return 7 - movimento válido, en passant
+		 * @return -1 - erro: celula vazia (sem peça)
+		 * @return -2 - erro: posição final fora do tabuleiro de jogo
 		 */
-		//check errors on input values
-		if(cell.isEmpty()) {
+		if(cell.isEmpty()) {			//check errors on input values
 			return -1;
 		}
 		if(finalPos[0] < 0 || finalPos[0] > 7 || finalPos[1] < 0 || finalPos[1] > 7) {
