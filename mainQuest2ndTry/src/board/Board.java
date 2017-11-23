@@ -19,6 +19,8 @@ public class Board {
 	private boolean flagCheckBlack = false;
 	private int[] lastMovePos = {0,0};
 	private int[] lastMoveInit = {0,0};
+	private boolean capturedPieceLastMove = false;
+	private Piece.color lastPlayer;
 	
 	public Board() {
 		for(int i = 0; i < 8; i++) {
@@ -127,26 +129,6 @@ public class Board {
 			}
 			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
-			/*if(flagCheck) { //estava em check no inicio da jogada
-				if(piece.showColor() == Piece.color.white) {
-					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
-						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
-						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
-						flagCheck = checkCheck(side);
-						System.out.println(flagCheck);
-						return false;
-					}
-				}
-				else if(piece.showColor() == Piece.color.white) {
-					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
-						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
-						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
-						flagCheck = checkCheck(side);
-						System.out.println(flagCheck);
-						return false;
-					}
-				}
-			}*/
 			if(side == Piece.color.white && checkCheck(Piece.color.black)) {
 				cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
 				cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
@@ -160,6 +142,8 @@ public class Board {
 			storeLastMoves(initialPos, finalPos);
 			flagCheck = checkCheck(side);
 			System.out.println(flagCheck);
+			capturedPieceLastMove = false;
+			lastPlayer = side;
 			return true;
 		case 2: 
 			return false;
@@ -194,25 +178,17 @@ public class Board {
 				cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
 			}
-			if(flagCheck) { //estava em check no inicio da jogada
-				if(piece.showColor() == Piece.color.white) {
-					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
-						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
-						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
-						flagCheck = checkCheck(side);
-						System.out.println(flagCheck);
-						return false;
-					}
-				}
-				else if(piece.showColor() == Piece.color.white) {
-					if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
-						cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
-						cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
-						flagCheck = checkCheck(side);
-						System.out.println(flagCheck);
-						return false;
-					}
-				}
+			if(side == Piece.color.white && checkCheck(Piece.color.black)) {
+				cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+				cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(capturedPiece);
+				return false;
+			}
+			else if(side == Piece.color.black && checkCheck(Piece.color.white)) {
+				cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+				cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(capturedPiece);
+				return false;
 			}
 			if(cells[finalPos[0] * 8 + finalPos[1]].showPieceColor() == Piece.color.white) {
 				whitePoints += capturedPiece.getPoints();
@@ -225,6 +201,8 @@ public class Board {
 			storeLastMoves(initialPos, finalPos);
 			flagCheck = checkCheck(side);
 			System.out.println(flagCheck);
+			capturedPieceLastMove = true;
+			lastPlayer = side;
 			return true;
 		case 5:
 			int i = 0;
@@ -237,6 +215,8 @@ public class Board {
 			cells[7 * 8 + i].moveOutPiece();
 			cells[5 * 8 + i].moveInPiece(aux2);
 			storeLastMoves(initialPos, finalPos);
+			capturedPieceLastMove = false;
+			lastPlayer = side;
 			return true;
 		case 6:
 			int j = 0;
@@ -249,6 +229,8 @@ public class Board {
 			cells[0 * 8 + j].moveOutPiece();
 			cells[3 * 8 + j].moveInPiece(aux3);
 			storeLastMoves(initialPos, finalPos);
+			capturedPieceLastMove = false;
+			lastPlayer = side;
 			return true;
 		case 7:
 			Piece capturedPiece7;
@@ -263,21 +245,17 @@ public class Board {
 				cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1] - 1].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
-				if(flagCheck) { //estava em check no inicio da jogada
-					if(piece.showColor() == Piece.color.white) {
-						if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
-							cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
-							cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
-							return false;
-						}
-					}
-					else if(piece.showColor() == Piece.color.white) {
-						if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
-							cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
-							cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
-							return false;
-						}
-					}
+				if(side == Piece.color.white && checkCheck(Piece.color.black)) {
+					cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+					cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+					cells[finalPos[0] * 8 + finalPos[1] - 1].moveInPiece(capturedPiece7);
+					return false;
+				}
+				else if(side == Piece.color.black && checkCheck(Piece.color.white)) {
+					cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+					cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+					cells[finalPos[0] * 8 + finalPos[1] - 1].moveInPiece(capturedPiece7);
+					return false;
 				}
 				whitePoints += capturedPiece7.getPoints();
 				capturedPiecesByWhite.add(capturedPiece7);
@@ -294,26 +272,24 @@ public class Board {
 				cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1] + 1].moveOutPiece();
 				cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(piece);
-				if(flagCheck) { //estava em check no inicio da jogada
-					if(piece.showColor() == Piece.color.white) {
-						if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
-							cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
-							cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
-							return false;
-						}
-					}
-					else if(piece.showColor() == Piece.color.white) {
-						if(checkCheck(Piece.color.black)) { //continua em check depois de mover?
-							cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
-							cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
-							return false;
-						}
-					}
+				if(side == Piece.color.white && checkCheck(Piece.color.black)) {
+					cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+					cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+					cells[finalPos[0] * 8 + finalPos[1] + 1].moveInPiece(capturedPiece7);
+					return false;
+				}
+				else if(side == Piece.color.black && checkCheck(Piece.color.white)) {
+					cells[initialPos[0] * 8 + initialPos[1]].moveInPiece(piece);
+					cells[finalPos[0] * 8 + finalPos[1]].moveOutPiece();
+					cells[finalPos[0] * 8 + finalPos[1] + 1].moveInPiece(capturedPiece7);
+					return false;
 				}
 				blackPoints += capturedPiece7.getPoints();
 				capturedPiecesByBlack.add(capturedPiece7);
 				storeLastMoves(initialPos, finalPos);
 			}
+			capturedPieceLastMove = true;
+			lastPlayer = side;
 			return true;
 		case -1:
 			return false;
@@ -324,6 +300,23 @@ public class Board {
 			
 		}
 	}
+	
+	public void undoMove() {
+		if(capturedPieceLastMove) {
+			if(lastPlayer == Piece.color.white) {
+				
+			}
+			else {
+				
+			}
+		}
+		else {
+			Piece aux = cells[lastMovePos[0] * 8 + lastMovePos[1]].getPiece();
+			cells[lastMovePos[0] * 8 + lastMovePos[1]].moveOutPiece();
+			cells[lastMoveInit[0] * 8 + lastMoveInit[1]].moveInPiece(aux);
+		}
+	}
+	
 	public int checkMoves(Cell cell, int[] finalPos) {
 		/*
 		 * verifica a validade do movimento
@@ -641,6 +634,8 @@ public class Board {
 		}
 	return 0;
 	}
+	
+	
 	
 	public boolean checkCheck(Cell cellCheck) {
 		Piece.color defSide = cellCheck.showPieceColor();
