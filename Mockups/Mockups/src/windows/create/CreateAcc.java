@@ -144,6 +144,7 @@ public class CreateAcc {
 		gbc_btnSignin.gridx = 1;
 		gbc_btnSignin.gridy = 4;
 		signin.add(btnSignin, gbc_btnSignin);
+		
 		btnSignin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frmChess.setVisible(false);
