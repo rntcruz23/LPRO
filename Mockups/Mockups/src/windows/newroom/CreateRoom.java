@@ -113,5 +113,7 @@ public class CreateRoom {
 		gbc_btnCreate.gridy = 3;
 		panel.add(btnCreate, gbc_btnCreate);
 	}
-
+	public JFrame getFrame() {
+		return frame;
+	}
 }

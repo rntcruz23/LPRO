@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,6 +24,11 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+
+import windows.game.GameView;
+import windows.landing.LandingScreen;
+import windows.newroom.CreateRoom;
+import windows.stats.Stats;
 
 public class Lobby {
 
@@ -170,6 +177,39 @@ public class Lobby {
 		gbc_btnNewRoom.gridx = 1;
 		gbc_btnNewRoom.gridy = 5;
 		panel_2.add(btnNewRoom, gbc_btnNewRoom);
+		
+		btnJoinGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				GameView frmGame = new GameView();
+				frmGame.getFrame().setVisible(true);
+			}
+		});
+		
+		btnStats.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				Stats frmStats = new Stats();
+				frmStats.getFrame().setVisible(true);
+			}
+		});
+		
+		btnNewRoom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreateRoom frmNewRoom = new CreateRoom();
+				frmNewRoom.getFrame().setVisible(true);
+			}
+		});
+		
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				LandingScreen frmLanding = new LandingScreen();
+				frmLanding.getFrame().setVisible(true);
+			}
+		});
 	}
-
+	public JFrame getFrame() {
+		return frmChess;
+	}
 }

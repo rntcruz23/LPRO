@@ -2,10 +2,14 @@ package windows.stats;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import windows.lobby.Lobby;
 
 public class Stats {
 
@@ -47,6 +51,16 @@ public class Stats {
 		
 		JButton btnReturnToLobby = new JButton("Return to lobby");
 		panel.add(btnReturnToLobby);
+		
+		btnReturnToLobby.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				Lobby frmLobby = new Lobby();
+				frmLobby.getFrame().setVisible(true);
+			}
+		});
 	}
-
+	public JFrame getFrame() {
+		return frame;
+	}
 }

@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window.Type;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -17,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+
+import windows.lobby.Lobby;
 
 public class Login {
 
@@ -135,7 +139,16 @@ public class Login {
 		JLabel loginLabel = new JLabel("Login");
 		loginLabel.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
 		panel_1.add(loginLabel);
+		
+		loginBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				Lobby frmLobby = new Lobby();
+				frmLobby.getFrame().setVisible(true);
+			}
+		});
 	}
-
-
+	public JFrame getFrame() {
+		return frmChess;
+	}
 }
