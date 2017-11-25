@@ -8,9 +8,6 @@ import pieces.Bishop;
 import pieces.Queen;
 import pieces.King;
 
-/*
- * Classe da célula/casa do tabuleiro de xadrez
- */
 public class Cell {
 	private int[] position;
 	private Piece piece;
@@ -19,14 +16,6 @@ public class Cell {
 	private ccolor cellColor;
 	
 	public Cell(int posHorizontal, int posVertical, char pieceName, Piece.color pieceColor) {
-		/*
-		 * Inicializa a célula com a sua posição, cor, e peça (se aplicável)
-		 * @param int posHorizontal: numero da coluna (column) (0 a 7)
-		 * @param int posVertical: numero da linha (row) (0 a 7)
-		 * @param char pieceName: nome da peça a colocar na casa. Se a casa for vazia, colocar ' ', por exemplo
-		 * @param Piece.color pieceColor: cor da peça a colocar na casa. Se a casa for vazia, o valor é irrelevante
-		 */
-		
 		position = new int[] {posHorizontal, posVertical};
 		switch(pieceName) {
 		case 'P': 
