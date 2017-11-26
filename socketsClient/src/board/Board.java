@@ -709,4 +709,8 @@ public class Board {
 			}
 		}
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> branch 'master' of https://github.com/rntcruz23/LPRO

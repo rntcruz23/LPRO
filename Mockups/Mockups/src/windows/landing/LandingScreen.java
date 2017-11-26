@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -17,6 +19,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+
+import windows.create.CreateAcc;
+import windows.lobby.Lobby;
+import windows.login.Login;
 
 public class LandingScreen {
 
@@ -88,14 +94,14 @@ public class LandingScreen {
 		gbc_horizontalStrut_1.gridy = 0;
 		panel.add(horizontalStrut_1, gbc_horizontalStrut_1);
 		
-		JButton button = new JButton("Login");
-		button.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
-		GridBagConstraints gbc_button = new GridBagConstraints();
-		gbc_button.fill = GridBagConstraints.BOTH;
-		gbc_button.insets = new Insets(0, 0, 5, 5);
-		gbc_button.gridx = 1;
-		gbc_button.gridy = 1;
-		panel.add(button, gbc_button);
+		JButton btnLogin= new JButton("Login");
+		btnLogin.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
+		GridBagConstraints gbc_btnLogin= new GridBagConstraints();
+		gbc_btnLogin.fill = GridBagConstraints.BOTH;
+		gbc_btnLogin.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLogin.gridx = 1;
+		gbc_btnLogin.gridy = 1;
+		panel.add(btnLogin, gbc_btnLogin);
 		
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_2 = new GridBagConstraints();
@@ -104,14 +110,14 @@ public class LandingScreen {
 		gbc_verticalStrut_2.gridy = 2;
 		panel.add(verticalStrut_2, gbc_verticalStrut_2);
 		
-		JButton button_1 = new JButton("Create Account");
-		button_1.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
-		GridBagConstraints gbc_button_1 = new GridBagConstraints();
-		gbc_button_1.fill = GridBagConstraints.BOTH;
-		gbc_button_1.insets = new Insets(0, 0, 5, 5);
-		gbc_button_1.gridx = 1;
-		gbc_button_1.gridy = 3;
-		panel.add(button_1, gbc_button_1);
+		JButton btnCreate = new JButton("Create Account");
+		btnCreate.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
+		GridBagConstraints gbc_btnCreate = new GridBagConstraints();
+		gbc_btnCreate.fill = GridBagConstraints.BOTH;
+		gbc_btnCreate.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCreate.gridx = 1;
+		gbc_btnCreate.gridy = 3;
+		panel.add(btnCreate, gbc_btnCreate);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();
@@ -120,14 +126,14 @@ public class LandingScreen {
 		gbc_verticalStrut_1.gridy = 4;
 		panel.add(verticalStrut_1, gbc_verticalStrut_1);
 		
-		JButton button_2 = new JButton("Enter as Guest");
-		button_2.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
-		GridBagConstraints gbc_button_2 = new GridBagConstraints();
-		gbc_button_2.insets = new Insets(0, 0, 5, 5);
-		gbc_button_2.fill = GridBagConstraints.BOTH;
-		gbc_button_2.gridx = 1;
-		gbc_button_2.gridy = 5;
-		panel.add(button_2, gbc_button_2);
+		JButton btnGuest = new JButton("Enter as Guest");
+		btnGuest.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
+		GridBagConstraints gbc_btnGuest = new GridBagConstraints();
+		gbc_btnGuest.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGuest.fill = GridBagConstraints.BOTH;
+		gbc_btnGuest.gridx = 1;
+		gbc_btnGuest.gridy = 5;
+		panel.add(btnGuest, gbc_btnGuest);
 		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_3 = new GridBagConstraints();
@@ -146,6 +152,37 @@ public class LandingScreen {
 		
 		JPanel panel_1 = new JPanel();
 		frmChess.getContentPane().add(panel_1, BorderLayout.EAST);
+		
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login frmLogin = new Login();
+				frmLogin.getFrame().setVisible(true);
+			}
+		});
+
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreateAcc frmCreate = new CreateAcc();
+				frmCreate.getFrame().setVisible(true);
+			}
+		});
+		
+		btnGuest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				Lobby frmLobby = new Lobby();
+				frmLobby.getFrame().setVisible(true);
+			}
+		});
+		
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+	}
+	public JFrame getFrame() {
+		return frmChess;
 	}
 
 }

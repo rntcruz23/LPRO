@@ -11,6 +11,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Box;
@@ -25,6 +27,8 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+
+import windows.lobby.Lobby;
 
 public class GameView {
 
@@ -214,6 +218,17 @@ public class GameView {
 		JLabel lblGameRoom = new JLabel("Game Room");
 		panel_2.add(lblGameRoom);
 		lblGameRoom.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
+
+		btnReturnToLobby.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				Lobby frmLobby = new Lobby();
+				frmLobby.getFrame().setVisible(true);
+			}
+		});
+	}
+	public JFrame getFrame() {
+		return frmChess;
 	}
 	private ImageIcon createImageIcon(String path) {
 		java.net.URL imgUrl = getClass().getResource(path);

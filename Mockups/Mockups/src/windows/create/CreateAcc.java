@@ -3,10 +3,13 @@ package windows.create;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window.Type;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -15,9 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 import javax.swing.SwingConstants;
-import java.awt.Font;
+import javax.swing.UIManager;
+
+import windows.lobby.Lobby;
 
 public class CreateAcc {
 
@@ -141,6 +145,14 @@ public class CreateAcc {
 		gbc_btnSignin.gridy = 4;
 		signin.add(btnSignin, gbc_btnSignin);
 		
+		btnSignin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frmChess.setVisible(false);
+				Lobby frmLobby = new Lobby();
+				frmLobby.getFrame().setVisible(true);
+			 }
+		});
+		
 		Component verticalStrut = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
 		gbc_verticalStrut.gridx = 1;
@@ -158,6 +170,7 @@ public class CreateAcc {
 		label.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
 		panel_1.add(label);
 	}
-
-
+	public JFrame getFrame() {
+		return frmChess;
+	}
 }

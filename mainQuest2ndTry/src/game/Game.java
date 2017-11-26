@@ -13,14 +13,14 @@ public class Game {
 		String move;
 		int[][] in;
 		Piece.color side = Piece.color.white;
-		
+		//board.printBoardColor();
 		while(true) {
 			flagChange = false;
 			board.printBoard(side);
 			move = input.nextLine();
 			in = inputInt(move);
 			if(in == null) break;
-			if(board.move(in[0], in[1])) flagChange = !flagChange;
+			if(board.move(in[0], in[1], side)) flagChange = !flagChange;
 			if(flagChange && side == Piece.color.white) side = Piece.color.black;
 			else if(flagChange && side == Piece.color.black) side = Piece.color.white;
 		}
