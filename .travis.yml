@@ -1,2 +1,3 @@
 language: java
-os: windowsxp
+os: windows
+dist: xp
