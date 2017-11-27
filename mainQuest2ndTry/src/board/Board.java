@@ -357,18 +357,20 @@ public class Board {
 				}
 			}
 		}
-		lastMoveInit[0] = lastMovesInit.peek()[0];
-		lastMoveInit[1] = lastMovesInit.pop()[1];
-		lastMovePos[0] = lastMovesFin.peek()[0];
-		lastMovePos[1] = lastMovesFin.pop()[1];
-		System.out.print("stack size: ");
-		System.out.println(lastMovesInit.size());
-		System.out.print("lastMoveInit ");
-		System.out.print(lastMoveInit[0]);
-		System.out.println(lastMoveInit[1]);
-		System.out.print("lastMovePos ");
-		System.out.print(lastMovePos[0]);
-		System.out.println(lastMovePos[1]);
+		if(!lastMovesInit.isEmpty()) {
+			lastMoveInit[0] = lastMovesInit.peek()[0];
+			lastMoveInit[1] = lastMovesInit.pop()[1];
+			lastMovePos[0] = lastMovesFin.peek()[0];
+			lastMovePos[1] = lastMovesFin.pop()[1];
+			System.out.print("stack size: ");
+			System.out.println(lastMovesInit.size());
+			System.out.print("lastMoveInit ");
+			System.out.print(lastMoveInit[0]);
+			System.out.println(lastMoveInit[1]);
+			System.out.print("lastMovePos ");
+			System.out.print(lastMovePos[0]);
+			System.out.println(lastMovePos[1]);
+		}
 		if(lastMoveFirstOfPiece) {
 			aux.neverMoved();
 		}
@@ -876,14 +878,16 @@ public class Board {
 		return capturedPiecesByBlack.size();
 	}
 	private void storeLastMoves(int[] init, int[] fin) {
+		if(lastMoveInit != lastMovePos) {
+			int[] aux1 = {lastMoveInit[0], lastMoveInit[1]};
+			int[] aux2 = {lastMovePos[0], lastMovePos[1]};
+			lastMovesInit.push(aux1);
+			lastMovesFin.push(aux2);
+		}
 		this.lastMoveInit[0] = init[0];
 		this.lastMoveInit[1] = init[1];
 		this.lastMovePos[0] = fin[0];
 		this.lastMovePos[1] = fin[1];
-		int[] aux1 = {lastMoveInit[0], lastMoveInit[1]};
-		int[] aux2 = {lastMovePos[0], lastMovePos[1]};
-		lastMovesInit.push(aux1);
-		lastMovesFin.push(aux2);
 		System.out.print("stack size: ");
 		System.out.println(lastMovesInit.size());
 		
