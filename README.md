@@ -6,5 +6,8 @@
 ### Travis
 [![Build Status](https://travis-ci.com/rntcruz23/LPRO.svg?token=VymBesuwp4p7qziuLL5L&branch=master)](https://travis-ci.com/rntcruz23/LPRO)
 
+### Javadoc
+[Javadoc](https://paginas.fe.up.pt/~up201405867/lpro/doc/)
+
 
  Visit [wiki](https://github.com/rntcruz23/LPRO/wiki) page
