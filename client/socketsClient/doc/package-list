@@ -1,0 +1,14 @@
+board
+pieces
+socketsClient
+socketsServer
+user
+window
+windows.create
+windows.game
+windows.joinroom
+windows.landing
+windows.lobby
+windows.login
+windows.newroom
+windows.stats
