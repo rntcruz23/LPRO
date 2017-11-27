@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 import user.User;
 import user.WaitingInput;
 
+
 public class Client {
 	
 	private Socket socket;
@@ -22,6 +23,10 @@ public class Client {
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
+	/**
+	 * @param ip
+	 * @param port
+	 */
 	public void connect(String ip,int port) {
 		try {
 			InetAddress host = InetAddress.getByName(ip);

@@ -68,6 +68,7 @@ public class GameView extends Window{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		frmChess.setResizable(false);
 		getFrmChess().setBounds(100, 100, 1024, 680);
 		getFrmChess().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

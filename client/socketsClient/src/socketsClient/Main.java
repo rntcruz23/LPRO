@@ -12,7 +12,7 @@ public class Main {
 		Scanner scan = new Scanner(System.in);
 		scan.useDelimiter(System.getProperty("line.separator"));
 		Client client = new Client();
-		client.connect("127.0.0.1",4412);	
+		client.connect("192.168.34.67",4412);	
 		User user = new User(client);
 		WaitingInput wait = new WaitingInput(user);
 		client.setUser(user);

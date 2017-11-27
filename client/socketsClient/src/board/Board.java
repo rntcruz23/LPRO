@@ -19,7 +19,6 @@ public class Board {
 	private boolean flagCheckBlack = false;
 	private int[] lastMovePos = {0,0};
 	private int[] lastMoveInit = {0,0};
-	
 	public Board() {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
@@ -69,16 +68,14 @@ public class Board {
 			}
 		}
 		
-	}
-	
+	}	
 	public Board(char teste) {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				cells[i * 8 + j] = new Cell(i, j, ' ', Piece.color.none);
 			}
 		}
-	}
-	
+	}	
 	public boolean move(int[] initialPos, int[] finalPos) {
 		Piece piece = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
 		Piece aux;
@@ -573,8 +570,7 @@ public class Board {
 			}
 		}
 	return 0;
-	}
-	
+	}	
 	public boolean checkCheck(Cell cellCheck) {
 		Piece.color defSide = cellCheck.showPieceColor();
 		if(defSide == Piece.color.white) { //black attacking
@@ -608,7 +604,10 @@ public class Board {
 		
 		return false;
 	}
-	
+	/**
+	 * @param attackingSide
+	 * @return
+	 */
 	public boolean checkCheck(Piece.color attackingSide) {
 		Cell kingCell = null;
 		if(attackingSide == Piece.color.white) {
@@ -697,7 +696,6 @@ public class Board {
 		}
 		System.out.println("  a b c d e f g h");
 	}
-	
 	public char getPromotion() {
 		Scanner in = new Scanner(System.in);
 		System.out.println("What piece do you want? (Q, R, N, B)");
