@@ -18,6 +18,12 @@ public class Game {
 			flagChange = false;
 			board.printBoard(side);
 			move = input.nextLine();
+			if(move.charAt(0) == 'u') {
+				board.undoMove();
+				if(side == Piece.color.white) side = Piece.color.black;
+				else if(side == Piece.color.black) side = Piece.color.white;
+				continue;
+			}
 			in = inputInt(move);
 			if(in == null) break;
 			if(board.move(in[0], in[1], side)) flagChange = !flagChange;
