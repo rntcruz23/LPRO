@@ -17,7 +17,6 @@ public class Player extends Spectator{
 	public void setTurn(char t) {
 		if(t == 'w') setTurn(Piece.color.white);
 		if(t == 'b') setTurn(Piece.color.black);
-		return;
 	}
 	public char getTurn() {
 		if(turn == Piece.color.white) return 'w';

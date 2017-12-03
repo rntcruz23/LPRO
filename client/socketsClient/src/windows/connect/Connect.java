@@ -26,6 +26,7 @@ public class Connect extends Window{
 	private JTextField ipField;
 	private JTextField portField;
 	private Client client;
+	private JLabel statusLbl;
 	/**
 	 * Create the application.
 	 */
@@ -47,9 +48,9 @@ public class Connect extends Window{
 		frmChess.getContentPane().add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 55, 79, 116, 0};
-		gbl_panel.rowHeights = new int[]{64, 25, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{64, 25, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblWelcomToPawnstars = new JLabel("Welcome to Pawnstars");
@@ -117,20 +118,30 @@ public class Connect extends Window{
 				String ip = ipField.getText();
 				String port = portField.getText();
 				int portn = Integer.parseInt(port);
-				client.connect(ip, portn);
-				User user = new User(client);
-				WaitingInput wait = new WaitingInput(user);
-				client.setUser(user);
-				client.setWait(wait);
-				user.setType(user, "", "", new LandingScreen());
-				
+				try {
+					client.connect(ip, portn);
+					User user = new User(client);
+					WaitingInput wait = new WaitingInput(user);
+					client.setUser(user);
+					client.setWait(wait);
+					user.setType(user, "", "", new LandingScreen());
+				} catch (Exception e) {
+					statusLbl.setText(e.getMessage());
+				}	
 			}
 		});
 		GridBagConstraints gbc_btnConnect = new GridBagConstraints();
+		gbc_btnConnect.insets = new Insets(0, 0, 5, 0);
 		gbc_btnConnect.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnConnect.gridx = 3;
 		gbc_btnConnect.gridy = 3;
 		panel.add(btnConnect, gbc_btnConnect);
+		
+		statusLbl = new JLabel("");
+		GridBagConstraints gbc_statusLbl = new GridBagConstraints();
+		gbc_statusLbl.gridx = 3;
+		gbc_statusLbl.gridy = 4;
+		panel.add(statusLbl, gbc_statusLbl);
 	}
 	public Client getClient() {
 		return client;
@@ -138,5 +149,4 @@ public class Connect extends Window{
 	public void setClient(Client client) {
 		this.client = client;
 	}
-
 }

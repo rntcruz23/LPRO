@@ -29,20 +29,11 @@ public class Client {
 	 * @param ip
 	 * @param port
 	 */
-	public void connect(String ip,int port) {
-		try {
-			InetAddress host = InetAddress.getByName(ip);
-			try {
-				socket = new Socket(host,port);
-				System.out.println("Connection successful");
-				setIn(new ObjectInputStream(socket.getInputStream()));
-			} catch (IOException e) {
-				System.out.println("Connection failed: "+e.getMessage());
-				System.exit(0);
-			}
-		} catch (UnknownHostException e) {
-			System.out.println("Unknown host: "+e.getMessage());
-		}
+	public void connect(String ip,int port) throws IOException, UnknownHostException{
+		InetAddress host = InetAddress.getByName(ip);
+		socket = new Socket(host,port);
+		System.out.println("Connection successful");
+		setIn(new ObjectInputStream(socket.getInputStream()));
 	}
 	public User getUser() {
 		return user;

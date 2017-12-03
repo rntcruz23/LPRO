@@ -7,7 +7,7 @@ import pieces.Peca;
 public class GameInput {
 	public static String getInput(Scanner scan) {
 		boolean valid = false;
-		String input = new String();
+		String input = "";
 		while (!valid) {
 			try {
 				input = scan.next();
