@@ -24,6 +24,7 @@ public abstract class Window implements Lock{
 	}
 	@Override
 	public void lockInterruptibly() throws InterruptedException {	
+		/*Empty Body*/
 	}
 	@Override
 	public boolean tryLock() {

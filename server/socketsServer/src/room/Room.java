@@ -18,19 +18,7 @@ public class Room extends Window implements Runnable{
 	 */
 	private LinkedList<UserThread> players;
 	private LinkedList<UserThread> spectators;
-	public LinkedList<UserThread> getSpectators() {
-		return spectators;
-	}
-	public void setSpectators(LinkedList<UserThread> spectators) {
-		this.spectators = spectators;
-	}
 	private LinkedList<UserThread> guests;
-	public LinkedList<UserThread> getGuests() {
-		return guests;
-	}
-	public void setGuests(LinkedList<UserThread> guests) {
-		this.guests = guests;
-	}
 	private LinkedList<UserThread> viewers;
 	private String roomName;
 	private boolean roomEmpty;
@@ -249,5 +237,17 @@ public class Room extends Window implements Runnable{
 	}
 	public History getHistory() {
 		return history;
+	}
+	public LinkedList<UserThread> getGuests() {
+		return guests;
+	}
+	public void setGuests(LinkedList<UserThread> guests) {
+		this.guests = guests;
+	}
+	public LinkedList<UserThread> getSpectators() {
+		return spectators;
+	}
+	public void setSpectators(LinkedList<UserThread> spectators) {
+		this.spectators = spectators;
 	}
 }
