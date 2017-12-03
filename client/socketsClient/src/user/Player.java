@@ -68,7 +68,7 @@ public class Player extends Spectator{
 				System.out.println("Setting my turn to "+command.charAt(2));
 				turnString(command);
 				break;
-			default: System.out.println("Unknown player command");;
+			default: System.out.println("Unknown player command");
 		}
 		return false;
 	}

@@ -10,7 +10,6 @@ import windows.stats.Stats;
 public class Spectator extends User{
 	private String username;
 	private String password;
-	private int[] stats;
 	public Spectator(Client client) {
 		super(client);
 	}
@@ -46,7 +45,7 @@ public class Spectator extends User{
 			setType(n,getName(),getPassword(),getRoom());
 			break;
 		case 'y':
-			stats = getStatsFromServer(com.substring(2,com.length()));
+			int[] stats = getStatsFromServer(com.substring(2,com.length()));
 			Stats statsw = (Stats) getRoom();
 			statsw.getWinsValue().setText(""+stats[0]);
 			statsw.getLostValue().setText(""+stats[1]);
@@ -57,7 +56,6 @@ public class Spectator extends User{
 		return false;	
 	}
 	public int[] getStatsFromServer(String com) {
-		com += " ";
 		StringTokenizer tok = new StringTokenizer(com," ");
 		int[] n = new int[3];
 		n[0] = Integer.parseInt(tok.nextToken());
