@@ -9,7 +9,7 @@ import board.Board;
 import pieces.Piece;
 import room.features.Chat;
 import room.features.History;
-import socketsServer.Server;
+import server.Server;
 import users.UserThread;
 
 public class Room extends Window implements Runnable{

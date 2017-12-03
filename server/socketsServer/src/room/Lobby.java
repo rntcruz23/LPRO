@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
 
 import api.SocketAPI;
-import socketsServer.Server;
+import server.Server;
 import users.UserThread;
 
 public class Lobby extends Window implements Runnable{

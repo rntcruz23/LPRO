@@ -20,7 +20,7 @@ public class SocketAPI {
 	}
 	public static String readConnection(Socket socket) throws IOException{
 		InputStream input;
-		String readS = new String("Read failed");
+		String readS = "Read failed";
 		byte[] b = new byte[100];
 		int size;
 		input = socket.getInputStream();

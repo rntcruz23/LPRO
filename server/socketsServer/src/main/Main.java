@@ -1,6 +1,6 @@
 package main;
 
-import socketsServer.Server;
+import server.Server;
 
 public class Main {
 	public static void main(String[] args) {

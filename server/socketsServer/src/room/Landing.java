@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 import java.util.concurrent.locks.Condition;
 
 import api.SocketAPI;
-import socketsServer.Server;
+import server.Server;
 import users.UserThread;
 
 public class Landing extends Window implements Runnable{
