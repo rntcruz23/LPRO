@@ -1,6 +1,7 @@
 package socketsClient;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -14,6 +15,7 @@ public class Client {
 	private Socket socket;
 	private User user;
 	private WaitingInput wait;
+	private ObjectInputStream in;
 	public Client() {
 		System.out.println("New client");
 	}
@@ -33,6 +35,7 @@ public class Client {
 			try {
 				socket = new Socket(host,port);
 				System.out.println("Connection successful");
+				setIn(new ObjectInputStream(socket.getInputStream()));
 			} catch (IOException e) {
 				System.out.println("Connection failed: "+e.getMessage());
 				System.exit(0);
@@ -53,5 +56,11 @@ public class Client {
 	public void setWait(WaitingInput wait) {
 		wait.start();
 		this.wait = wait;
+	}
+	public ObjectInputStream getIn() {
+		return in;
+	}
+	public void setIn(ObjectInputStream in) {
+		this.in = in;
 	}
 }

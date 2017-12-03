@@ -27,7 +27,8 @@ public class SocketAPI {
 			size = input.read(b);
 			readS = byteToString(b,size);
 		} catch (IOException e) {
-			System.out.println("Error reading socket");
+			System.out.println("Error reading socket: "+e.getMessage());
+			System.exit(0);
 		}
 		return readS;
 	}

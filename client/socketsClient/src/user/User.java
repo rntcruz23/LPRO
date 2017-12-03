@@ -1,7 +1,12 @@
 package user;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
+import pieces.Piece;
+import room.RoomState;
 import socketsClient.Client;
 import socketsServer.SocketAPI;
 import window.Window;
@@ -17,7 +22,6 @@ public class User {
 	private String password;
 	private Window window;
 	private Window backWindow;
-	protected WaitingInput wait;
 	public User(Client client) {
 		setClient(client);
 	}
@@ -50,7 +54,7 @@ public class User {
 	}
 	public boolean processCommands(String com) {
 		char command = com.charAt(0);
-		System.out.println(com);
+		System.out.println("command: "+com);
 		boolean valid = false;
 		valid = threadSafe(com);
 		switch(command) {
@@ -126,9 +130,30 @@ public class User {
 				valid = true;
 			}
 			break;
-		default: valid = false;;
+		case 's':
+			System.out.println("Waiting room state");
+			GameView g = (GameView)window;
+			RoomState roomstate = waitRoom(client);
+			loadRoomStateToGameView(roomstate,g);
+			System.out.println("Room received");
+			valid = true;
+			break;
+		default: System.out.println("Unknown user command");
 		}
 		return valid;
+	}
+	public void loadRoomStateToGameView(RoomState roomstate,GameView g) {
+		Piece.color turn = roomstate.getTurn();
+		String roomName = roomstate.getRoomName();
+		boolean roomEmpty = roomstate.isRoomEmpty();
+		LinkedList<String> history = roomstate.getHistory();
+		g.getLblGameRoom().setText(roomName);
+		for(String move : history) {
+			g.getHistoryArea().append(move);
+		}
+	}
+	public RoomState waitRoom(Client client) {
+		return RoomState.waitroom(client.getUser(),client.getIn());
 	}
 	public String[] getRooms(String roomList) {
 		StringTokenizer tok = new StringTokenizer(roomList," ");
@@ -154,6 +179,7 @@ public class User {
 	public void setType(User n,String name,String pass,Window newWindow) {
 		n.setName(name);
 		n.setPassword(pass);
+		n.backWindow = window;
 		n.setRoom(newWindow);
 		client.getWait().setCaller(n);
 		client.setUser(n);
@@ -212,9 +238,6 @@ public class User {
 	public void addToChat(String speak) {
 		GameView room = (GameView) window;
 		room.getChatArea().append(speak.substring(2,speak.length())+'\n');
-	}
-	public WaitingInput getWait() {
-		return wait;
 	}
 	public String getName() {
 		return name;

@@ -1,12 +1,16 @@
 package user;
 
+import java.util.StringTokenizer;
+
 import socketsClient.Client;
 import windows.game.GameView;
 import windows.newroom.CreateRoom;
+import windows.stats.Stats;
 
 public class Spectator extends User{
 	private String username;
 	private String password;
+	private int[] stats;
 	public Spectator(Client client) {
 		super(client);
 	}
@@ -41,9 +45,25 @@ public class Spectator extends User{
 			System.out.println("Player left, your turn: "+t);
 			setType(n,getName(),getPassword(),getRoom());
 			break;
-		default:System.out.println("Unknown command");
+		case 'y':
+			stats = getStatsFromServer(com.substring(2,com.length()));
+			Stats statsw = (Stats) getRoom();
+			statsw.getWinsValue().setText(""+stats[0]);
+			statsw.getLostValue().setText(""+stats[1]);
+			statsw.getDrawsValue().setText(""+stats[2]);
+			break;
+		default:System.out.println("Unknown spectator command");
 		}
 		return false;	
+	}
+	public int[] getStatsFromServer(String com) {
+		com += " ";
+		StringTokenizer tok = new StringTokenizer(com," ");
+		int[] n = new int[3];
+		n[0] = Integer.parseInt(tok.nextToken());
+		n[1] = Integer.parseInt(tok.nextToken());
+		n[2] = Integer.parseInt(tok.nextToken());
+		return  n;
 	}
 	public String getUsername() {
 		return username;

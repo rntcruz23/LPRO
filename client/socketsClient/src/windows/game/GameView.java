@@ -99,9 +99,10 @@ public class GameView extends Window{
 		btnReturnToLobby.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmChess.setVisible(false);
-				Lobby frmLobby = (Lobby)getUser().getBackWindow();
-				getUser().setRoom(frmLobby);
-				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "e");
+				Lobby lob =  new Lobby();
+				lob.setUser(getUser());
+				getUser().setRoom(lob);
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "x");
 			}
 		});
 		btnReturnToLobby.setFont(new Font("Baskerville Old Face", Font.PLAIN, 15));

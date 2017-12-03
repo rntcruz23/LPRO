@@ -1,26 +1,14 @@
 package socketsClient;
 
-import java.util.Scanner;
-
-import socketsServer.SocketAPI;
-import user.User;
-import user.WaitingInput;
-import windows.landing.LandingScreen;
+import windows.connect.Connect;
 
 public class Main {
 	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		scan.useDelimiter(System.getProperty("line.separator"));
 		Client client = new Client();
-		client.connect("192.168.34.67",4412);	
-		User user = new User(client);
-		WaitingInput wait = new WaitingInput(user);
-		client.setUser(user);
-		client.setWait(wait);
-		user.setType(user, "", "", new LandingScreen());
+		Connect connectWindow = new Connect(client);
+		connectWindow.run();
 		while(true) {
-			String input = scan.next();
-			SocketAPI.writeToSocket(client.getSocket(),input);
+			Thread.yield();
 		}
 	}
 }

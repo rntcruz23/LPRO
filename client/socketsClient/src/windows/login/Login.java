@@ -29,11 +29,9 @@ public class Login extends Window{
 	public JLabel getStatus() {
 		return status;
 	}
-
 	public void setStatus(JLabel status) {
 		this.status = status;
 	}
-
 	/**
 	 * Create the application.
 	 */
@@ -42,7 +40,6 @@ public class Login extends Window{
 		initialize();
 		run();
 	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -112,6 +109,14 @@ public class Login extends Window{
 			public void actionPerformed(ActionEvent arg0) {
 				String user = nameField.getText();
 				String pass = new String(passField.getPassword());
+				if((user.length() > 15) || (user.length()<= 3)) {
+					status.setText("User must be [3,15] chars long");
+					return;
+				}
+				if((pass.length() > 15) || (pass.length()<= 3)) {
+					status.setText("Pass must be [3,15] chars long");
+					return;
+				}
 				String query = "l "+user+" "+pass;
 				SocketAPI.writeToSocket(getUser().getClient().getSocket(), query);
 			}
@@ -148,6 +153,4 @@ public class Login extends Window{
 		loginLabel.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
 		panel_1.add(loginLabel);
 	}
-
-
 }

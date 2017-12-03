@@ -42,7 +42,6 @@ public class CreateAcc extends Window{
 		initialize();
 		run();
 	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -130,7 +129,15 @@ public class CreateAcc extends Window{
 			public void actionPerformed(ActionEvent e) {
 				String user = nameField.getText();
 				String pass = new String(passField.getPassword());
-				String pass2 = new String(pwdConfirm.getPassword());
+				if((user.length() > 15) || (user.length()<= 3)) {
+					status.setText("User must be [3,15] chars long");
+					return;
+				}
+				if((pass.length() > 15) || (pass.length()<= 3)) {
+					status.setText("Pass must be [3,15] chars long");
+					return;
+				}
+				String pass2 = new String(pwdConfirm.getPassword());	
 				if(!pass.equals(pass2)) {
 					status.setText("Passwords dont match");
 					return;
@@ -171,6 +178,4 @@ public class CreateAcc extends Window{
 		label.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
 		panel_1.add(label);
 	}
-
-
 }

@@ -1,7 +1,5 @@
 package user;
 
-import java.util.Scanner;
-
 import pieces.Piece;
 import socketsClient.Client;
 import windows.game.GameView;
@@ -53,18 +51,9 @@ public class Player extends Spectator{
 	public void play() {
 		GameView room = (GameView) getRoom();
 		room.run();
-		Scanner scan = new Scanner(System.in);	
-		scan.useDelimiter(System.getProperty("line.separator"));
-		play =  false;
-		inputReceived = false;
 		while (true) {
-			String input = scan.next();
-			wait.lock();
-			System.out.println("Sending command");
-			sendCommand(input);
-			wait.unlock();
+			Thread.yield();
 		}
-		//scan.close();
 	}
 	@Override
 	public boolean processCommands(String command) {
@@ -80,7 +69,7 @@ public class Player extends Spectator{
 				System.out.println("Setting my turn to "+command.charAt(2));
 				turnString(command);
 				break;
-			default: return false;
+			default: System.out.println("Unknown player command");;
 		}
 		return false;
 	}

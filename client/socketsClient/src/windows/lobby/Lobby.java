@@ -151,7 +151,7 @@ public class Lobby extends Window{
 				getUser().setBackWindow(getUser().getRoom());
 				getUser().setRoom(frmStats);
 				frmStats.getFrmChess().setVisible(true);
-				SocketAPI.writeToSocket(getUser().getClient().getSocket(),"s");
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(),"y");
 			}
 		});
 		btnStats.setFont(new Font("Baskerville Old Face", Font.PLAIN, 15));
