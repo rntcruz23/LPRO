@@ -1,6 +1,6 @@
 package pieces;
 
-public abstract class Piece {
+public abstract class Piece implements Move{
 	private char piece;
 	private boolean alive;
 	protected int[][] possibleMoves;
@@ -14,6 +14,9 @@ public abstract class Piece {
 		this.pieceColor = pColor;
 		alive = true;
 		neverMoved = true;
+	}
+	public void neverMoved() {
+		this.neverMoved = true;
 	}
 	public char showPiece() {
 		return piece;
