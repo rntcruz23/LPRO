@@ -13,6 +13,9 @@ import socketsServer.Server;
 import users.UserThread;
 
 public class Room extends Window implements Runnable{
+	/**
+	 * 
+	 */
 	private LinkedList<UserThread> players;
 	private LinkedList<UserThread> spectators;
 	public LinkedList<UserThread> getSpectators() {
@@ -50,10 +53,10 @@ public class Room extends Window implements Runnable{
 		setRoomEmpty(false);
 		history = new History(viewers,players,this);
 		chat = new Chat(viewers,players,this);
-		players.add(player1);
+		addUser(player1);
 	}
 	public void remUser(UserThread user) {
-		if(players.remove(user)) {
+		if(players.remove(user) && !spectators.isEmpty()) {
 			UserThread nP = spectators.removeFirst();
 			players.add(nP);
 			char t = colorToString(user.getUser().getTurn());
@@ -75,12 +78,13 @@ public class Room extends Window implements Runnable{
 		}else if(players.size() < 2)
 			newPlayer(user);
 		else newSpec(user);
+		RoomState.sendRoom(user,this);
 		SocketAPI.writeToSocket(user.getUser().getSocket(), "b "+board.printBoard(Piece.color.white));
 	}
 	@Override 
  	public void run(){
 		setTurn(Piece.color.white);
-		while(players.size() < 2)
+		while((players.size() < 2))
 			Thread.yield();
 		prepPlayers();
 		System.out.println("Room going to sleep");
@@ -128,7 +132,7 @@ public class Room extends Window implements Runnable{
 		case 'm':
 			playC(color,input.substring(2,input.length()));
 			break;
-		case 'e':
+		case 'x':
 			remUser(user);
 			break;
 		case 'd':
@@ -242,5 +246,8 @@ public class Room extends Window implements Runnable{
 	}
 	public void setServer(Server server) {
 		this.server = server;
+	}
+	public History getHistory() {
+		return history;
 	}
 }

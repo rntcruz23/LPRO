@@ -51,6 +51,7 @@ public class Landing extends Window implements Runnable{
 			case 'e':
 				users.remove(user);
 				SocketAPI.terminateConnection(user.getUser().getSocket());
+				server.updateOccupation(-1);
 				break;
 			default:System.out.println("Unknown commad");
 		}

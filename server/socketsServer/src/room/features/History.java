@@ -6,6 +6,9 @@ import room.Room;
 import users.UserThread;
 
 public class History extends Broadcasters{
+	/**
+	 * 
+	 */
 	public History(LinkedList<UserThread> viewers,LinkedList<UserThread> p,Room room) {
 		super(viewers,p,room);
 	}

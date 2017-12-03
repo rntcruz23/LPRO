@@ -8,19 +8,18 @@ import java.sql.SQLException;
 
 public class DataBase {
 	private Connection con;
-	public DataBase() {
+	public DataBase() throws SQLException{
 		con = null;
 		String username = "sibd17g27";
 		String password = "pedrorenato";
-		 try {
-	        Class.forName("org.postgresql.Driver");
-	         con = DriverManager.getConnection("jdbc:postgresql://dbm.fe.up.pt:5432/sibd17g27",username, password);
+        try {
+			Class.forName("org.postgresql.Driver");
+			con = DriverManager.getConnection("jdbc:postgresql://dbm.fe.up.pt:5432/sibd17g27",username, password);
 	         con.setAutoCommit(false);
-	      } catch (Exception e) {
-	         System.err.println("Error connecting to database: "+e.getMessage());
-	         System.exit(0);
-	      }
-	      System.out.println("Opened database successfully");		
+		     System.out.println("Opened database successfully");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}		
 	}
 	public boolean insertNewUser(String name,String pass) {
 		PreparedStatement stmt = null;

@@ -31,11 +31,12 @@ public class Admin {
 	private JButton btnStartServer;
 	private Server server;
 	private JLabel status;
+	private JLabel occupationLbl;
+	private JLabel ipLbl;
 
 	/**
 	 * Launch the application.
 	 */
-
 	public void run() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -70,9 +71,9 @@ public class Admin {
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{138, 83, 214, 214, 0};
-		gbl_panel.rowHeights = new int[]{107, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{107, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		lblAdminLogin = new JLabel("Admin Login");
@@ -155,7 +156,6 @@ public class Admin {
 		btnStartServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				server.setStarted(1);
-				status.setText("Waiting on port: "+server.getPort());
 			}
 		});
 		btnStartServer.setEnabled(false);
@@ -169,18 +169,47 @@ public class Admin {
 		
 		status = new JLabel("");
 		GridBagConstraints gbc_status = new GridBagConstraints();
-		gbc_status.insets = new Insets(0, 0, 0, 5);
+		gbc_status.insets = new Insets(0, 0, 5, 5);
 		gbc_status.gridx = 2;
 		gbc_status.gridy = 5;
 		panel.add(status, gbc_status);
+		
+		ipLbl = new JLabel("");
+		GridBagConstraints gbc_ipLbl = new GridBagConstraints();
+		gbc_ipLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_ipLbl.gridx = 2;
+		gbc_ipLbl.gridy = 6;
+		panel.add(ipLbl, gbc_ipLbl);
+		
+		occupationLbl = new JLabel("");
+		GridBagConstraints gbc_occupationLbl = new GridBagConstraints();
+		gbc_occupationLbl.insets = new Insets(0, 0, 0, 5);
+		gbc_occupationLbl.gridx = 2;
+		gbc_occupationLbl.gridy = 7;
+		panel.add(occupationLbl, gbc_occupationLbl);
 	}
-
+	public JLabel getStatus() {
+		return status;
+	}
+	public void setStatus(JLabel status) {
+		this.status = status;
+	}
+	public JLabel getOccupationLbl() {
+		return occupationLbl;
+	}
+	public void setOccupationLbl(JLabel occupationLbl) {
+		this.occupationLbl = occupationLbl;
+	}
+	public JLabel getIpLbl() {
+		return ipLbl;
+	}
+	public void setIpLbl(JLabel ipLbl) {
+		this.ipLbl = ipLbl;
+	}
 	public Server getServer() {
 		return server;
 	}
-
 	public void setServer(Server server) {
 		this.server = server;
 	}
-
 }

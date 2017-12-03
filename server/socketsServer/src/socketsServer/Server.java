@@ -16,24 +16,37 @@ public class Server {
 	private Admin adminW;
 	private Landing land;
 	private Lobby lob;
+	private int occupation;
  	public boolean loginCheck(String user,String pass) {
 		return (admin.equals(user) && adminp.equals(pass));
 	}
 	public Server(int port) {
 		this.setPort(port);
+		occupation = 0;
 		setStarted(0);
 		land = new Landing(this);
 		lob = new Lobby(this);
 		land.getT().start();
 		lob.getT().start();
 		adminW = new Admin(this);
-		while(started == 0) Thread.yield();
-		setDb(new DataBase());
-		try {
-			setSocket(new ServerSocket(port));
-		} catch (IOException e) {
-			System.out.println("Error opening server");
+		while(started == 0) { 
+			while(started == 0)	Thread.yield();
+			try {
+				setDb(new DataBase());
+				setSocket(new ServerSocket(port));
+			} catch (Exception e) {
+				System.out.println("Error opening server: "+e.getMessage());
+				adminW.getStatus().setText(e.getMessage());
+				started = 0;
+			}
 		}
+		adminW.getStatus().setText("Waiting on port: "+ getPort());
+		adminW.getIpLbl().setText("Server ip: "+ getSocket().getInetAddress().getHostAddress());
+		adminW.getOccupationLbl().setText("Connected: "+occupation);
+	}
+	public void updateOccupation(int change) {
+		occupation += change;
+		adminW.getOccupationLbl().setText("Connected: "+occupation);
 	}
 	public UserThread waitNewConnection() {
 		UserThread u = null;
@@ -87,7 +100,14 @@ public class Server {
 			land.getUsers().add(newUser);
 			newUser.setRoom(land);
 			newUser.start();
+			updateOccupation(1);
 		}
+	}
+	public int getOccupation() {
+		return occupation;
+	}
+	public void setOccupation(int occupation) {
+		this.occupation = occupation;
 	}
 	public Landing getLand() {
 		return land;

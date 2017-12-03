@@ -41,8 +41,11 @@ public class Lobby extends Window implements Runnable{
 				}
 				else SocketAPI.writeToSocket(user.getUser().getSocket(),"j u "+name);
 				break;
-			case 's':
-					
+			case 'y':
+				int[] stats = server.getDb().getinfo(user.getUser().getName(), user.getUser().getPassword());	
+				String output = String.format("y %d %d %d", stats[0],stats[1],stats[2]);
+				System.out.println(output);
+				SocketAPI.writeToSocket(user.getUser().getSocket(), output);
 				break;
 			case 'n':
 				String newname = input.substring(2, input.length());
@@ -74,7 +77,8 @@ public class Lobby extends Window implements Runnable{
 	public String listToString(LinkedList<Room> room) {
 		String output = new String();
 		for(Room r: room) {
-			output += r.getRoomName()+" ";
+			int oc = r.getPlayers().size()+r.getViewers().size();
+			output += r.getRoomName()+":"+ oc +" ";
 		}
 		
 		return output;
