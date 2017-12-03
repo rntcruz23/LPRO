@@ -1,7 +1,7 @@
 package user;
 
+import client.Client;
 import pieces.Piece;
-import socketsClient.Client;
 import windows.game.GameView;
 
 public class Player extends Spectator{

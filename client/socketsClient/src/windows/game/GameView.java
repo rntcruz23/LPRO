@@ -23,7 +23,7 @@ import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import socketsServer.SocketAPI;
+import server.SocketAPI;
 import user.User;
 import window.Window;
 import windows.lobby.Lobby;

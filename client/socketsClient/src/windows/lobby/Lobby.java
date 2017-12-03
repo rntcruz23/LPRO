@@ -29,7 +29,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import socketsServer.SocketAPI;
+import server.SocketAPI;
 import window.Window;
 import windows.joinroom.JoinRoom;
 import windows.landing.LandingScreen;

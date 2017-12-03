@@ -1,4 +1,4 @@
-package socketsServer;
+package server;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +19,7 @@ public class SocketAPI {
 	}
 	public static String readConnection(Socket socket) {
 		InputStream input;
-		String readS = new String("Read failed");
+		String readS = "Read failed";
 		byte[] b = new byte[200];
 		int size;
 		try {

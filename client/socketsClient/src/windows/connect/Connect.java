@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import socketsClient.Client;
+import client.Client;
 import user.User;
 import user.WaitingInput;
 import window.Window;

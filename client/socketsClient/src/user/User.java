@@ -1,14 +1,12 @@
 package user;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
+import client.Client;
 import pieces.Piece;
 import room.RoomState;
-import socketsClient.Client;
-import socketsServer.SocketAPI;
+import server.SocketAPI;
 import window.Window;
 import windows.create.CreateAcc;
 import windows.game.GameView;
@@ -192,7 +190,6 @@ public class User {
 		this.window = room;
 	}
 	public String[] getLogin(String input) {
-		input += " ";
 		System.out.println(input);
 		StringTokenizer tok = new StringTokenizer(input," ");
 		String[] output = new String[2];

@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import socketsServer.SocketAPI;
+import server.SocketAPI;
 import window.Window;
 import windows.lobby.Lobby;
 

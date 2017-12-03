@@ -1,4 +1,4 @@
-package socketsClient;
+package client;
 
 import windows.connect.Connect;
 

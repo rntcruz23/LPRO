@@ -1,6 +1,6 @@
 package user;
 
-import socketsClient.Client;
+import client.Client;
 import windows.game.GameView;
 
 public class Guest extends User {

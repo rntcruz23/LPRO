@@ -19,7 +19,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import socketsServer.SocketAPI;
+import server.SocketAPI;
 import window.Window;
 
 public class Login extends Window{

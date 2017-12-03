@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import socketsServer.SocketAPI;
+import server.SocketAPI;
 import window.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

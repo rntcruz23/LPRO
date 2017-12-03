@@ -2,7 +2,7 @@ package user;
 
 import java.util.StringTokenizer;
 
-import socketsClient.Client;
+import client.Client;
 import windows.game.GameView;
 import windows.newroom.CreateRoom;
 import windows.stats.Stats;
