@@ -48,7 +48,12 @@ public class User {
 		}	
 	}
 	protected String getCommandsFromServer() {
-		return SocketAPI.readConnection(client.getSocket());
+		try {
+			return SocketAPI.readConnection(client.getSocket());
+		} catch(Exception e) {
+			System.out.println("Read failed");
+			return " ";
+		}
 	}
 	public boolean processCommands(String com) {
 		char command = com.charAt(0);

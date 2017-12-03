@@ -17,19 +17,14 @@ public class SocketAPI {
 			e.printStackTrace();
 		}
 	}
-	public static String readConnection(Socket socket) {
+	public static String readConnection(Socket socket) throws IOException {
 		InputStream input;
 		String readS = "Read failed";
 		byte[] b = new byte[200];
 		int size;
-		try {
-			input = socket.getInputStream();
-			size = input.read(b);
-			readS = byteToString(b,size);
-		} catch (IOException e) {
-			System.out.println("Error reading socket: "+e.getMessage());
-			System.exit(0);
-		}
+		input = socket.getInputStream();
+		size = input.read(b);
+		readS = byteToString(b,size);
 		return readS;
 	}
 	public static void terminateConnection(Socket toClose) {
