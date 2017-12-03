@@ -21,7 +21,7 @@ public class DataBase {
 			e.printStackTrace();
 		}		
 	}
-	public boolean insertNewUser(String name,String pass) {
+	public boolean insertNewUser(String name,String pass) throws SQLException{
 		PreparedStatement stmt = null;
 		try {
 			String command = "INSERT INTO lpro.users VALUES(?,?)";
@@ -37,20 +37,15 @@ public class DataBase {
 			}
 		}
 		finally{
-			try {
-				System.out.println("Closing statement");
-				if(stmt!=null)
-					stmt.close();
-			} catch (SQLException e) {
-				System.exit(0);
-			}
+			if(stmt!=null)
+				stmt.close();
 		}
 		return true;
 	}
-	private boolean isConstraintViolation(SQLException e) {
+	private boolean isConstraintViolation(SQLException e){
 	    return e.getSQLState().startsWith("23");
 	}
-	public boolean userExists(String name,String pass) {
+	public boolean userExists(String name,String pass)throws SQLException {
 		ResultSet rs;
 		PreparedStatement stmt = null;
 		String query = "SELECT username,password FROM lpro.users WHERE username=? AND password=?";
@@ -71,16 +66,12 @@ public class DataBase {
 			return false;
 		}	
 		finally {
-			try {
-				if(stmt!=null)
-					stmt.close();
-			} catch (SQLException e) {
-				System.exit(0);
-			}
+			if(stmt!=null)
+				stmt.close();
 		}
 		return false;
 	}
-	public boolean removeUser(String name,String pass) {
+	public boolean removeUser(String name,String pass) throws SQLException{
 		String query = "DELETE FROM lpro.users WHERE username=? AND password=?";
 		PreparedStatement stmt=null;
 		try {
@@ -95,16 +86,12 @@ public class DataBase {
 			return false;
 		}	
 		finally{
-			try {
 			if(stmt!=null)
 				stmt.close();
-			} catch (SQLException e) {
-				System.exit(0);
-			}
 		}
 		return false;
 	}
-	public void changeinfo(String name, String pass,int w,int l,int d) {
+	public void changeinfo(String name, String pass,int w,int l,int d)throws SQLException {
 		String sql = "UPDATE lpro.users SET	lost=?,won=?,draw=? WHERE username=? AND password=?;";
 		PreparedStatement stmt=null;
 		try {
@@ -121,15 +108,11 @@ public class DataBase {
 			return;
 		}
 		finally{
-			try {
 			if(stmt!=null)
 				stmt.close();
-			} catch (SQLException e) {
-				System.exit(0);
-			}
 		}
 	}
-	public int[] getinfo(String name,String pass) {
+	public int[] getinfo(String name,String pass) throws SQLException{
 		String sql = "SELECT lost,won,draw FROM lpro.users WHERE username=? AND password=?;";
 		PreparedStatement stmt=null;
 		ResultSet rs;
@@ -139,21 +122,18 @@ public class DataBase {
 			stmt.setString(1, name);
 			stmt.setString(2, pass);
 			rs = stmt.executeQuery();
-			rs.next();
-			results[0] = rs.getInt("won");
-			results[1] = rs.getInt("lost");
-			results[2] = rs.getInt("draw");
+			if(rs.next()) {
+				results[0] = rs.getInt("won");
+				results[1] = rs.getInt("lost");
+				results[2] = rs.getInt("draw");
+			}
 		} catch (SQLException e) {
 			System.out.println("There was a problem accessing database: "+e.getMessage());
 			return null;
 		}
 		finally{
-			try {
 			if(stmt!=null)
 				stmt.close();
-			} catch (SQLException e) {
-				System.exit(0);
-			}
 		}
 		return results;		
 	}

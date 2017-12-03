@@ -28,12 +28,16 @@ public class Landing extends Window implements Runnable{
 		switch(com) {
 			case 'l':
 				String[] info = getLogin(input.substring(2, input.length()));
-				if(server.getDb().userExists(info[0],info[1])) {
-					changeToLobby(user,info);
-					SocketAPI.writeToSocket(user.getUser().getSocket(), "l s "+info[0]+" "+info[1]);
-					user.getUser().setType('s');
+				try {
+					if(server.getDb().userExists(info[0],info[1])) {
+						changeToLobby(user,info);
+						SocketAPI.writeToSocket(user.getUser().getSocket(), "l s "+info[0]+" "+info[1]);
+						user.getUser().setType('s');
+					}
+					else SocketAPI.writeToSocket(user.getUser().getSocket(), "l u");
+				}catch(Exception e) {
+					System.out.println("Problem sending status: "+e.getMessage());
 				}
-				else SocketAPI.writeToSocket(user.getUser().getSocket(), "l u");
 				break;
 			case 'g':
 				changeToLobby(user,new String[] {"",""});
@@ -42,11 +46,15 @@ public class Landing extends Window implements Runnable{
 				break;
 			case 'r':
 				String[] newInfo = getLogin(input.substring(2, input.length()));
-				if(server.getDb().insertNewUser(newInfo[0], newInfo[1])) {
-					changeToLobby(user,newInfo);
-					SocketAPI.writeToSocket(user.getUser().getSocket(), "r s "+newInfo[0]+" "+newInfo[1]);
+				try {
+					if(server.getDb().insertNewUser(newInfo[0], newInfo[1])) {
+						changeToLobby(user,newInfo);
+						SocketAPI.writeToSocket(user.getUser().getSocket(), "r s "+newInfo[0]+" "+newInfo[1]);
+					}
+					else SocketAPI.writeToSocket(user.getUser().getSocket(), "r u");
+				}catch(Exception e) {
+					System.out.println("Problem sendind status: "+e.getMessage());
 				}
-				else SocketAPI.writeToSocket(user.getUser().getSocket(), "r u");
 				break;
 			case 'e':
 				users.remove(user);

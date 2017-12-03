@@ -661,7 +661,7 @@ public class Board {
 		return false;
 	}
 	public String printBoard(Piece.color side) {
-		String output = new String();
+		String output = "";
 		System.out.println("  a b c d e f g h");
 		if(side == Piece.color.white) {
 			for(int j = 7; j >= 0; j--) {
