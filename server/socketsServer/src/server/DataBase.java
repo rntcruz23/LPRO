@@ -12,11 +12,11 @@ public class DataBase {
 		con = null;
 		String username = "sibd17g27";
 		String password = "pedrorenato";
-        try {
+		try {
 			Class.forName("org.postgresql.Driver");
 			con = DriverManager.getConnection("jdbc:postgresql://dbm.fe.up.pt:5432/sibd17g27",username, password);
-	         con.setAutoCommit(false);
-		     System.out.println("Opened database successfully");
+			con.setAutoCommit(false);
+			System.out.println("Opened database successfully");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}		
@@ -43,7 +43,7 @@ public class DataBase {
 		return true;
 	}
 	private boolean isConstraintViolation(SQLException e){
-	    return e.getSQLState().startsWith("23");
+		return e.getSQLState().startsWith("23");
 	}
 	public boolean userExists(String name,String pass)throws SQLException {
 		ResultSet rs;

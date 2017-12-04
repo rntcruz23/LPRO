@@ -17,7 +17,7 @@ public class Server {
 	private Landing land;
 	private Lobby lob;
 	private int occupation;
- 	public boolean loginCheck(String user,String pass) {
+	public boolean loginCheck(String user,String pass) {
 		return (admin.equals(user) && adminp.equals(pass));
 	}
 	public Server(int port) {
@@ -94,6 +94,9 @@ public class Server {
 	public void setStarted(int started) {
 		this.started = started;
 	}
+	/**
+	 * 
+	 */
 	public void waitUsers() {
 		while(true) {
 			UserThread newUser = waitNewConnection();
