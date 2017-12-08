@@ -10,6 +10,6 @@
 [Javadoc](https://paginas.fe.up.pt/~up201405867/lpro/doc/)
 
 ### Youtube
-[Video](https://youtu.be/_-qpPAE1zSM)
+Porque deve usar a nossa aplicação: [Video](https://youtu.be/_-qpPAE1zSM)
 
  Visit [wiki](https://github.com/rntcruz23/LPRO/wiki) page
