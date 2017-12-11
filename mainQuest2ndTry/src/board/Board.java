@@ -84,6 +84,13 @@ public class Board {
 		}
 	}
 	public boolean move(int[] initialPos, int[] finalPos, Piece.color side) {
+		
+		/**
+		 * 
+		 * @return: true - se moveu uma peça
+		 * @return: false - se não moveu uma peça
+		 */
+		
 		Piece piece = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
 		Piece aux;
 		if(piece == null) return false;
@@ -569,6 +576,9 @@ public class Board {
 										}
 									}
 								}
+								if(!capturePiece && cell.showPieceName() == 'P') {
+									return 0;
+								}
 								return 1; //valid movement
 							}
 							if(cell.showPosition()[1] < finalPos[1]) { //movement up
@@ -605,6 +615,9 @@ public class Board {
 											}
 										}
 									}
+								}
+								if(!capturePiece && cell.showPieceName() == 'P') {
+									return 0;
 								}
 								return 1; //valid movement
 							}
@@ -645,6 +658,9 @@ public class Board {
 										}
 									}
 								}
+								if(!capturePiece && cell.showPieceName() == 'P') {
+									return 0;
+								}
 								return 1; //valid movement
 							}
 							if(cell.showPosition()[1] < finalPos[1]) { //movement up
@@ -684,6 +700,9 @@ public class Board {
 											}
 										}
 									}
+								}
+								if(!capturePiece && cell.showPieceName() == 'P') {
+									return 0;
 								}
 								return 1; //valid movement
 							}
@@ -891,5 +910,107 @@ public class Board {
 		System.out.print("stack size: ");
 		System.out.println(lastMovesInit.size());
 		
+	}
+	
+	public boolean checkCheckMate(Piece.color attackingSide) {
+		Cell kingCell = null;
+		if(attackingSide == Piece.color.white) {
+			for(Cell cell: cells) {
+				if(cell.showPieceColor() == Piece.color.black && cell.showPieceName() == 'K') {
+					kingCell = cell;
+					break;
+				}
+			}
+			//verificar se esta em check na posiçao atual
+			if(!checkCheck(kingCell)) return false;
+			
+			//verificar check com todos os movimentos do rei
+			int[] finPos = {0,0};
+			for(int[] move : kingCell.showPiecePossibleMoves()) {
+				finPos[0] = kingCell.showPosition()[0] + move[0];
+				finPos[1] = kingCell.showPosition()[1] + move[2];
+				if(finPos[0] < 0 || finPos[0] > 7 || finPos[1] < 0 || finPos[1] > 7) {
+					continue;
+				}
+				if(move(kingCell.showPosition(), finPos, kingCell.showPieceColor())) {
+					if(!checkCheck(kingCell)) {
+						undoMove();
+						return false;
+					}
+				}
+				undoMove();
+			}
+			
+			//verificar check com todos os movimentos das restantes peças
+			for(Cell cell : cells) { 																//percorrer todas as celulas
+				if(!cell.isEmpty()) {																//que nao estao vazias
+					if(cell.showPieceColor() == kingCell.showPieceColor()) { 						//da mesma cor que o rei
+						for(int[] move : cell.showPiecePossibleMoves()) {							//percorrer todos os movimentos da peça
+							finPos[0] = cell.showPosition()[0] + move[0];
+							finPos[1] = cell.showPosition()[1] + move[1];
+							if(finPos[0] < 0 || finPos[0] > 7 || 
+								finPos[1] < 0 || finPos[1] > 7) {									//verificar se o move é para dentro do board
+								continue;
+							}
+							if(move(cell.showPosition(), finPos, kingCell.showPieceColor())) {		//mover a peça
+								if(!checkCheck(kingCell)) {											//verificar se o rei ainda está em check
+									undoMove();
+									return false;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else if(attackingSide == Piece.color.black) {
+			for(Cell cell: cells) {
+				if(cell.showPieceColor() == Piece.color.white && cell.showPieceName() == 'K') {
+					kingCell = cell;
+					break;
+				}
+			}
+			//verificar se esta em check na posiçao atual
+			if(!checkCheck(kingCell)) return false;
+			
+			//verificar check com todos os movimentos do rei
+			int[] finPos = {0,0};
+			for(int[] move : kingCell.showPiecePossibleMoves()) {
+				finPos[0] = kingCell.showPosition()[0] + move[0];
+				finPos[1] = kingCell.showPosition()[1] + move[1];
+				if(finPos[0] < 0 || finPos[0] > 7 || finPos[1] < 0 || finPos[1] > 7) {
+					continue;
+				}
+				if(move(kingCell.showPosition(), finPos, kingCell.showPieceColor())) {
+					if(!checkCheck(kingCell)) {
+						undoMove();
+						return false;
+					}
+				}
+			}
+			
+			//verificar check com todos os movimentos das restantes peças
+			for(Cell cell : cells) { 																//percorrer todas as celulas
+				if(!cell.isEmpty()) {																//que nao estao vazias
+					if(cell.showPieceColor() == kingCell.showPieceColor()) { 						//da mesma cor que o rei
+						for(int[] move : cell.showPiecePossibleMoves()) {							//percorrer todos os movimentos da peça
+							finPos[0] = cell.showPosition()[0] + move[0];
+							finPos[1] = cell.showPosition()[1] + move[1];
+							if(finPos[0] < 0 || finPos[0] > 7 || 
+								finPos[1] < 0 || finPos[1] > 7) {									//verificar se o move é para dentro do board
+								continue;
+							}
+							if(move(cell.showPosition(), finPos, kingCell.showPieceColor())) {		//mover a peça
+								if(!checkCheck(kingCell)) {											//verificar se o rei ainda está em check
+									undoMove();
+									return false;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return true;
 	}
 }

@@ -201,4 +201,27 @@ public class TesteGameLogic {
 		assertFalse(board.move(init, fin, Piece.color.white));
 		board.printBoard(Piece.color.white);
 	}
+	
+	@Test
+	public void checkCheckMate() {
+		Piece wking = new King(Piece.color.white);
+		Piece bqueen = new Queen(Piece.color.black);
+		board.cells[0 * 8 + 0].moveInPiece(wking);
+		board.cells[0 * 8 + 7].moveInPiece(bqueen);
+		assertTrue(board.checkCheck(Piece.color.black));
+		assertFalse(board.checkCheckMate(Piece.color.black)); 			//teste checkMate sem mais peças da mesma cor
+		Piece wrook = new Rook(Piece.color.white);
+		Piece wrook2 = new Rook(Piece.color.white);
+		board.cells[1 * 8 + 0].moveInPiece(wrook);
+		board.cells[6 * 8 + 1].moveInPiece(wrook2);
+		assertTrue(board.checkCheck(Piece.color.black));
+		assertFalse(board.checkCheckMate(Piece.color.black)); 			//teste checkMate com mais peças da mesma cor
+		Piece wpawn = new Pawn(Piece.color.white);
+		board.cells[1 * 8 + 1].moveInPiece(wpawn);
+		board.printBoard(Piece.color.white);
+		assertTrue(board.checkCheck(Piece.color.black));
+		assertTrue(board.checkCheckMate(Piece.color.black)); 			//teste checkMate true
+		board.printBoard(Piece.color.white);
+		
+	}
 }
