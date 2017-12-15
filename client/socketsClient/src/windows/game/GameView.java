@@ -259,7 +259,6 @@ public class GameView extends Window{
 		panel_2.add(lblGameRoom);
 		lblGameRoom.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
 	}
-	
 	public void removeUserButtons() {
 		btnSend.setEnabled(false);
 	}

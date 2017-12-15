@@ -71,9 +71,9 @@ public class GameView {
 		JPanel exit = new JPanel();
 		frmChess.getContentPane().add(exit, BorderLayout.SOUTH);
 		GridBagLayout gbl_exit = new GridBagLayout();
-		gbl_exit.columnWidths = new int[]{21, 125, 0, 0};
+		gbl_exit.columnWidths = new int[]{21, 125, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_exit.rowHeights = new int[]{19, 25, 11, 0};
-		gbl_exit.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_exit.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_exit.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		exit.setLayout(gbl_exit);
 		
@@ -99,6 +99,34 @@ public class GameView {
 		gbc_btnReturnToLobby.gridx = 1;
 		gbc_btnReturnToLobby.gridy = 1;
 		exit.add(btnReturnToLobby, gbc_btnReturnToLobby);
+		
+		JLabel joinLabel = new JLabel("");
+		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
+		gbc_joinLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_joinLabel.gridx = 4;
+		gbc_joinLabel.gridy = 1;
+		exit.add(joinLabel, gbc_joinLabel);
+		
+		JLabel turnLabel = new JLabel("");
+		GridBagConstraints gbc_turnLabel = new GridBagConstraints();
+		gbc_turnLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_turnLabel.gridx = 14;
+		gbc_turnLabel.gridy = 1;
+		exit.add(turnLabel, gbc_turnLabel);
+		
+		JButton forfitButton = new JButton("Give Up");
+		GridBagConstraints gbc_forfitButton = new GridBagConstraints();
+		gbc_forfitButton.insets = new Insets(0, 0, 5, 5);
+		gbc_forfitButton.gridx = 23;
+		gbc_forfitButton.gridy = 1;
+		exit.add(forfitButton, gbc_forfitButton);
+		
+		JButton drawButton = new JButton("Offer Draw");
+		GridBagConstraints gbc_drawButton = new GridBagConstraints();
+		gbc_drawButton.insets = new Insets(0, 0, 5, 0);
+		gbc_drawButton.gridx = 25;
+		gbc_drawButton.gridy = 1;
+		exit.add(drawButton, gbc_drawButton);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();
