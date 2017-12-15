@@ -243,10 +243,34 @@ public class GameView extends Window{
 		gbc_gameScreen.gridx = 0;
 		gbc_gameScreen.gridy = 0;
 		game.add(gameScreen, gbc_gameScreen);
-		/*
-		lblNewLabel.setIcon(board);
-		game.add(lblNewLabel);
-		*/
+
+		JLabel joinLabel = new JLabel("");
+		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
+		gbc_joinLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_joinLabel.gridx = 4;
+		gbc_joinLabel.gridy = 1;
+		exit.add(joinLabel, gbc_joinLabel);
+		
+		JLabel turnLabel = new JLabel("");
+		GridBagConstraints gbc_turnLabel = new GridBagConstraints();
+		gbc_turnLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_turnLabel.gridx = 14;
+		gbc_turnLabel.gridy = 1;
+		exit.add(turnLabel, gbc_turnLabel);
+		
+		JButton forfitButton = new JButton("Give Up");
+		GridBagConstraints gbc_forfitButton = new GridBagConstraints();
+		gbc_forfitButton.insets = new Insets(0, 0, 5, 5);
+		gbc_forfitButton.gridx = 23;
+		gbc_forfitButton.gridy = 1;
+		exit.add(forfitButton, gbc_forfitButton);
+		
+		JButton drawButton = new JButton("Offer Draw");
+		GridBagConstraints gbc_drawButton = new GridBagConstraints();
+		gbc_drawButton.insets = new Insets(0, 0, 5, 0);
+		gbc_drawButton.gridx = 25;
+		gbc_drawButton.gridy = 1;
+		exit.add(drawButton, gbc_drawButton);
 		
 		JPanel title = new JPanel();
 		getFrmChess().getContentPane().add(title, BorderLayout.NORTH);
