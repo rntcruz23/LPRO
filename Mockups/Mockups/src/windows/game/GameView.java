@@ -71,9 +71,9 @@ public class GameView {
 		JPanel exit = new JPanel();
 		frmChess.getContentPane().add(exit, BorderLayout.SOUTH);
 		GridBagLayout gbl_exit = new GridBagLayout();
-		gbl_exit.columnWidths = new int[]{21, 125, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_exit.columnWidths = new int[]{21, 125, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_exit.rowHeights = new int[]{19, 25, 11, 0};
-		gbl_exit.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_exit.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_exit.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		exit.setLayout(gbl_exit);
 		
@@ -100,19 +100,35 @@ public class GameView {
 		gbc_btnReturnToLobby.gridy = 1;
 		exit.add(btnReturnToLobby, gbc_btnReturnToLobby);
 		
-		JLabel joinLabel = new JLabel("");
+		JLabel joinLabel = new JLabel("a");
 		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
 		gbc_joinLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_joinLabel.gridx = 4;
 		gbc_joinLabel.gridy = 1;
 		exit.add(joinLabel, gbc_joinLabel);
 		
-		JLabel turnLabel = new JLabel("");
+		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_3 = new GridBagConstraints();
+		gbc_horizontalStrut_3.gridwidth = 8;
+		gbc_horizontalStrut_3.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut_3.gridx = 6;
+		gbc_horizontalStrut_3.gridy = 1;
+		exit.add(horizontalStrut_3, gbc_horizontalStrut_3);
+		
+		JLabel turnLabel = new JLabel("d");
 		GridBagConstraints gbc_turnLabel = new GridBagConstraints();
 		gbc_turnLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_turnLabel.gridx = 14;
 		gbc_turnLabel.gridy = 1;
 		exit.add(turnLabel, gbc_turnLabel);
+		
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
+		gbc_horizontalStrut.gridwidth = 6;
+		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut.gridx = 17;
+		gbc_horizontalStrut.gridy = 1;
+		exit.add(horizontalStrut, gbc_horizontalStrut);
 		
 		JButton forfitButton = new JButton("Give Up");
 		GridBagConstraints gbc_forfitButton = new GridBagConstraints();
@@ -121,12 +137,26 @@ public class GameView {
 		gbc_forfitButton.gridy = 1;
 		exit.add(forfitButton, gbc_forfitButton);
 		
+		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
+		gbc_horizontalStrut_1.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut_1.gridx = 24;
+		gbc_horizontalStrut_1.gridy = 1;
+		exit.add(horizontalStrut_1, gbc_horizontalStrut_1);
+		
 		JButton drawButton = new JButton("Offer Draw");
 		GridBagConstraints gbc_drawButton = new GridBagConstraints();
-		gbc_drawButton.insets = new Insets(0, 0, 5, 0);
+		gbc_drawButton.insets = new Insets(0, 0, 5, 5);
 		gbc_drawButton.gridx = 25;
 		gbc_drawButton.gridy = 1;
 		exit.add(drawButton, gbc_drawButton);
+		
+		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_2 = new GridBagConstraints();
+		gbc_horizontalStrut_2.insets = new Insets(0, 0, 5, 0);
+		gbc_horizontalStrut_2.gridx = 26;
+		gbc_horizontalStrut_2.gridy = 1;
+		exit.add(horizontalStrut_2, gbc_horizontalStrut_2);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();

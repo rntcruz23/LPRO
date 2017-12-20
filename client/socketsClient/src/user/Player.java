@@ -2,6 +2,7 @@ package user;
 
 import client.Client;
 import pieces.Piece;
+import windows.drawprompt.Draw;
 import windows.game.GameView;
 
 public class Player extends Spectator{
@@ -67,6 +68,10 @@ public class Player extends Spectator{
 			case 't':
 				System.out.println("Setting my turn to "+command.charAt(2));
 				turnString(command);
+				break;
+			case 'd':
+				setBackWindow(getRoom());
+				setRoom(new Draw(this));
 				break;
 			default: System.out.println("Unknown player command");
 		}

@@ -15,6 +15,8 @@ public class RoomState implements Serializable{
 	private String roomName;
 	private boolean roomEmpty;
 	private LinkedList<String> history;
+	private String turnStatus;
+	private String joinStatus;
 	private static final long serialVersionUID = 1L;
 	public static RoomState waitroom(User user,ObjectInputStream in) {
 		try {
@@ -49,5 +51,17 @@ public class RoomState implements Serializable{
 	}
 	public void setHistory(LinkedList<String> history) {
 		this.history = history;
+	}
+	public String getTurnStatus() {
+		return turnStatus;
+	}
+	public void setTurnStatus(String turnStatus) {
+		this.turnStatus = turnStatus;
+	}
+	public String getJoinStatus() {
+		return joinStatus;
+	}
+	public void setJoinStatus(String joinStatus) {
+		this.joinStatus = joinStatus;
 	}
 }

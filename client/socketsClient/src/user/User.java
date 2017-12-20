@@ -148,8 +148,16 @@ public class User {
 	public void loadRoomStateToGameView(RoomState roomstate,GameView g) {
 		Piece.color turn = roomstate.getTurn();
 		String roomName = roomstate.getRoomName();
+		String joinStatus = roomstate.getJoinStatus();
+		String turnStatus = roomstate.getTurnStatus();
 		boolean roomEmpty = roomstate.isRoomEmpty();
 		LinkedList<String> history = roomstate.getHistory();
+		
+		if(roomEmpty)
+			joinStatus = "Room is empty";
+		g.getTurnLabel().setText(turnStatus);
+		g.getJoinLabel().setText(joinStatus);
+		
 		g.getLblGameRoom().setText(roomName);
 		for(String move : history) {
 			g.getHistoryArea().append(move);

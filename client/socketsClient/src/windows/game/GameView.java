@@ -36,6 +36,20 @@ public class GameView extends Window{
 	private JTextArea historyArea;
 	private JLabel lblGameRoom;
 	private JButton btnSend;
+	private JLabel joinLabel;
+	private JLabel turnLabel;
+	public JLabel getJoinLabel() {
+		return joinLabel;
+	}
+	public void setJoinLabel(JLabel joinLabel) {
+		this.joinLabel = joinLabel;
+	}
+	public JLabel getTurnLabel() {
+		return turnLabel;
+	}
+	public void setTurnLabel(JLabel turnLabel) {
+		this.turnLabel = turnLabel;
+	}
 	public JLabel getLblGameRoom() {
 		return lblGameRoom;
 	}
@@ -68,7 +82,7 @@ public class GameView extends Window{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmChess.setResizable(false);
+		getFrmChess().setResizable(false);
 		getFrmChess().setBounds(100, 100, 1024, 680);
 		getFrmChess().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -237,6 +251,7 @@ public class GameView extends Window{
 		gameScreen = new JTextArea();
 		gameScreen.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		gameScreen.setEditable(false);
+		
 		GridBagConstraints gbc_gameScreen = new GridBagConstraints();
 		gbc_gameScreen.fill = GridBagConstraints.BOTH;
 		gbc_gameScreen.anchor = GridBagConstraints.NORTHWEST;
@@ -244,14 +259,14 @@ public class GameView extends Window{
 		gbc_gameScreen.gridy = 0;
 		game.add(gameScreen, gbc_gameScreen);
 
-		JLabel joinLabel = new JLabel("");
+		joinLabel = new JLabel("");
 		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
 		gbc_joinLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_joinLabel.gridx = 4;
 		gbc_joinLabel.gridy = 1;
 		exit.add(joinLabel, gbc_joinLabel);
 		
-		JLabel turnLabel = new JLabel("");
+		turnLabel = new JLabel("");
 		GridBagConstraints gbc_turnLabel = new GridBagConstraints();
 		gbc_turnLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_turnLabel.gridx = 14;
@@ -265,12 +280,54 @@ public class GameView extends Window{
 		gbc_forfitButton.gridy = 1;
 		exit.add(forfitButton, gbc_forfitButton);
 		
+		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_3 = new GridBagConstraints();
+		gbc_horizontalStrut_3.gridwidth = 8;
+		gbc_horizontalStrut_3.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut_3.gridx = 6;
+		gbc_horizontalStrut_3.gridy = 1;
+		exit.add(horizontalStrut_3, gbc_horizontalStrut_3);
+		
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
+		gbc_horizontalStrut.gridwidth = 6;
+		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut.gridx = 17;
+		gbc_horizontalStrut.gridy = 1;
+		exit.add(horizontalStrut, gbc_horizontalStrut);
+		
+		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
+		gbc_horizontalStrut_1.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut_1.gridx = 24;
+		gbc_horizontalStrut_1.gridy = 1;
+		exit.add(horizontalStrut_1, gbc_horizontalStrut_1);
+		
 		JButton drawButton = new JButton("Offer Draw");
+		drawButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "d");
+			}
+		});
 		GridBagConstraints gbc_drawButton = new GridBagConstraints();
-		gbc_drawButton.insets = new Insets(0, 0, 5, 0);
+		gbc_drawButton.insets = new Insets(0, 0, 5, 5);
 		gbc_drawButton.gridx = 25;
 		gbc_drawButton.gridy = 1;
 		exit.add(drawButton, gbc_drawButton);
+		
+		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_2 = new GridBagConstraints();
+		gbc_horizontalStrut_2.insets = new Insets(0, 0, 5, 0);
+		gbc_horizontalStrut_2.gridx = 26;
+		gbc_horizontalStrut_2.gridy = 1;
+		exit.add(horizontalStrut_2, gbc_horizontalStrut_2);
+		
+		Component verticalStrut_3 = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut_3 = new GridBagConstraints();
+		gbc_verticalStrut_1.insets = new Insets(0, 0, 0, 5);
+		gbc_verticalStrut_1.gridx = 1;
+		gbc_verticalStrut_1.gridy = 2;
+		exit.add(verticalStrut_3, gbc_verticalStrut_3);
 		
 		JPanel title = new JPanel();
 		getFrmChess().getContentPane().add(title, BorderLayout.NORTH);
