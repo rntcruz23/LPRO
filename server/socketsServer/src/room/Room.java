@@ -1,5 +1,6 @@
 package room;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
 
@@ -20,6 +21,7 @@ public class Room extends Window implements Runnable{
 	private LinkedList<UserThread> spectators;
 	private LinkedList<UserThread> guests;
 	private LinkedList<UserThread> viewers;
+	private boolean gameRunning,gameFinished;
 	private String roomName;
 	private boolean roomEmpty;
 	private Board board;
@@ -42,6 +44,8 @@ public class Room extends Window implements Runnable{
 		history = new History(viewers,players,this);
 		chat = new Chat(viewers,players,this);
 		addUser(player1);
+		setGameRunning(false);
+		setGameFinished(false);
 	}
 	public void remUser(UserThread user) {
 		if(players.remove(user) && !spectators.isEmpty()) {
@@ -57,6 +61,7 @@ public class Room extends Window implements Runnable{
 		}
 		server.getLob().getUsers().add(user);
 		user.setRoom(server.getLob());
+		gameRunning = players.size() == 2;
 	}
 	public void addUser(UserThread user) {
 		if(user.getUser().getType() == 'g') {
@@ -68,6 +73,7 @@ public class Room extends Window implements Runnable{
 		else newSpec(user);
 		RoomState.sendRoom(user,this);
 		SocketAPI.writeToSocket(user.getUser().getSocket(), "b "+board.printBoard(Piece.color.white));
+		gameRunning = players.size() == 2;
 	}
 	@Override 
  	public void run(){
@@ -124,13 +130,42 @@ public class Room extends Window implements Runnable{
 			remUser(user);
 			break;
 		case 'd':
+			UserThread op = getOpponent(user);
+			promptDraw(op);
+			break;
+		case 'a':
+			drawGame();
+			break;
 		case 'f':
 			informTurn();
 			break;
 		default: informTurn();
 		}
 	}
+	public void drawGame() {
+		for(UserThread user: players) {
+			String username = user.getUser().getName();
+			String password = user.getUser().getPassword();
+			int[] currStats;
+			try {
+				currStats = server.getDb().getinfo(username,password);
+				server.getDb().changeinfo(username, password, currStats[0],currStats[1], currStats[2]+1);
+				setGameRunning(false);
+				setGameFinished(true);
+			} catch (SQLException e) {
+				System.out.println("Error updating stats");
+			}
+		}
+	}
+	void promptDraw(UserThread user) {
+		SocketAPI.writeToSocket(user.getUser().getSocket(),"d");
+	}
+	public UserThread getOpponent(UserThread user) {
+		int index = players.indexOf(user);
+		return players.get(index^1);
+	}
 	public void playC(Piece.color color,String move) {
+		if(!gameRunning) return;
 		if(color != turn) return;
 		int[][] movement = inputInt(move);
 		sendBoard();
@@ -249,5 +284,17 @@ public class Room extends Window implements Runnable{
 	}
 	public void setSpectators(LinkedList<UserThread> spectators) {
 		this.spectators = spectators;
+	}
+	public boolean isGameRunning() {
+		return gameRunning;
+	}
+	public void setGameRunning(boolean gameRunning) {
+		this.gameRunning = gameRunning;
+	}
+	public boolean isGameFinished() {
+		return gameFinished;
+	}
+	public void setGameFinished(boolean gameFinished) {
+		this.gameFinished = gameFinished;
 	}
 }
