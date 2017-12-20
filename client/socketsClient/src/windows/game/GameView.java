@@ -7,30 +7,37 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 
 import server.SocketAPI;
 import user.User;
 import window.Window;
-import windows.lobby.Lobby;
 
 public class GameView extends Window{
 	
-	private ImageIcon board;
+	private boardView board;
 	private JTextArea gameScreen;
 	private JTextArea chatArea;
 	private JTextArea historyArea;
@@ -82,6 +89,7 @@ public class GameView extends Window{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
 		getFrmChess().setResizable(false);
 		getFrmChess().setBounds(100, 100, 1024, 680);
 		getFrmChess().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,85 +116,111 @@ public class GameView extends Window{
 		gbc_verticalStrut.gridx = 0;
 		gbc_verticalStrut.gridy = 1;
 		exit.add(verticalStrut, gbc_verticalStrut);
+
+		frmChess.setVisible(true);
+		frmChess.setResizable(false);
+		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(GameView.class.getResource("FreeChessKing.png")));
+		frmChess.setTitle("Chess Game");
+		frmChess.setBounds(170, 50, 1024, 680);
+		frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JButton btnReturnToLobby = new JButton("Return to lobby");
+		btnReturnToLobby.setBounds(20, 600, 150, 40);
 		btnReturnToLobby.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmChess.setVisible(false);
-				Lobby lob =  new Lobby();
-				lob.setUser(getUser());
-				getUser().setRoom(lob);
-				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "x");
+				//Lobby lob =  new Lobby();
+				//lob.setUser(getUser());
+				//getUser().setRoom(lob);
+				//SocketAPI.writeToSocket(getUser().getClient().getSocket(), "x");
 			}
 		});
-		btnReturnToLobby.setFont(new Font("Baskerville Old Face", Font.PLAIN, 15));
-		GridBagConstraints gbc_btnReturnToLobby = new GridBagConstraints();
-		gbc_btnReturnToLobby.insets = new Insets(0, 0, 5, 5);
-		gbc_btnReturnToLobby.anchor = GridBagConstraints.WEST;
-		gbc_btnReturnToLobby.gridx = 1;
-		gbc_btnReturnToLobby.gridy = 1;
-		exit.add(btnReturnToLobby, gbc_btnReturnToLobby);
+			frmChess.getContentPane().setLayout(null);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(738, 71, 270, 448);
+			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			frmChess.getContentPane().add(scrollPane);
+			
+			JTextArea viewchat = new JTextArea();
+			scrollPane.setViewportView(viewchat);
+			viewchat.setWrapStyleWord(true);
+			viewchat.setLineWrap(true);
+			viewchat.setBackground(new Color(192, 192, 192));
+			viewchat.setBorder(new TitledBorder(new EtchedBorder(), "Chat"));
+			
+			JFormattedTextField chatArea = new JFormattedTextField();
+			chatArea.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {			
+					String speak = chatArea.getText();		
+					String output = "c "+speak;
+					viewchat.setText(speak);
+					chatArea.setText("");
+				     getUser().sendCommand(output);
+
+				}
+			});
+			chatArea.setBackground(Color.WHITE);
+			chatArea.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(153, 153, 153)));
+			chatArea.setFont(new Font("Monospaced", Font.PLAIN, 13));
+			chatArea.setBounds(738, 517, 270, 59);
+			chatArea.setBorder(new TitledBorder(new EtchedBorder(), "Send Message"));
+			frmChess.getContentPane().add(chatArea);
+			frmChess.getContentPane().add(btnReturnToLobby);			
+			
 		
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();
-		gbc_verticalStrut_1.insets = new Insets(0, 0, 0, 5);
-		gbc_verticalStrut_1.gridx = 1;
-		gbc_verticalStrut_1.gridy = 2;
-		exit.add(verticalStrut_1, gbc_verticalStrut_1);
+		JTextField txtGame = new JTextField();
+		txtGame.setBounds(340, 14, 253, 46);
+		txtGame.setEditable(false);
+		txtGame.setFont(new Font("Wide Latin", Font.PLAIN, 37));
+		txtGame.setHorizontalAlignment(SwingConstants.CENTER);
+		txtGame.setBackground(SystemColor.text);
+		txtGame.setText("CHESS");
+		frmChess.getContentPane().add(txtGame);
+		txtGame.setColumns(10);
 		
-		JPanel history = new JPanel();
-		getFrmChess().getContentPane().add(history, BorderLayout.WEST);
-		history.setLayout(new BoxLayout(history, BoxLayout.X_AXIS));
+
+	
+		JLayeredPane gameScreen = new JLayeredPane();
+		gameScreen.setBounds(198, 71, 530, 530);
+		frmChess.getContentPane().add(gameScreen);
+		gameScreen.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "History", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		history.add(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{128, 0};
-		gbl_panel.rowHeights = new int[] {484, 0};
-		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.gridx = 0;
-		gbc_scrollPane_1.gridy = 0;
-		panel.add(scrollPane_1, gbc_scrollPane_1);
+		scrollPane_1.setBounds(0, 75, 188, 514);
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		frmChess.getContentPane().add(scrollPane_1);
 		
-		historyArea = new JTextArea();
+		JTextArea historyArea = new JTextArea();
 		scrollPane_1.setViewportView(historyArea);
-		historyArea.setEditable(false);
-		historyArea.setColumns(15);
+		historyArea.setWrapStyleWord(true);
+		historyArea.setLineWrap(true);
+		historyArea.setBackground(new Color(192, 192, 192));
+		historyArea.setBorder(new TitledBorder(new EtchedBorder(), "History"));
 		
-		JPanel chat = new JPanel();
-		getFrmChess().getContentPane().add(chat, BorderLayout.EAST);
-		chat.setLayout(new BorderLayout(0, 0));
+			
+		JLabel lblNewLabel = new JLabel("CHESS");
+		lblNewLabel.setBounds(0, 0, 1008, 641);
+		lblNewLabel.setIcon(new ImageIcon(GameView.class.getResource("99.jpg")));
+		frmChess.getContentPane().add(lblNewLabel);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		chat.add(panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] {222};
-		gbl_panel_1.rowHeights = new int[]{352, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0};
-		gbl_panel_1.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		boardView board=new boardView(gameScreen,historyArea);
+ 	   
+		frmChess.setVisible(true);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 0;
-		panel_1.add(scrollPane, gbc_scrollPane);
+		board.create(frmChess);
+		board.Listener();
+		board.InitPieces();
 		
-		chatArea = new JTextArea();
 		chatArea.setEditable(false);
 		scrollPane.setViewportView(chatArea);
 		
 		JPanel chatMenu = new JPanel();
-		chat.add(chatMenu, BorderLayout.SOUTH);
+		chatArea.add(chatMenu, BorderLayout.SOUTH);
 		GridBagLayout gbl_chatMenu = new GridBagLayout();
 		gbl_chatMenu.columnWidths = new int[]{188, 87, 0};
 		gbl_chatMenu.rowHeights = new int[]{57, 0};
@@ -248,9 +282,6 @@ public class GameView extends Window{
 		gbl_game.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_game.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		game.setLayout(gbl_game);
-		gameScreen = new JTextArea();
-		gameScreen.setFont(new Font("Monospaced", Font.PLAIN, 13));
-		gameScreen.setEditable(false);
 		
 		GridBagConstraints gbc_gameScreen = new GridBagConstraints();
 		gbc_gameScreen.fill = GridBagConstraints.BOTH;
@@ -324,9 +355,9 @@ public class GameView extends Window{
 		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_3 = new GridBagConstraints();
-		gbc_verticalStrut_1.insets = new Insets(0, 0, 0, 5);
-		gbc_verticalStrut_1.gridx = 1;
-		gbc_verticalStrut_1.gridy = 2;
+		gbc_verticalStrut_3.insets = new Insets(0, 0, 0, 5);
+		gbc_verticalStrut_3.gridx = 1;
+		gbc_verticalStrut_3.gridy = 2;
 		exit.add(verticalStrut_3, gbc_verticalStrut_3);
 		
 		JPanel title = new JPanel();
@@ -339,6 +370,7 @@ public class GameView extends Window{
 		lblGameRoom = new JLabel("Game Room");
 		panel_2.add(lblGameRoom);
 		lblGameRoom.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
+
 	}
 	public void removeUserButtons() {
 		btnSend.setEnabled(false);
@@ -346,10 +378,10 @@ public class GameView extends Window{
 	public JTextArea getGame() {
 		return gameScreen;
 	}
-	public ImageIcon getBoard() {
+	public boardView getBoard() {
 		return board;
 	}
-	public void setBoard(ImageIcon board) {
+	public void setBoard(boardView board) {
 		this.board = board;
 	}
 }

@@ -23,6 +23,8 @@ public class Room extends Window implements Runnable{
 	private LinkedList<UserThread> viewers;
 	private boolean gameRunning,gameFinished;
 	private String roomName;
+	private String joinStatus;
+	private String turnStatus;
 	private boolean roomEmpty;
 	private Board board;
 	private Chat chat;
@@ -43,6 +45,8 @@ public class Room extends Window implements Runnable{
 		setRoomEmpty(false);
 		history = new History(viewers,players,this);
 		chat = new Chat(viewers,players,this);
+		setTurn(Piece.color.white);
+		setTurnStatus(getTurn()+" turn");
 		addUser(player1);
 		setGameRunning(false);
 		setGameFinished(false);
@@ -64,20 +68,26 @@ public class Room extends Window implements Runnable{
 		gameRunning = players.size() == 2;
 	}
 	public void addUser(UserThread user) {
+		String newUser = "guest";
 		if(user.getUser().getType() == 'g') {
 			guests.add(user);
 			viewers.add(user);
 			SocketAPI.writeToSocket(user.getUser().getSocket(),"j s g");
-		}else if(players.size() < 2)
-			newPlayer(user);
-		else newSpec(user);
-		RoomState.sendRoom(user,this);
+		}
+		else{
+			if(players.size() < 2)
+				newPlayer(user);
+			else newSpec(user);
+			newUser = user.getUser().getName();
+		}
+		setJoinStatus(newUser+" joined");
+		RoomState.sendRoom(players,this);
+		RoomState.sendRoom(viewers,this);
 		SocketAPI.writeToSocket(user.getUser().getSocket(), "b "+board.printBoard(Piece.color.white));
 		gameRunning = players.size() == 2;
 	}
 	@Override 
  	public void run(){
-		setTurn(Piece.color.white);
 		while((players.size() < 2))
 			Thread.yield();
 		prepPlayers();
@@ -173,6 +183,9 @@ public class Room extends Window implements Runnable{
 		if(board.move(movement[0],movement[1])) {
 			if(board.checkCheck(getTurn())) System.out.println(colorToString(color)+" king is in check");
 			setTurn(getOp(color));
+			setTurnStatus(getTurn()+" turn");
+			RoomState.sendRoom(players,this);
+			RoomState.sendRoom(viewers,this);
 			informTurn();
 			history.broadcast(move);
 		}
@@ -296,5 +309,17 @@ public class Room extends Window implements Runnable{
 	}
 	public void setGameFinished(boolean gameFinished) {
 		this.gameFinished = gameFinished;
+	}
+	public String getJoinStatus() {
+		return joinStatus;
+	}
+	public void setJoinStatus(String joinStatus) {
+		this.joinStatus = joinStatus;
+	}
+	public String getTurnStatus() {
+		return turnStatus;
+	}
+	public void setTurnStatus(String turnStatus) {
+		this.turnStatus = turnStatus;
 	}
 }

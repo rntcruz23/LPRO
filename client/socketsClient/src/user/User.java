@@ -31,21 +31,11 @@ public class User {
 	}
 	protected void printBoard(String command) {
 		GameView room =(GameView) window;
-		String rawBoardState = command.substring(2,command.length());
-		int line;
-		String letters = " ||a||b||c||d||e||f||g||h|\n";
-		room.getGame().setText(letters);
-		int nr = 1;
-		for (line = 64*2; line >= 16; line-=16) {
-			String row = rawBoardState.substring(line-16,line);
-			int col = 0;
-			room.getGame().append((nr++)+"|");
-			for(col = 0; col < 8; col++) {
-				String output = "|"+row.charAt(col*2) + "|";
-				room.getGame().append(output);
-			}
-			room.getGame().append("\n");
-		}	
+		System.out.print("BOARDGAME:\n");
+		System.out.print(command);
+		System.out.print("\n");
+		room.getBoard().PutPieces(command);
+			
 	}
 	protected String getCommandsFromServer() {
 		try {
@@ -68,7 +58,6 @@ public class User {
 			break;
 		case 'b':
 			System.out.println("Printing board");
-			printBoard(com);
 			valid = true;
 			break;
 		case 'l':

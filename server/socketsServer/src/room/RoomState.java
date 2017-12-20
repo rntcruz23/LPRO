@@ -14,6 +14,8 @@ public class RoomState implements Serializable{
 	private Piece.color turn;
 	private String roomName;
 	private boolean roomEmpty;
+	private String joinStatus;
+	private String turnStatus;
 	private LinkedList<String> history;
 	private static final long serialVersionUID = 1L;
 	public static void sendRoom(UserThread user,Room room) {
@@ -29,12 +31,18 @@ public class RoomState implements Serializable{
 			System.out.println("Error sending: "+e.getMessage());
 		}
 	}
+	public static void sendRoom(LinkedList<UserThread> user,Room room) {
+		for(UserThread u: user)
+			sendRoom(u,room);
+	}
 	public static RoomState getRoomState(Room room) {
 		RoomState roomstate = new RoomState();
 		roomstate.setHistory(room.getHistory().getPublicText());
 		roomstate.setRoomName(room.getRoomName());
 		roomstate.setRoomEmpty(room.isRoomEmpty());
 		roomstate.setTurn(room.getTurn());
+		roomstate.setJoinStatus(room.getJoinStatus());
+		roomstate.setTurnStatus(room.getTurnStatus());
 		return roomstate;
 	}
 	public Piece.color getTurn() {
@@ -60,5 +68,17 @@ public class RoomState implements Serializable{
 	}
 	public void setHistory(LinkedList<String> history) {
 		this.history = history;
+	}
+	public String getJoinStatus() {
+		return joinStatus;
+	}
+	public void setJoinStatus(String joinStatus) {
+		this.joinStatus = joinStatus;
+	}
+	public String getTurnStatus() {
+		return turnStatus;
+	}
+	public void setTurnStatus(String turnStatus) {
+		this.turnStatus = turnStatus;
 	}
 }
