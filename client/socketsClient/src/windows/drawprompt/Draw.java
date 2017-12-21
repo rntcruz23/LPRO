@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import server.SocketAPI;
 import user.User;
 import window.Window;
-import windows.lobby.Lobby;
 
 public class Draw extends Window {
 	/**
