@@ -60,19 +60,19 @@ public class Board {
 				}
 				else if(j == 7) { //black back row
 					if(i == 0 || i == 7) {
-						cells[i * 8 + j] = new Cell(i, j, 'R', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'R', Piece.color.black);
 					}
 					else if(i == 1 || i == 6) {
-						cells[i * 8 + j] = new Cell(i, j, 'N', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'N', Piece.color.black);
 					}
 					else if(i == 2 || i == 5) {
-						cells[i * 8 + j] = new Cell(i, j, 'B', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'B', Piece.color.black);
 					}
 					else if( i == 3) {
-						cells[i * 8 + j] = new Cell(i, j, 'Q', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'Q', Piece.color.black);
 					}
 					else if(i == 4) {
-						cells[i * 8 + j] = new Cell(i, j, 'K', Piece.color.white);
+						cells[i * 8 + j] = new Cell(i, j, 'K', Piece.color.black);
 					}
 				}
 			}

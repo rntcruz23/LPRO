@@ -9,35 +9,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JTextArea;
 import javax.swing.border.MatteBorder;
 
 public class BoardView {
 	private ImageIcon[] cell=new ImageIcon[2]; // 0 tem a cell black e 2 a cell white
-	//pieces- black
-	private ImageIcon king_b=createImageIcon("king_b.png"); 
-	private ImageIcon knight_b=createImageIcon("knight_b.png");
-	private ImageIcon pawn_b=createImageIcon("pawn_b.png");
-	private ImageIcon rook_b=createImageIcon("rook_b.png");
-	private ImageIcon queen_b=createImageIcon("queen_b.png"); 
-	private ImageIcon bishop_b=createImageIcon("bishop_b.png"); 
-	//pieces- white
-	private ImageIcon king_w=createImageIcon("king_w.png"); 
-	private ImageIcon knight_w=createImageIcon("knight_w.png");
-	private ImageIcon pawn_w=createImageIcon("pawn_w.png");
-	private ImageIcon rook_w=createImageIcon("rook_w.png");
-	private ImageIcon queen_w=createImageIcon("queen_w.png"); 
-	private ImageIcon bishop_w=createImageIcon("bishop_w.png"); 
 	private JLabel Label[][] = new JLabel[8][8];
 	private JLayeredPane panel;
 	private int select_pos[]={0,0};
 	private int[] pos= new int[2];
 	private int[] size_cell= {65,65};
 	private boolean state= false;
+	private GameView gameView;
 	private JLabel[][] matrix_pieces=new JLabel[8][8];
 
-	public BoardView(JLayeredPane panel,JTextArea History) {
+	public BoardView(JLayeredPane panel, GameView game) {
 		this.panel=panel;
+		setGameView(game);
 	}
 	public void create(JFrame frmChess) {
 		panel.setBorder(new MatteBorder(5, 5, 5, 5, (Color) Color.BLACK));
@@ -71,37 +58,38 @@ public class BoardView {
 		}	
 	}
 	public void listener() {
-		for(int i=0;i<8;i++) {
-			for(int u=0; u<8;u++) {
-				int x=i;
-				int y =u;
-				Label[i][u].addMouseListener(new MouseAdapter(){
+		int row,col;
+		for(row = 0; row < 8; row++) {
+			for(col = 0; col < 8; col++) {
+				int rows = row;
+				int cols = col;
+				Label[row][col].addMouseListener(new MouseAdapter(){
 					@Override
-					public void mouseClicked(MouseEvent arg0) {		
-						if(matrix_pieces[x][y].getIcon()!=null || state==true) {	
-							if(state==false) {	
-								select_pos[0]=x;
-								select_pos[1]=y;	
-								clikPiece(x,y);
-							}
-							else if(state==true)
-								clikMove(x, y);
-						}
+					public void mouseClicked(MouseEvent arg0) {			
+							if(state == false) clikPiece(rows, cols);
+							else if(state == true) clikMove(rows, cols);
 					}
 				});	
 			}
 		}
 	}
-	private void clikPiece(int x, int y){
-		Label[x][y].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.RED));	
+	private void clikPiece(int row, int col){
+		Label[row][col].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.RED));	
+		select_pos[0] = col;
+		select_pos[1] = row + 1;
 		state=true;
 	}
-	private void clikMove(int x, int y){
-		Label[x][y].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.GREEN));
+	private void clikMove(int row, int col){
+		Label[row][col].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.GREEN));
 		Label[select_pos[0]][select_pos[1]].setBorder(null);
 		state=false;
-		movePiece(select_pos[0],select_pos[1],x,y);
-		Label[x][y].setBorder(null);
+		//movePiece(select_pos[0],select_pos[1],x,y);
+		char xi = (char)(select_pos[0]+'a');
+		char xf = (char)(col+'a');
+		row = row + 1;
+		String move = "" + xi + select_pos[1] + xf + row;
+		gameView.getUser().sendCommand("m " + move);
+		Label[row][col].setBorder(null);
 	}
 	public void initPieces() {  
 		int x;
@@ -149,5 +137,11 @@ public class BoardView {
 			return new ImageIcon(imgUrl);
 		System.out.println("No file path " + path);
 		return null;	
+	}
+	public GameView getGameView() {
+		return gameView;
+	}
+	public void setGameView(GameView gameView) {
+		this.gameView = gameView;
 	}
 }

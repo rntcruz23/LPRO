@@ -331,7 +331,7 @@ public class GameView extends Window{
 		gbc_gameScreen.gridx = 0;
 		gbc_gameScreen.gridy = 0;
 		
-		board = new BoardView(gameScreen, historyArea);
+		board = new BoardView(gameScreen,this);
 		board.create(frmChess);
 		board.listener();
 		board.initPieces();
