@@ -162,6 +162,7 @@ public class Room extends Window implements Runnable{
 				server.getDb().changeinfo(username, password, currStats[0],currStats[1], currStats[2]+1);
 				setGameRunning(false);
 				setGameFinished(true);
+				setTurnStatus("Both players agreed to a draw");
 			} catch (SQLException e) {
 				System.out.println("Error updating stats");
 			}
