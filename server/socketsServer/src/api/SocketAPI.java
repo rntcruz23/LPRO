@@ -12,7 +12,7 @@ public class SocketAPI {
 		try {
 			OutputStream sc = destination.getOutputStream();
 			bc = toByte(output);
-			Thread.sleep(500);
+			Thread.sleep(100);
 			sc.write(bc);
 		} catch (IOException | InterruptedException e) {
 			System.out.println("Error writing to socket: "+e.getMessage());

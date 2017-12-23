@@ -9,6 +9,7 @@ import pieces.Knight;
 import pieces.Piece;
 import pieces.Queen;
 import pieces.Rook;
+import api.ColorsAPI;
 
 public class Board {
 	public Cell[] cells = new Cell[64];
@@ -853,6 +854,27 @@ public class Board {
 		}
 		System.out.println("  a b c d e f g h");
 	}
+	@Override
+	public String toString() {
+		String output = "";
+		for(int j = 0; j < 8; j++) {
+			for(int i = 0; i < 8; i++) {
+				String p;
+				String v;
+				if(cells[i * 8 + j].isEmpty()) {
+					p = "n";
+					v = ColorsAPI.colorToStringCell(cells[i * 8 + j].showColor())+"";
+					output+=p+v;
+				}
+				else {
+					p = cells[i * 8 + j].showPieceName()+"";
+					v = ColorsAPI.colorToString(cells[i * 8 + j].showPieceColor())+"";
+					output += p+v;
+				}
+			}
+		}
+		return output;
+	}
 	public void printBoardColor() {
 		for(int j = 7; j >= 0; j--) {
 			System.out.print((j + 1) + " ");
@@ -871,7 +893,7 @@ public class Board {
 			}
 			System.out.println((j + 1));
 		}
-	}
+	}	
 	public char getPromotion() {
 		Scanner in = new Scanner(System.in);
 		System.out.println("What piece do you want? (Q, R, N, B)");
@@ -910,8 +932,7 @@ public class Board {
 		System.out.print("stack size: ");
 		System.out.println(lastMovesInit.size());
 		
-	}
-	
+	}	
 	public boolean checkCheckMate(Piece.color attackingSide) {
 		Cell kingCell = null;
 		if(attackingSide == Piece.color.white) {
@@ -928,7 +949,7 @@ public class Board {
 			int[] finPos = {0,0};
 			for(int[] move : kingCell.showPiecePossibleMoves()) {
 				finPos[0] = kingCell.showPosition()[0] + move[0];
-				finPos[1] = kingCell.showPosition()[1] + move[2];
+				finPos[1] = kingCell.showPosition()[1] + move[1];
 				if(finPos[0] < 0 || finPos[0] > 7 || finPos[1] < 0 || finPos[1] > 7) {
 					continue;
 				}

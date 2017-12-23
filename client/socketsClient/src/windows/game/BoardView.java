@@ -81,9 +81,8 @@ public class BoardView {
 	}
 	private void clikMove(int row, int col){
 		Label[row][col].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.GREEN));
-		Label[select_pos[0]][select_pos[1]].setBorder(null);
+		Label[select_pos[0]][select_pos[1] - 1].setBorder(null);
 		state=false;
-		//movePiece(select_pos[0],select_pos[1],x,y);
 		char xi = (char)(select_pos[0]+'a');
 		char xf = (char)(col+'a');
 		row = row + 1;
@@ -115,9 +114,9 @@ public class BoardView {
 				col = (i / 2) % 8;
 				row = Math.floorDiv(i, 16);
 				String piece = board.charAt(i)+"";
-				if(piece.equals("n")) continue;
 				String color = board.charAt(i+1)+"";
-				matrix_pieces[row][col].setIcon(createImageIcon(piece+color+".png"));
+				ImageIcon img = piece.equals("n")?null:createImageIcon(piece+color+".png");
+				matrix_pieces[row][col].setIcon(img);
 		}
 	}
 	private void movePiece(int inicial_x, int inicial_y, int final_x, int final_y) {

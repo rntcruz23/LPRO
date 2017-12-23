@@ -23,7 +23,7 @@ public class RoomState implements Serializable{
 		SocketAPI.writeToSocket(user.getUser().getSocket(), "s");
 		RoomState roomstate = getRoomState(room);
 		try {
-			Thread.sleep(500);
+			Thread.sleep(100);
 			user.getOut().writeObject(roomstate);
 			System.out.println("State sent to user");
 		}

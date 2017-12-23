@@ -4,8 +4,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
 
-import api.ListAPI;
-import api.SocketAPI;
+import api.*;
 import board.Board;
 import pieces.Piece;
 import room.features.Chat;
@@ -55,7 +54,7 @@ public class Room extends Window implements Runnable{
 		if(players.remove(user) && !spectators.isEmpty()) {
 			UserThread nP = spectators.removeFirst();
 			players.add(nP);
-			char t = colorToString(user.getUser().getTurn());
+			char t = ColorsAPI.colorToString(user.getUser().getTurn());
 			SocketAPI.writeToSocket(nP.getUser().getSocket(), "p "+t);
 			
 		}else {
@@ -83,7 +82,7 @@ public class Room extends Window implements Runnable{
 		setJoinStatus(newUser+" joined");
 		RoomState.sendRoom(players,this);
 		RoomState.sendRoom(viewers,this);
-		SocketAPI.writeToSocket(user.getUser().getSocket(), "b "+board.printBoard(Piece.color.white));
+		SocketAPI.writeToSocket(user.getUser().getSocket(), "b "+board.toString());
 		gameRunning = players.size() == 2;
 	}
 	@Override 
@@ -145,6 +144,8 @@ public class Room extends Window implements Runnable{
 			break;
 		case 'a':
 			drawGame();
+			RoomState.sendRoom(players,this);
+			RoomState.sendRoom(viewers,this);
 			break;
 		case 'f':
 			informTurn();
@@ -181,21 +182,26 @@ public class Room extends Window implements Runnable{
 		int[][] movement = inputInt(move);
 		sendBoard();
 		board.printBoard(getTurn());
-		if(board.move(movement[0],movement[1])) {
-			if(board.checkCheck(getTurn())) System.out.println(colorToString(color)+" king is in check");
-			setTurn(getOp(color));
-			setTurnStatus(getTurn()+" turn");
+		if(board.move(movement[0],movement[1],color)) {
+			if(board.checkCheck(getTurn())) System.out.println(ColorsAPI.colorToString(color)+" king is in check");
+			String turnStatus = getTurn()+" turn";
+			if(board.checkCheckMate(getTurn())) {
+				System.out.println(ColorsAPI.colorToString(color)+" king is in check mate");
+				turnStatus = ColorsAPI.colorToString(color)+" king is in check mate";
+				gameRunning = false;
+			}
+			history.broadcast(ColorsAPI.colorToString(color) + ": " + move);
+			setTurn(ColorsAPI.getOp(color));
+			setTurnStatus(turnStatus);
 			RoomState.sendRoom(players,this);
 			RoomState.sendRoom(viewers,this);
 			informTurn();
-			history.broadcast(move);
 		}
 		board.printBoard(getTurn());
 		sendBoard();
 	}
 	public int[][] inputInt(String string) {
 		if(string.length() != 4) return null;
-		
 		int[] init = new int[2];
 		int[] fin = new int[2];
 		init[0] = string.charAt(0) - 'a';
@@ -204,13 +210,8 @@ public class Room extends Window implements Runnable{
 		fin[1] = string.charAt(3) - '1';		
 		return new int[][] {init, fin};
 	}
-	public Piece.color getOp(Piece.color color){
-		if(color == Piece.color.white) return Piece.color.black;
-		if(color == Piece.color.black) return Piece.color.white;
-		return null;
-	}
 	public void sendBoard() {
-		String output = "b "+board.printBoard(Piece.color.white);
+		String output = "b "+board.toString();
 		lock();
 		ListAPI.writeToList(players,output);
 		ListAPI.writeToList(viewers,output);
@@ -223,13 +224,8 @@ public class Room extends Window implements Runnable{
 		ListAPI.writeToList(players,output);
 		unlock();
 	}
-	public char colorToString(Piece.color color) {
-		if(color == Piece.color.white) return 'w';
-		if(color == Piece.color.black) return 'b';
-		return 'u';
-	}
 	public char turnToString() {
-		return colorToString(turn);
+		return ColorsAPI.colorToString(turn);
 	}
 	public LinkedList<UserThread> getPlayers() {
 		return players;
