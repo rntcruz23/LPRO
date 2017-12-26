@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,6 +25,7 @@ import window.Window;
 import windows.create.CreateAcc;
 import windows.lobby.Lobby;
 import windows.login.Login;
+import java.awt.GridLayout;
 
 public class LandingScreen extends Window{
 	/**
@@ -39,10 +41,14 @@ public class LandingScreen extends Window{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+	    //JFrame frmChess=new JFrame();
 		frmChess.setResizable(false);
-		frmChess.setBounds(100, 100, 812, 546);
+		frmChess.setBounds(300, 100, 812, 546);
 		frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmChess.getContentPane().setLayout(new BorderLayout(0, 0));
+	frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(LandingScreen.class.getResource("FreeChessKing.png")));
+		
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(240, 240, 240), new Color(255, 255, 255), new Color(105, 105, 105), new Color(160, 160, 160)), new LineBorder(new Color(180, 180, 180), 6)), "Enter Lobby", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -160,7 +166,19 @@ public class LandingScreen extends Window{
 		gbc_btnExit.gridy = 7;
 		panel.add(btnExit, gbc_btnExit);
 		
-		JPanel panel_1 = new JPanel();
-		frmChess.getContentPane().add(panel_1, BorderLayout.EAST);
+		JPanel panel_2 = new JPanel();
+		frmChess.getContentPane().add(panel_2, BorderLayout.CENTER);
+		panel_2.setLayout(null);
+	
+		
+		Animation t= new Animation();
+		//frmChess.getContentPane().add(t, BorderLayout.CENTER);
+		//t.setLayout(null);
+		
+		
+		panel_2.add(t);
+		  Thread thread1 = new Thread(t, "Thread 1");
+			 thread1.start();
+			 
 	}
 }

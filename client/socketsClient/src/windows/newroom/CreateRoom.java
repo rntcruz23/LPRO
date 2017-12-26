@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -15,6 +16,7 @@ import javax.swing.JTextField;
 
 import server.SocketAPI;
 import window.Window;
+import windows.landing.LandingScreen;
 import windows.lobby.Lobby;
 
 import java.awt.event.ActionListener;
@@ -43,6 +45,7 @@ public class CreateRoom extends Window{
 	private void initialize() {
 		frmChess.setResizable(false);
 		frmChess.setBounds(100, 100, 450, 178);
+		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(CreateRoom.class.getResource("FreeChessKing.png")));
 		frmChess.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		JPanel panel = new JPanel();
 		frmChess.getContentPane().add(panel, BorderLayout.CENTER);

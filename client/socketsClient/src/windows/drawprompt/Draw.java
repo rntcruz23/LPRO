@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import server.SocketAPI;
 import user.User;
 import window.Window;
+import windows.landing.LandingScreen;
 
 public class Draw extends Window {
 	/**
@@ -33,6 +35,7 @@ public class Draw extends Window {
 	private void initialize() {
 		getFrmChess().setResizable(false);
 		getFrmChess().setBounds(100, 100, 450, 300);
+		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Draw.class.getResource("FreeChessKing.png")));
 		getFrmChess().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();

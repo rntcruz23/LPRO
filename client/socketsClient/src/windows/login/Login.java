@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,7 @@ import javax.swing.UIManager;
 
 import server.SocketAPI;
 import window.Window;
+import windows.landing.LandingScreen;
 
 public class Login extends Window{
 	private JPasswordField passField;
@@ -50,6 +52,7 @@ public class Login extends Window{
 		frmChess.setResizable(false);
 		frmChess.setAlwaysOnTop(true);
 		frmChess.setBounds(100, 100, 461, 310);
+		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(LandingScreen.class.getResource("FreeChessKing.png")));
 		frmChess.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel login = new JPanel();

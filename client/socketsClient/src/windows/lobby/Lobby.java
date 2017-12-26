@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -61,6 +62,7 @@ public class Lobby extends Window{
 	private void initialize() {
 		frmChess.setResizable(false);
 		frmChess.setBounds(100, 100, 963, 658);
+		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Lobby.class.getResource("FreeChessKing.png")));
 		frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel roomsPanel = new JPanel();

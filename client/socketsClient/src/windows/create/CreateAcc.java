@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.Window.Type;
 
 import javax.swing.Box;
@@ -20,6 +21,8 @@ import javax.swing.UIManager;
 
 import server.SocketAPI;
 import window.Window;
+import windows.landing.LandingScreen;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -50,6 +53,7 @@ public class CreateAcc extends Window{
 		frmChess.setResizable(false);
 		frmChess.setAlwaysOnTop(true);
 		frmChess.setBounds(100, 100, 461, 310);
+		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(CreateAcc.class.getResource("FreeChessKing.png")));
 		frmChess.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel signin = new JPanel();

@@ -9,12 +9,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import window.Window;
+import windows.landing.LandingScreen;
 import windows.lobby.Lobby;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Toolkit;
 
 public class Stats extends Window{
 	private JLabel drawsValue;
@@ -52,6 +54,7 @@ public class Stats extends Window{
 		frmChess = new JFrame();
 		
 		JPanel panel_1 = new JPanel();
+		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Stats.class.getResource("FreeChessKing.png")));
 		frmChess.getContentPane().add(panel_1, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{143, 41, 34, 45, 0};

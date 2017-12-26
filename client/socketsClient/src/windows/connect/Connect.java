@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,6 +28,7 @@ public class Connect extends Window{
 	private JTextField portField;
 	private Client client;
 	private JLabel statusLbl;
+	
 	/**
 	 * Create the application.
 	 */
@@ -42,6 +44,7 @@ public class Connect extends Window{
 	private void initialize() {
 		frmChess.setResizable(false);
 		frmChess.setBounds(100, 100, 450, 300);
+		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(	Connect.class.getResource("FreeChessKing.png")));
 		frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
