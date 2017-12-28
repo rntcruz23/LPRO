@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
 
-import api.*;
+import api.ColorsAPI;
+import api.ListAPI;
+import api.SocketAPI;
 import board.Board;
 import pieces.Piece;
 import room.features.Chat;
@@ -46,44 +48,9 @@ public class Room extends Window implements Runnable{
 		chat = new Chat(viewers,players,this);
 		setTurn(Piece.color.white);
 		setTurnStatus(getTurn()+" turn");
-		addUser(player1);
+		UsersHandler.addUser(this,player1);
 		setGameRunning(false);
 		setGameFinished(false);
-	}
-	public void remUser(UserThread user) {
-		if(players.remove(user) && !spectators.isEmpty()) {
-			UserThread nP = spectators.removeFirst();
-			players.add(nP);
-			char t = ColorsAPI.colorToString(user.getUser().getTurn());
-			SocketAPI.writeToSocket(nP.getUser().getSocket(), "p "+t);
-			
-		}else {
-			spectators.remove(user);
-			guests.remove(user);
-			viewers.remove(user);
-		}
-		server.getLob().getUsers().add(user);
-		user.setRoom(server.getLob());
-		gameRunning = players.size() == 2;
-	}
-	public void addUser(UserThread user) {
-		String newUser = "guest";
-		if(user.getUser().getType() == 'g') {
-			guests.add(user);
-			viewers.add(user);
-			SocketAPI.writeToSocket(user.getUser().getSocket(),"j s g");
-		}
-		else{
-			if(players.size() < 2)
-				newPlayer(user);
-			else newSpec(user);
-			newUser = user.getUser().getName();
-		}
-		setJoinStatus(newUser+" joined");
-		RoomState.sendRoom(players,this);
-		RoomState.sendRoom(viewers,this);
-		SocketAPI.writeToSocket(user.getUser().getSocket(), "b "+board.toString());
-		gameRunning = players.size() == 2;
 	}
 	@Override 
  	public void run(){
@@ -100,20 +67,6 @@ public class Room extends Window implements Runnable{
 		ListAPI.terminateList(players);
 		ListAPI.terminateList(viewers);
 		unlock();
-	}
-	public void newSpec(UserThread user) {
-		SocketAPI.writeToSocket(user.getUser().getSocket(),"j s s");
-		spectators.add(user);
-		viewers.add(user);
-	}
-	public void newPlayer(UserThread user) {
-		SocketAPI.writeToSocket(user.getUser().getSocket(),"j s p");
-		players.add(user);
-		char t;
-		if(players.size() == 1)
-			t = 'w';
-		else t = 'b';
-		SocketAPI.writeToSocket(user.getUser().getSocket(),"t "+t);
 	}
 	public void prepPlayers() {
 		players.get(0).setRoom(this);
@@ -136,45 +89,31 @@ public class Room extends Window implements Runnable{
 			playC(color,input.substring(2,input.length()));
 			break;
 		case 'x':
-			remUser(user);
+			UsersHandler.remUser(this,user);
 			break;
 		case 'd':
 			UserThread op = getOpponent(user);
-			promptDraw(op);
+			GameResultHandler.promptDraw(op);
 			break;
 		case 'a':
-			drawGame();
-			RoomState.sendRoom(players,this);
-			RoomState.sendRoom(viewers,this);
+			GameResultHandler.drawGame(this);
+			UsersHandler.broadcastState(this,players,viewers);
 			break;
 		case 'f':
-			informTurn();
+			if(gameRunning) {
+				GameResultHandler.playerDefeated(this,user);
+				GameResultHandler.playerWin(this,getOpponent(user));
+				UsersHandler.broadcastState(this,players,viewers);
+				gameRunning = false;
+				gameFinished = true;
+			}
 			break;
 		default: informTurn();
 		}
 	}
-	public void drawGame() {
-		for(UserThread user: players) {
-			String username = user.getUser().getName();
-			String password = user.getUser().getPassword();
-			int[] currStats;
-			try {
-				currStats = server.getDb().getinfo(username,password);
-				server.getDb().changeinfo(username, password, currStats[0],currStats[1], currStats[2]+1);
-				setGameRunning(false);
-				setGameFinished(true);
-				setTurnStatus("Both players agreed to a draw");
-			} catch (SQLException e) {
-				System.out.println("Error updating stats");
-			}
-		}
-	}
-	void promptDraw(UserThread user) {
-		SocketAPI.writeToSocket(user.getUser().getSocket(),"d");
-	}
 	public UserThread getOpponent(UserThread user) {
 		int index = players.indexOf(user);
-		return players.get(index^1);
+		return (players.size() < 2)?null:players.get(index^1);
 	}
 	public void playC(Piece.color color,String move) {
 		if(!gameRunning) return;
@@ -193,8 +132,7 @@ public class Room extends Window implements Runnable{
 			history.broadcast(ColorsAPI.colorToString(color) + ": " + move);
 			setTurn(ColorsAPI.getOp(color));
 			setTurnStatus(turnStatus);
-			RoomState.sendRoom(players,this);
-			RoomState.sendRoom(viewers,this);
+			UsersHandler.broadcastState(this,players,viewers);
 			informTurn();
 		}
 		board.printBoard(getTurn());

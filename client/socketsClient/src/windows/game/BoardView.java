@@ -66,8 +66,8 @@ public class BoardView {
 				Label[row][col].addMouseListener(new MouseAdapter(){
 					@Override
 					public void mouseClicked(MouseEvent arg0) {			
-							if(state == false) clikPiece(rows, cols);
-							else if(state == true) clikMove(rows, cols);
+							if(!state) clikPiece(rows, cols);
+							else clikMove(rows, cols);
 					}
 				});	
 			}

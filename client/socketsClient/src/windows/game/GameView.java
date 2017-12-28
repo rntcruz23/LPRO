@@ -247,6 +247,11 @@ public class GameView extends Window{
 		exit.add(turnLabel, gbc_turnLabel);
 
 		JButton forfitButton = new JButton("Give Up");
+		forfitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				getUser().sendCommand("f");
+			}
+		});
 		GridBagConstraints gbc_forfitButton = new GridBagConstraints();
 		gbc_forfitButton.insets = new Insets(0, 0, 5, 5);
 		gbc_forfitButton.gridx = 23;

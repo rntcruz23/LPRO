@@ -36,7 +36,7 @@ public class Lobby extends Window implements Runnable{
 				String name = input.substring(2, input.length());
 				if(checkRoom(name)) {
 					Room r = getRoom(name);
-					r.addUser(user);
+					UsersHandler.addUser(r,user);
 					user.setRoom(r);
 				}
 				else SocketAPI.writeToSocket(user.getUser().getSocket(),"j u "+name);
