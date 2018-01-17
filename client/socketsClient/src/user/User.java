@@ -17,7 +17,6 @@ import windows.login.Login;
 public class User {
 	protected Client client;
 	private String name;
-	
 	private String password;
 	private Window window;
 	private Window backWindow;
