@@ -5,6 +5,7 @@ import java.util.concurrent.locks.Condition;
 
 import api.ColorsAPI;
 import api.ListAPI;
+import api.SocketAPI;
 import board.Board;
 import pieces.Piece;
 import room.features.Chat;
@@ -41,12 +42,12 @@ public class Room extends Window implements Runnable{
 		setViewers(new LinkedList<UserThread>());
 		setBoard(new Board());
 		setRoomName(name);
-		setRoomEmpty(false);
 		history = new History(viewers,players,this);
 		chat = new Chat(viewers,players,this);
 		setTurn(Piece.color.white);
 		setTurnStatus(getTurn()+" turn");
 		UsersHandler.addUser(this,player1);
+		setRoomEmpty(false);
 		setGameRunning(false);
 		setGameFinished(false);
 	}
@@ -147,9 +148,14 @@ public class Room extends Window implements Runnable{
 		return new int[][] {init, fin};
 	}
 	public void sendBoard() {
-		String output = "b "+board.toString();
+		String output = "b ";
+		String black = output+board.toString(Piece.color.black)+"";
+		output += board.toString(Piece.color.white)+"";
+		System.out.println(output);
 		lock();
-		ListAPI.writeToList(players,output);
+		SocketAPI.writeToSocket(players.get(0).getUser().getSocket(), output);
+		if (players.size() > 1)
+			SocketAPI.writeToSocket(players.get(1).getUser().getSocket(), black);
 		ListAPI.writeToList(viewers,output);
 		unlock();
 	}

@@ -31,7 +31,7 @@ public class UsersHandler {
 		server.getLob().getUsers().add(user);
 		user.setRoom(server.getLob());
 		room.setGameRunning(players.size() == 2);
-		room.setTurnStatus(user.getUser().getName()+" left the room");
+		room.setJoinStatus(user.getUser().getName()+" left the room");
 	}
 	public static void addUser(Room room, UserThread user) {
 		LinkedList<UserThread> players = room.getPlayers();
@@ -51,7 +51,7 @@ public class UsersHandler {
 		}
 		room.setJoinStatus(newUser+" joined");
 		UsersHandler.broadcastState(room,players,viewers);
-		SocketAPI.writeToSocket(user.getUser().getSocket(), "b "+room.getBoard().toString());
+		room.sendBoard();
 		room.setGameRunning(players.size() == 2);
 	}
 	public static void newSpec(LinkedList<UserThread> spectators,LinkedList<UserThread> viewers, UserThread user) {

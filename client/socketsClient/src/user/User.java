@@ -150,8 +150,8 @@ public class User {
 		if(roomEmpty)
 			joinStatus = "Room is empty";
 		g.getTurnLabel().setText(turnStatus);
-		g.getJoinLabel().setText(joinStatus);
-		
+		//g.getJoinLabel().setText(joinStatus);
+		addToChat("*********-"+joinStatus+"-*********");
 		g.getLblGameRoom().setText(roomName);
 		for(String move : history) {
 			g.getHistoryArea().append(move);

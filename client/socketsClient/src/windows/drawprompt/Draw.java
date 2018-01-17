@@ -36,7 +36,6 @@ public class Draw extends Window {
 		getFrmChess().setResizable(false);
 		getFrmChess().setBounds(100, 100, 450, 300);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Draw.class.getResource("FreeChessKing.png")));
-		getFrmChess().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		getFrmChess().getContentPane().add(panel, BorderLayout.CENTER);
