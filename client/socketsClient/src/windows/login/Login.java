@@ -53,7 +53,6 @@ public class Login extends Window{
 		frmChess.setAlwaysOnTop(true);
 		frmChess.setBounds(100, 100, 461, 310);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(LandingScreen.class.getResource("FreeChessKing.png")));
-		frmChess.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel login = new JPanel();
 		frmChess.getContentPane().add(login, BorderLayout.CENTER);

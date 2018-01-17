@@ -43,7 +43,6 @@ public class LandingScreen extends Window{
 	    //JFrame frmChess=new JFrame();
 		frmChess.setResizable(false);
 		frmChess.setBounds(300, 100, 812, 546);
-		frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmChess.getContentPane().setLayout(new BorderLayout(0, 0));
 	frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(LandingScreen.class.getResource("FreeChessKing.png")));
 		

@@ -91,7 +91,7 @@ public class GameView extends Window{
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(GameView.class.getResource("FreeChessKing.png")));
 		frmChess.setTitle("Chess Game");
 		frmChess.setBounds(100, 100, 1024, 700);
-		
+
 		JPanel exit = new JPanel();
 		getFrmChess().getContentPane().add(exit, BorderLayout.SOUTH);
 		GridBagLayout gbl_exit = new GridBagLayout();

@@ -63,7 +63,6 @@ public class Lobby extends Window{
 		frmChess.setResizable(false);
 		frmChess.setBounds(100, 100, 963, 658);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Lobby.class.getResource("FreeChessKing.png")));
-		frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel roomsPanel = new JPanel();
 		roomsPanel.setBorder(new TitledBorder(new CompoundBorder(new BevelBorder(BevelBorder.LOWERED, null, null, new Color(192, 192, 192), new Color(192, 192, 192)), new LineBorder(new Color(0, 0, 0))), "Room List", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
