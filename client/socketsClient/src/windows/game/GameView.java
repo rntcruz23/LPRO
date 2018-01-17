@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -99,8 +98,8 @@ public class GameView extends Window{
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(GameView.class.getResource("FreeChessKing.png")));
 		frmChess.setTitle("Chess Game");
 		frmChess.setBounds(50, 50, 1024, 700);
-		frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+
 		JPanel exit = new JPanel();
 		getFrmChess().getContentPane().add(exit, BorderLayout.SOUTH);
 		GridBagLayout gbl_exit = new GridBagLayout();

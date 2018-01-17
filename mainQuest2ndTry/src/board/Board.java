@@ -814,43 +814,31 @@ public class Board {
 	}
 	public void printBoard(Piece.color side) {
 		System.out.println("  a b c d e f g h");
+		int start = 0;
+		int end = 7;
+		int offset = 1;
 		if(side == Piece.color.white) {
-			for(int j = 7; j >= 0; j--) {
-				System.out.print((j + 1) + " ");
-				for(int i = 0; i < 8; i++) {
-					if(cells[i * 8 + j].isEmpty()) {
-						if(cells[i * 8 + j].showColor() == Cell.ccolor.white) {
-							System.out.print("  ");
-						}
-						else if(cells[i * 8 + j].showColor() == Cell.ccolor.black) {
-							System.out.print("X ");
-						}
-					}
-					else {
-						System.out.print(cells[i * 8 + j].showPieceName() + " ");
-					}
-				}
-				System.out.println((j + 1));
-			}
+			start = 7;
+			end = 0;
+			offset = -1;
 		}
-		else if(side == Piece.color.black) {
-			for(int j = 0; j < 8; j++) {
-				System.out.print((j + 1) + " ");
-				for(int i = 0; i < 8; i++) {
-					if(cells[i * 8 + j].isEmpty()) {
-						if(cells[i * 8 + j].showColor() == Cell.ccolor.white) {
-							System.out.print("  ");
-						}
-						else if(cells[i * 8 + j].showColor() == Cell.ccolor.black) {
-							System.out.print("X ");
-						}
+		while(start != end+offset) {
+			System.out.print((start + 1) + " ");
+			for(int i = 0; i < 8; i++) {
+				if(cells[i * 8 + start].isEmpty()) {
+					if(cells[i * 8 + start].showColor() == Cell.ccolor.white) {
+						System.out.print("  ");
 					}
-					else {
-						System.out.print(cells[i * 8 + j].showPieceName() + " ");
+					else if(cells[i * 8 + start].showColor() == Cell.ccolor.black) {
+						System.out.print("X ");
 					}
 				}
-				System.out.println((j + 1));
+				else {
+					System.out.print(cells[i * 8 + start].showPieceName() + " ");
+				}
 			}
+			System.out.println((start + 1));
+			start += offset;
 		}
 		System.out.println("  a b c d e f g h");
 	}

@@ -16,13 +16,17 @@ public class RoomState implements Serializable{
 	private boolean roomEmpty;
 	private String joinStatus;
 	private String turnStatus;
+	private String whitePlayer;
+	private String blackPlayer;
 	private LinkedList<String> history;
 	private static final long serialVersionUID = 1L;
 	public static void sendRoom(UserThread user,Room room) {
 		System.out.println("Sendind room state");
 		try {
-			SocketAPI.writeToSocket(user.getUser().getSocket(), "s");
 			Thread.sleep(100);
+			SocketAPI.writeToSocket(user.getUser().getSocket(), "spiroca");
+			Thread.sleep(500);
+			System.out.println("sending room: s");
 			RoomState roomstate = getRoomState(room);
 			user.getOut().writeObject(roomstate);
 			System.out.println("State sent to user");
@@ -37,6 +41,9 @@ public class RoomState implements Serializable{
 	}
 	public static RoomState getRoomState(Room room) {
 		RoomState roomstate = new RoomState();
+		roomstate.setWhitePlayer(room.getPlayers().get(0).getUser().getName());
+		String black = (room.getPlayers().size() > 1)?room.getPlayers().get(1).getUser().getName():"";
+		roomstate.setBlackPlayer(black);
 		roomstate.setHistory(room.getHistory().getPublicText());
 		roomstate.setRoomName(room.getRoomName());
 		roomstate.setRoomEmpty(room.isRoomEmpty());
@@ -80,5 +87,17 @@ public class RoomState implements Serializable{
 	}
 	public void setTurnStatus(String turnStatus) {
 		this.turnStatus = turnStatus;
+	}
+	public String getWhitePlayer() {
+		return whitePlayer;
+	}
+	public void setWhitePlayer(String whitePlayer) {
+		this.whitePlayer = whitePlayer;
+	}
+	public String getBlackPlayer() {
+		return blackPlayer;
+	}
+	public void setBlackPlayer(String blackPlayer) {
+		this.blackPlayer = blackPlayer;
 	}
 }

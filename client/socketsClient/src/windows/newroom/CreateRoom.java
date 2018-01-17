@@ -46,6 +46,7 @@ public class CreateRoom extends Window{
 		frmChess.setResizable(false);
 		frmChess.setBounds(100, 100, 450, 178);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(CreateRoom.class.getResource("FreeChessKing.png")));
+		
 		JPanel panel = new JPanel();
 		frmChess.getContentPane().add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
