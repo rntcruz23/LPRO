@@ -20,7 +20,10 @@ public class User {
 	private String password;
 	private Window window;
 	private Window backWindow;
-	public User(Client client) {
+	public User() {
+		
+	}
+ 	public User(Client client) {
 		setClient(client);
 	}
 	public Client getClient() {
@@ -33,23 +36,6 @@ public class User {
 		GameView room =(GameView) window;
 		room.getBoard().putPieces(command.substring(2,command.length()));
 		System.out.println("Finished");
-		/*
-		String rawBoardState = command.substring(2,command.length());
-		int line;
-		String letters = " ||a||b||c||d||e||f||g||h|\n";
-		room.getGame().setText(letters);
-		int nr = 1;
-		for (line = 64*2; line >= 16; line-=16) {
-			String row = rawBoardState.substring(line-16,line);
-			int col = 0;
-			room.getGame().append((nr++)+"|");
-			for(col = 0; col < 8; col++) {
-				String output = "|"+row.charAt(col*2) + "|";
-				room.getGame().append(output);
-			}
-			room.getGame().append("\n");
-		}	
-		*/
 	}
 	protected String getCommandsFromServer() {
 		try {
@@ -117,6 +103,7 @@ public class User {
 				setRoom(g);
 				setType(n,getName(),getPassword(),g);
 				valid = false;
+				g.manageButtons();
 			}
 			else {
 				JoinRoom j = (JoinRoom)getRoom();
@@ -145,6 +132,8 @@ public class User {
 			System.out.println("Room received");
 			valid = true;
 			break;
+		case 'e':
+			goodbye();
 		default: System.out.println("Unknown user command");
 		}
 		return valid;
@@ -276,6 +265,6 @@ public class User {
 			window.getFrmChess().setVisible(false);
 		if(backWindow != null) 
 			backWindow.getFrmChess().setVisible(false);
-		System.exit(0);
+		client.setConnected(false);
 	}
 }

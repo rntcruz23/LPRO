@@ -22,7 +22,6 @@ public class UsersHandler {
 			SocketAPI.writeToSocket(nP.getUser().getSocket(), "p "+t);
 			if(room.isGameRunning()) {
 				GameResultHandler.playerDefeated(room,user);
-				room.setTurnStatus(user.getUser().getName()+" left the game");
 			}
 		}else {
 			spectators.remove(user);
@@ -32,6 +31,7 @@ public class UsersHandler {
 		server.getLob().getUsers().add(user);
 		user.setRoom(server.getLob());
 		room.setGameRunning(players.size() == 2);
+		room.setTurnStatus(user.getUser().getName()+" left the room");
 	}
 	public static void addUser(Room room, UserThread user) {
 		LinkedList<UserThread> players = room.getPlayers();
@@ -45,14 +45,12 @@ public class UsersHandler {
 			SocketAPI.writeToSocket(user.getUser().getSocket(),"j s g");
 		}
 		else{
-			if(players.size() < 2)
-				newPlayer(players, user);
+			if(players.size() < 2) newPlayer(players, user);
 			else newSpec(spectators, viewers, user);
 			newUser = user.getUser().getName();
 		}
 		room.setJoinStatus(newUser+" joined");
-		RoomState.sendRoom(players,room);
-		RoomState.sendRoom(viewers,room);
+		UsersHandler.broadcastState(room,players,viewers);
 		SocketAPI.writeToSocket(user.getUser().getSocket(), "b "+room.getBoard().toString());
 		room.setGameRunning(players.size() == 2);
 	}

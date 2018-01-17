@@ -1,12 +1,10 @@
 package room;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
 
 import api.ColorsAPI;
 import api.ListAPI;
-import api.SocketAPI;
 import board.Board;
 import pieces.Piece;
 import room.features.Chat;
@@ -165,6 +163,7 @@ public class Room extends Window implements Runnable{
 	public char turnToString() {
 		return ColorsAPI.colorToString(turn);
 	}
+	
 	public LinkedList<UserThread> getPlayers() {
 		return players;
 	}

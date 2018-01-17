@@ -59,6 +59,7 @@ public class Landing extends Window implements Runnable{
 			case 'e':
 				users.remove(user);
 				SocketAPI.terminateConnection(user.getUser().getSocket());
+				SocketAPI.writeToSocket(user.getUser().getSocket(), "e");
 				server.updateOccupation(-1);
 				break;
 			default:System.out.println("Unknown commad");
@@ -69,6 +70,7 @@ public class Landing extends Window implements Runnable{
 		user.getUser().setPassword(info[1]);
 		server.getLob().getUsers().add(user);
 		user.setRoom(server.getLob());
+		users.remove(user);
 	}
 	public String[] getLogin(String input) {
 		input += " ";

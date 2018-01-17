@@ -16,8 +16,10 @@ public class Client {
 	private User user;
 	private WaitingInput wait;
 	private ObjectInputStream in;
+	private boolean connected;
 	public Client() {
 		System.out.println("New client");
+		setConnected(false);
 	}
 	public Socket getSocket() {
 		return socket;
@@ -33,6 +35,7 @@ public class Client {
 		InetAddress host = InetAddress.getByName(ip);
 		socket = new Socket(host,port);
 		System.out.println("Connection successful");
+		setConnected(true);
 		setIn(new ObjectInputStream(socket.getInputStream()));
 	}
 	public User getUser() {
@@ -53,5 +56,11 @@ public class Client {
 	}
 	public void setIn(ObjectInputStream in) {
 		this.in = in;
+	}
+	public boolean isConnected() {
+		return connected;
+	}
+	public void setConnected(boolean connected) {
+		this.connected = connected;
 	}
 }

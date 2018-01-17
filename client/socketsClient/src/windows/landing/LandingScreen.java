@@ -23,9 +23,7 @@ import javax.swing.border.TitledBorder;
 import server.SocketAPI;
 import window.Window;
 import windows.create.CreateAcc;
-import windows.lobby.Lobby;
 import windows.login.Login;
-import java.awt.GridLayout;
 
 public class LandingScreen extends Window{
 	/**
@@ -172,13 +170,14 @@ public class LandingScreen extends Window{
 	
 		
 		Animation t= new Animation();
-		//frmChess.getContentPane().add(t, BorderLayout.CENTER);
-		//t.setLayout(null);
+		/*
+		frmChess.getContentPane().add(t, BorderLayout.CENTER);
+		t.setLayout(null);
+		*/
 		
 		
 		panel_2.add(t);
-		  Thread thread1 = new Thread(t, "Thread 1");
-			 thread1.start();
-			 
+		Thread thread1 = new Thread(t, "Thread 1");
+		thread1.start();			 
 	}
 }

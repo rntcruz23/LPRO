@@ -24,6 +24,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import server.SocketAPI;
+import user.Guest;
+import user.Spectator;
 import user.User;
 import window.Window;
 import windows.lobby.Lobby;
@@ -35,6 +37,8 @@ public class GameView extends Window{
 	private JTextArea historyArea;
 	private JLabel lblGameRoom;
 	private JButton btnSend;
+	private JButton drawButton;
+	private JButton forfitButton;
 	private JLabel joinLabel;
 	private JLabel turnLabel;
 	private JTextArea speakArea;
@@ -246,7 +250,7 @@ public class GameView extends Window{
 		gbc_turnLabel.gridy = 1;
 		exit.add(turnLabel, gbc_turnLabel);
 
-		JButton forfitButton = new JButton("Give Up");
+		forfitButton = new JButton("Give Up");
 		forfitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getUser().sendCommand("f");
@@ -281,7 +285,7 @@ public class GameView extends Window{
 		gbc_horizontalStrut_1.gridy = 1;
 		exit.add(horizontalStrut_1, gbc_horizontalStrut_1);
 
-		JButton drawButton = new JButton("Offer Draw");
+		drawButton = new JButton("Offer Draw");
 		drawButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getUser().sendCommand("d");
@@ -353,10 +357,26 @@ public class GameView extends Window{
 	public void removeUserButtons() {
 		btnSend.setEnabled(false);
 	}
+	public void removePlayerButtons() {
+		drawButton.setEnabled(false);
+		forfitButton.setEnabled(false);
+	}
+	public void enablePlayerButtons() {
+		drawButton.setEnabled(true);
+		forfitButton.setEnabled(true);
+	}
 	public BoardView getBoard() {
 		return board;
 	}
 	public void setBoard(BoardView board) {
 		this.board = board;
+	}
+	public void manageButtons() {
+		if(getUser().getClass() == (new Spectator()).getClass())
+			removePlayerButtons();
+		else if (getUser().getClass() == (new Guest()).getClass()) {
+			removePlayerButtons();
+			removeUserButtons();
+		}
 	}
 }

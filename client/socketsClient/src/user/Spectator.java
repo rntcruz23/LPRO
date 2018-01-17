@@ -10,7 +10,10 @@ import windows.stats.Stats;
 public class Spectator extends User{
 	private String username;
 	private String password;
-	public Spectator(Client client) {
+	public Spectator() {
+	
+	}
+		public Spectator(Client client) {
 		super(client);
 	}
 	protected void chat(String message) {
@@ -43,6 +46,9 @@ public class Spectator extends User{
 			n.setTurn(t);
 			System.out.println("Player left, your turn: "+t);
 			setType(n,getName(),getPassword(),getRoom());
+			GameView play = (GameView)getRoom();
+			play.enablePlayerButtons();
+			play.getTurnLabel().setText("Player left, your turn: "+t);
 			break;
 		case 'y':
 			int[] stats = getStatsFromServer(com.substring(2,com.length()));

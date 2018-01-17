@@ -18,7 +18,7 @@ public class GameResultHandler {
 			server.getDb().changeinfo(username, password, currStats[0]+1,currStats[1], currStats[2]);
 			room.setGameRunning(false);
 			room.setGameFinished(true);
-			room.setTurnStatus(username+" won");
+			room.setTurnStatus(username+" won!");
 		} catch (SQLException e) {
 			System.out.println("Error updating stats");
 		}
@@ -53,6 +53,7 @@ public class GameResultHandler {
 		}
 	}
 	public static void promptDraw(UserThread user) {
-		SocketAPI.writeToSocket(user.getUser().getSocket(),"d");
+		if(user != null)
+			SocketAPI.writeToSocket(user.getUser().getSocket(),"d");
 	}
 }

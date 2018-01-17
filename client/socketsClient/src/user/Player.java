@@ -9,6 +9,9 @@ public class Player extends Spectator{
 	private Piece.color turn;
 	boolean play;
 	boolean inputReceived;
+	public Player() {
+		super();
+	}
 	public Player(Client client) {
 		super(client);
 	}
@@ -73,6 +76,7 @@ public class Player extends Spectator{
 				setBackWindow(getRoom());
 				setRoom(new Draw(this));
 				break;
+			
 			default: System.out.println("Unknown player command");
 		}
 		return false;

@@ -7,7 +7,7 @@ public class Main {
 		Client client = new Client();
 		Connect connectWindow = new Connect(client);
 		connectWindow.run();
-		while(true) {
+		while(client.isConnected()) {
 			Thread.yield();
 		}
 	}

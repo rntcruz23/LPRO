@@ -20,10 +20,10 @@ public class RoomState implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public static void sendRoom(UserThread user,Room room) {
 		System.out.println("Sendind room state");
-		SocketAPI.writeToSocket(user.getUser().getSocket(), "s");
-		RoomState roomstate = getRoomState(room);
 		try {
+			SocketAPI.writeToSocket(user.getUser().getSocket(), "s");
 			Thread.sleep(100);
+			RoomState roomstate = getRoomState(room);
 			user.getOut().writeObject(roomstate);
 			System.out.println("State sent to user");
 		}
