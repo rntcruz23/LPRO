@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.border.MatteBorder;
 
+import user.Player;
+import user.User;
+
 public class BoardView {
 	private ImageIcon[] cell=new ImageIcon[2]; // 0 tem a cell black e 2 a cell white
 	private JLabel Label[][] = new JLabel[8][8];
@@ -21,11 +24,13 @@ public class BoardView {
 	private int[] size_cell= {65,65};
 	private boolean state= false;
 	private GameView gameView;
+	private User user;
 	private JLabel[][] matrix_pieces=new JLabel[8][8];
 
 	public BoardView(JLayeredPane panel, GameView game) {
 		this.panel=panel;
 		setGameView(game);
+		user=game.getUser();
 	}
 	public void create(JFrame frmChess) {
 		panel.setBorder(new MatteBorder(5, 5, 5, 5, (Color) Color.BLACK));
@@ -75,24 +80,27 @@ public class BoardView {
 		}
 	}
 	private void clickPiece(int row, int col){
-		Label[move_pos[0]][move_pos[1]].setBorder(null);
-		Label[select_pos[0]][select_pos[1]].setBorder(null);
+		
+		if(user.getClass() == (new Player()).getClass()) {
+		Label[move_pos[1]][move_pos[0]].setBorder(null);
+		Label[select_pos[1]][select_pos[0]].setBorder(null);
 		
 		Label[row][col].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.RED));	
 		select_pos[0] = col;
 		select_pos[1] = row;
 		state=true;
+		}
 	}
 	private void clickMove(int row, int col){                                          // corrigir 
 		Label[row][col].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.GREEN));
-		move_pos[0]=row;
-		move_pos[1]=col;
+		move_pos[0]=col;
+		move_pos[1]=row;
 		state=false;
 		char xi = (char)(select_pos[0] +'a');
 		char xf = (char)(col+'a');
-		row = row + 1;
+		int y1 = row + 1;
 		int y=select_pos[1]+1;
-		String move = "" + xi + y + xf + row;
+		String move = "" + xi + y + xf + y1;
 		gameView.getUser().sendCommand("m " + move);	
 	}
 	public void initPieces() {  
