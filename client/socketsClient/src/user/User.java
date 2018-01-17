@@ -144,6 +144,8 @@ public class User {
 		String roomName = roomstate.getRoomName();
 		String joinStatus = roomstate.getJoinStatus();
 		String turnStatus = roomstate.getTurnStatus();
+		String white_player=roomstate.getWhitePlayer();
+		String black_player=roomstate.getBlackPlayer();
 		
 		boolean roomEmpty = roomstate.isRoomEmpty();
 		LinkedList<String> history = roomstate.getHistory();
@@ -153,10 +155,13 @@ public class User {
 		g.getTurnLabel().setText(turnStatus);
 		//g.getJoinLabel().setText(joinStatus);
 		addToChat("*********-"+joinStatus+"-*********");
-		g.getLblGameRoom().setText(roomName);
+		
 		//g.getJoinLabel().setText(joinStatus);
 		
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
+		
+		g.getlbl_white().setText(white_player);
+		g.getlbl_black().setText(black_player);
 
 		for(String move : history) {
 			g.getHistoryArea().append(move);

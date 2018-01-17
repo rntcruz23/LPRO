@@ -45,7 +45,7 @@ public class LandingScreen extends Window{
 		frmChess.setBounds(300, 100, 812, 546);
 		frmChess.getContentPane().setLayout(new BorderLayout(0, 0));
 	frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(LandingScreen.class.getResource("FreeChessKing.png")));
-		
+	frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(240, 240, 240), new Color(255, 255, 255), new Color(105, 105, 105), new Color(160, 160, 160)), new LineBorder(new Color(180, 180, 180), 6)), "Enter Lobby", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
