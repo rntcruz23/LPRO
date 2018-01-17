@@ -45,7 +45,7 @@ public class JoinRoom extends Window{
 		frmChess.setResizable(false);
 		frmChess.setBounds(100, 100, 450, 178);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(JoinRoom.class.getResource("FreeChessKing.png")));
-		frmChess.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 		
 		JPanel panel = new JPanel();
 		frmChess.getContentPane().add(panel, BorderLayout.CENTER);

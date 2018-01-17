@@ -110,7 +110,6 @@ public class Stats extends Window{
 		gbc_drawsValue.gridy = 3;
 		panel_1.add(drawsValue, gbc_drawsValue);
 		frmChess.setBounds(100, 100, 602, 388);
-		frmChess.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JPanel panel = new JPanel();
 		frmChess.getContentPane().add(panel, BorderLayout.SOUTH);

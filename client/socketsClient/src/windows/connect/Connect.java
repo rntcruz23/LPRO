@@ -45,7 +45,6 @@ public class Connect extends Window{
 		frmChess.setResizable(false);
 		frmChess.setBounds(100, 100, 450, 300);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(	Connect.class.getResource("FreeChessKing.png")));
-		frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		frmChess.getContentPane().add(panel, BorderLayout.CENTER);
