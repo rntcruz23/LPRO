@@ -75,8 +75,8 @@ public class BoardView {
 		}
 	}
 	private void clickPiece(int row, int col){
-		Label[move_pos[0]][move_pos[1]].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
-		Label[select_pos[0]][select_pos[1]].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+		Label[move_pos[0]][move_pos[1]].setBorder(null);
+		Label[select_pos[0]][select_pos[1]].setBorder(null);
 		
 		Label[row][col].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.RED));	
 		select_pos[0] = col;
