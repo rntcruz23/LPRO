@@ -46,6 +46,11 @@ public class GameView extends Window{
 	private JTextArea speakArea;
 	private JLabel lbl_white;
 	private JLabel lbl_black;
+	private JLabel lbl_nextPlayer;
+	
+	public JLabel getlbl_nextPlayer() {
+		return lbl_nextPlayer;
+	}
 	
 	public JLabel getlbl_white() {
 		return lbl_white;
@@ -332,22 +337,31 @@ public class GameView extends Window{
 		
 		lbl_white = new JLabel();
 		lbl_black = new JLabel();
+		lbl_nextPlayer = new JLabel();
 		lbl_white.setOpaque(true);
 		lbl_black.setOpaque(true);
+		lbl_nextPlayer.setOpaque(true);
+	
 		
 		lbl_white.setBackground(Color.WHITE);
 		lbl_white.setForeground(Color.BLACK);
+		lbl_nextPlayer.setForeground(Color.BLACK);
 		
 		lbl_black.setBackground(Color.BLACK);
+		lbl_white.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.WHITE));
 		lbl_black.setForeground(Color.WHITE);
+		lbl_black.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
 		
-		//g1.getPanel_2().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
+		lbl_nextPlayer.setBackground(Color.gray);
+		lbl_nextPlayer.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.gray));
 		
 		title.add(lbl_white,BorderLayout.WEST);
 		title.add(lbl_black,BorderLayout.EAST);
+		title.add(lbl_nextPlayer,BorderLayout.PAGE_START);
 		
 		lbl_white.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
 		lbl_black.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
+		lbl_nextPlayer.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
 
 		
 		JPanel game = new JPanel();

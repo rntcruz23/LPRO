@@ -146,6 +146,7 @@ public class User {
 		String turnStatus = roomstate.getTurnStatus();
 		String white_player=roomstate.getWhitePlayer();
 		String black_player=roomstate.getBlackPlayer();
+		String next_player=roomstate.getNextPlayer();
 		
 		boolean roomEmpty = roomstate.isRoomEmpty();
 		LinkedList<String> history = roomstate.getHistory();
@@ -162,6 +163,7 @@ public class User {
 		
 		g.getlbl_white().setText(white_player);
 		g.getlbl_black().setText(black_player);
+		g.getlbl_nextPlayer().setText(next_player);
 
 		for(String move : history) {
 			g.getHistoryArea().append(move);
