@@ -16,6 +16,7 @@ public class BoardView {
 	private JLabel Label[][] = new JLabel[8][8];
 	private JLayeredPane panel;
 	private int select_pos[]={0,0};
+	private int move_pos[]={0,0};
 	private int[] pos= new int[2];
 	private int[] size_cell= {65,65};
 	private boolean state= false;
@@ -66,29 +67,33 @@ public class BoardView {
 				Label[row][col].addMouseListener(new MouseAdapter(){
 					@Override
 					public void mouseClicked(MouseEvent arg0) {			
-							if(!state) clikPiece(rows, cols);
-							else clikMove(rows, cols);
+							if(!state) clickPiece(rows, cols);
+							else clickMove(rows, cols);
 					}
 				});	
 			}
 		}
 	}
-	private void clikPiece(int row, int col){
+	private void clickPiece(int row, int col){
+		Label[move_pos[0]][move_pos[1]].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+		Label[select_pos[0]][select_pos[1]].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+		
 		Label[row][col].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.RED));	
 		select_pos[0] = col;
-		select_pos[1] = row + 1;
+		select_pos[1] = row;
 		state=true;
 	}
-	private void clikMove(int row, int col){
+	private void clickMove(int row, int col){                                          // corrigir 
 		Label[row][col].setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.GREEN));
-		Label[select_pos[0]][select_pos[1] - 1].setBorder(null);
+		move_pos[0]=row;
+		move_pos[1]=col;
 		state=false;
-		char xi = (char)(select_pos[0]+'a');
+		char xi = (char)(select_pos[0] +'a');
 		char xf = (char)(col+'a');
 		row = row + 1;
-		String move = "" + xi + select_pos[1] + xf + row;
-		gameView.getUser().sendCommand("m " + move);
-		Label[row][col].setBorder(null);
+		int y=select_pos[1]+1;
+		String move = "" + xi + y + xf + row;
+		gameView.getUser().sendCommand("m " + move);	
 	}
 	public void initPieces() {  
 		int x;

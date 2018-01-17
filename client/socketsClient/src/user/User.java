@@ -50,6 +50,7 @@ public class User {
 		System.out.println("command: "+com);
 		boolean valid = false;
 		valid = threadSafe(com);
+		System.out.println("command_teste: "+command);
 		switch(command) {
 		case 'u':
 			String[] rooms = getRooms(com.substring(2,com.length()));
