@@ -89,6 +89,7 @@ public class Room extends Window implements Runnable{
 			break;
 		case 'x':
 			UsersHandler.remUser(this,user);
+			UsersHandler.broadcastState(this,players,viewers);
 			break;
 		case 'd':
 			UserThread op = getOpponent(user);

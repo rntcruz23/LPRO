@@ -154,7 +154,6 @@ public class User {
 		g.getTurnLabel().setText(turnStatus);
 		//g.getJoinLabel().setText(joinStatus);
 		addToChat("*********-"+joinStatus+"-*********");
-		g.getLblGameRoom().setText(roomName);
 		//g.getJoinLabel().setText(joinStatus);
 		
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
