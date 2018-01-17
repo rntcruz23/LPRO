@@ -1,5 +1,9 @@
 package user;
 
+import java.awt.Color;
+
+import javax.swing.border.MatteBorder;
+
 import client.Client;
 import pieces.Piece;
 import windows.drawprompt.Draw;
@@ -34,9 +38,17 @@ public class Player extends Spectator{
 		switch(c) {
 			case 'w':
 				setTurn(Piece.color.white);
+				GameView g = (GameView)getRoom();
+						g.getLblGameRoom().setBackground(Color.WHITE);
+						g.getLblGameRoom().setForeground(Color.BLACK);
+						g.getPanel_2().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.WHITE));
 			break;
 			case 'b':
 				setTurn(Piece.color.black);
+				GameView g1 = (GameView)getRoom();
+				g1.getLblGameRoom().setBackground(Color.BLACK);
+				g1.getLblGameRoom().setForeground(Color.WHITE);
+				g1.getPanel_2().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
 			break;
 			default: return false;
 		}

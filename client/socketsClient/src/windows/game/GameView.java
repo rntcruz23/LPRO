@@ -21,10 +21,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 
+import pieces.Piece;
 import server.SocketAPI;
 import user.Guest;
+import user.Player;
 import user.Spectator;
 import user.User;
 import window.Window;
@@ -42,6 +45,7 @@ public class GameView extends Window{
 	private JLabel joinLabel;
 	private JLabel turnLabel;
 	private JTextArea speakArea;
+	private JPanel panel_2;
 	public JLabel getJoinLabel() {
 		return joinLabel;
 	}
@@ -69,6 +73,9 @@ public class GameView extends Window{
 	public JTextArea getHistoryArea() {
 		return historyArea;
 	}
+	public JPanel getPanel_2() {
+		return panel_2;
+	}
 	public void setHistoryArea(JTextArea historyArea) {
 		this.historyArea = historyArea;
 	}
@@ -91,8 +98,8 @@ public class GameView extends Window{
 		frmChess.setResizable(false);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(GameView.class.getResource("FreeChessKing.png")));
 		frmChess.setTitle("Chess Game");
-		frmChess.setBounds(100, 100, 1024, 700);
-		
+		frmChess.setBounds(50, 50, 1024, 700);
+		frmChess.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel exit = new JPanel();
 		getFrmChess().getContentPane().add(exit, BorderLayout.SOUTH);
@@ -314,11 +321,13 @@ public class GameView extends Window{
 		JPanel title = new JPanel();
 		frmChess.getContentPane().add(title, BorderLayout.NORTH);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(UIManager.getBorder("CheckBox.border"));
+	    panel_2 = new JPanel();
+		panel_2.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
 		title.add(panel_2);
 		
-		lblGameRoom = new JLabel("Game Room");
+		lblGameRoom = new JLabel("PLAYER");
+		lblGameRoom.setOpaque(true);
+		
 		panel_2.add(lblGameRoom);
 		lblGameRoom.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
 
