@@ -44,7 +44,21 @@ public class GameView extends Window{
 	private JLabel joinLabel;
 	private JLabel turnLabel;
 	private JTextArea speakArea;
-	private JPanel panel_2;
+	private JLabel lbl_white;
+	private JLabel lbl_black;
+	private JLabel lbl_nextPlayer;
+	
+	public JLabel getlbl_nextPlayer() {
+		return lbl_nextPlayer;
+	}
+	
+	public JLabel getlbl_white() {
+		return lbl_white;
+	}
+	public JLabel getlbl_black() {
+		return lbl_black;
+	}
+	
 	public JLabel getJoinLabel() {
 		return joinLabel;
 	}
@@ -71,9 +85,6 @@ public class GameView extends Window{
 	}
 	public JTextArea getHistoryArea() {
 		return historyArea;
-	}
-	public JPanel getPanel_2() {
-		return panel_2;
 	}
 	public void setHistoryArea(JTextArea historyArea) {
 		this.historyArea = historyArea;
@@ -320,15 +331,37 @@ public class GameView extends Window{
 		JPanel title = new JPanel();
 		frmChess.getContentPane().add(title, BorderLayout.NORTH);
 		
-	    panel_2 = new JPanel();
-		panel_2.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
-		title.add(panel_2);
+	   
+		//panel_2.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
 		
-		lblGameRoom = new JLabel("PLAYER");
-		lblGameRoom.setOpaque(true);
 		
-		panel_2.add(lblGameRoom);
-		lblGameRoom.setFont(new Font("Baskerville Old Face", Font.PLAIN, 21));
+		lbl_white = new JLabel();
+		lbl_black = new JLabel();
+		lbl_nextPlayer = new JLabel();
+		lbl_white.setOpaque(true);
+		lbl_black.setOpaque(true);
+		lbl_nextPlayer.setOpaque(true);
+	
+		
+		lbl_white.setBackground(Color.WHITE);
+		lbl_white.setForeground(Color.BLACK);
+		lbl_nextPlayer.setForeground(Color.BLACK);
+		
+		lbl_black.setBackground(Color.BLACK);
+		lbl_white.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.WHITE));
+		lbl_black.setForeground(Color.WHITE);
+		lbl_black.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
+		
+		lbl_nextPlayer.setBackground(Color.gray);
+		lbl_nextPlayer.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.gray));
+		
+		title.add(lbl_white,BorderLayout.WEST);
+		title.add(lbl_black,BorderLayout.EAST);
+		title.add(lbl_nextPlayer,BorderLayout.PAGE_START);
+		
+		lbl_white.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
+		lbl_black.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
+		lbl_nextPlayer.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
 
 		
 		JPanel game = new JPanel();

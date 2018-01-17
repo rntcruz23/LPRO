@@ -17,7 +17,6 @@ import windows.login.Login;
 public class User {
 	protected Client client;
 	private String name;
-	
 	private String password;
 	private Window window;
 	private Window backWindow;
@@ -145,6 +144,9 @@ public class User {
 		String roomName = roomstate.getRoomName();
 		String joinStatus = roomstate.getJoinStatus();
 		String turnStatus = roomstate.getTurnStatus();
+		String white_player=roomstate.getWhitePlayer();
+		String black_player=roomstate.getBlackPlayer();
+		String next_player=roomstate.getNextPlayer();
 		
 		boolean roomEmpty = roomstate.isRoomEmpty();
 		LinkedList<String> history = roomstate.getHistory();
@@ -152,11 +154,11 @@ public class User {
 		if(roomEmpty)
 			joinStatus = "Room is empty";
 		g.getTurnLabel().setText(turnStatus);
-		//g.getJoinLabel().setText(joinStatus);
 		addToChat("*********-"+joinStatus+"-*********");
-		//g.getJoinLabel().setText(joinStatus);
-		
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
+		g.getlbl_white().setText(white_player);
+		g.getlbl_black().setText(black_player);
+		g.getlbl_nextPlayer().setText(next_player);
 
 		for(String move : history) {
 			g.getHistoryArea().append(move);
