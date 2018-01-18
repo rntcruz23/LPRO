@@ -29,6 +29,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import windows.lobby.Lobby;
+import java.awt.GridLayout;
+import javax.swing.SwingConstants;
 
 public class GameView {
 
@@ -268,10 +270,30 @@ public class GameView {
 		
 		JPanel title = new JPanel();
 		frmChess.getContentPane().add(title, BorderLayout.NORTH);
+		GridBagLayout gbl_title = new GridBagLayout();
+		gbl_title.columnWidths = new int[]{191, 504, 0};
+		gbl_title.rowHeights = new int[]{36, 0};
+		gbl_title.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_title.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		title.setLayout(gbl_title);
+		
+		JLabel lblNewLabel_1 = new JLabel("PLAYER");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setEnabled(false);
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_1.gridx = 0;
+		gbc_lblNewLabel_1.gridy = 0;
+		title.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(UIManager.getBorder("CheckBox.border"));
-		title.add(panel_2);
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.gridx = 1;
+		gbc_panel_2.gridy = 0;
+		title.add(panel_2, gbc_panel_2);
 		
 		JLabel lblGameRoom = new JLabel("Game Room");
 		panel_2.add(lblGameRoom);
