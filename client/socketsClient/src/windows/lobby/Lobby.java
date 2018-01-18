@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
@@ -96,17 +99,6 @@ public class Lobby extends Window{
 		
 		scrollPane.setViewportView(table_1);
 		
-		/*
-		textArea = new JTextArea();
-	
-		textArea.setEditable(false);
-		textArea.setColumns(50);
-		*/
-		
-		
-		
-		
-		
 		JPanel title = new JPanel();
 		frmChess.getContentPane().add(title, BorderLayout.NORTH);
 		
@@ -167,6 +159,20 @@ public class Lobby extends Window{
 		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
+		JTextField textField = new JTextField();
+		textField.setEditable(false);
+		textField.setFont(new Font("Tahoma", Font.BOLD, 14));
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setForeground(Color.RED);
+		textField.setBackground(SystemColor.menu);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.gridwidth = 3;
+		gbc_textField.insets = new Insets(0, 0, 0, 5);
+		gbc_textField.gridx = 0;
+		gbc_textField.gridy = 8;
+		panel_2.add(textField, gbc_textField);
+		textField.setColumns(10);
+		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();
 		gbc_verticalStrut_1.insets = new Insets(0, 0, 5, 5);
@@ -203,11 +209,26 @@ public class Lobby extends Window{
 		JButton btnJoinGame = new JButton("Join Game");
 		btnJoinGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JoinRoom frmGame = new JoinRoom();
-				frmGame.setUser(getUser());
-				getUser().setBackWindow(getUser().getRoom());
-				getUser().setRoom(frmGame);
-				frmGame.getFrmChess().setVisible(true);
+				
+				//JoinRoom frmGame = new JoinRoom();
+				//frmGame.setUser(getUser());
+				//getUser().setBackWindow(getUser().getRoom());
+				//getUser().setRoom(frmGame);
+				//frmGame.getFrmChess().setVisible(true);
+				
+				int i = table_1.getSelectedRow();
+				
+				if(i>=0) {
+				String room =(String) table_1.getValueAt(i, 0);
+				String query = "j "+room;
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(), query);
+				}
+				else {
+					textField.setText("Select a room!");
+					
+					
+				}
+				
 			}
 		});
 		btnJoinGame.setFont(new Font("Baskerville Old Face", Font.PLAIN, 15));
@@ -251,7 +272,7 @@ public class Lobby extends Window{
 		panel_2.add(verticalStrut_4, gbc_verticalStrut_4);
 		
 		JButton refresh = new JButton("");
-		refresh.setIcon(getScaledImage(new ImageIcon(Lobby.class.getResource("/images/swap-arrows-refresh.jpg")),20,20));
+		refresh.setIcon(getScaledImage(new ImageIcon(Lobby.class.getResource("/images/swap-arrows-refresh.jpg")),40,40));
 		refresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "u");

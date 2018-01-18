@@ -1,5 +1,6 @@
 package user;
 
+import java.awt.Cursor;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -110,9 +111,9 @@ public class User {
 				g.manageButtons();
 			}
 			else {
-				JoinRoom j = (JoinRoom)getRoom();
-				j.getStatus().setText("Error joining room");
-				System.out.println("Error joining");
+				//JoinRoom j = (JoinRoom)getRoom();
+				//j.getStatus().setText("Error joining room");
+				//System.out.println("Error joining");
 				valid = true;
 			}
 			break;
@@ -258,6 +259,9 @@ public class User {
 		  while(tok.hasMoreTokens()){  
 		 value[n++]  = tok.nextToken(); 	  
 		  }
+		  System.out.println(value[0]);
+		  System.out.println(value[2]);
+		    
 		  model.addRow(value);
 		}
 	
