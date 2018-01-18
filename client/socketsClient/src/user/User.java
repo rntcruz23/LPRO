@@ -3,6 +3,8 @@ package user;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
+import javax.swing.table.DefaultTableModel;
+
 import client.Client;
 import pieces.Piece;
 import room.RoomState;
@@ -15,6 +17,7 @@ import windows.lobby.Lobby;
 import windows.login.Login;
 
 public class User {
+	private static final Object[] Object = null;
 	protected Client client;
 	private String name;
 	private String password;
@@ -154,17 +157,13 @@ public class User {
 		if(roomEmpty)
 			joinStatus = "Room is empty";
 		g.getTurnLabel().setText(turnStatus);
-		//g.getJoinLabel().setText(joinStatus);
 		addToChat("*********-"+joinStatus+"-*********");
-		
-		//g.getJoinLabel().setText(joinStatus);
-		
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
 		
 		g.getlbl_white().setText(whitePlayer);
 		g.getlbl_black().setText(blackPlayer);
 		g.getlbl_nextPlayer().setText(nextPlayer);
-
+		
 		for(String move : history) {
 			g.getHistoryArea().append(move);
 		}
@@ -247,9 +246,21 @@ public class User {
 	}
 	public void printRooms(String[] rooms) {
 		Lobby l = (Lobby) getRoom();
-		l.getTextArea().setText("");
-		for(String room : rooms)
-			l.getTextArea().append(room+'\n');
+		
+	
+		for(String room : rooms) {	
+		DefaultTableModel model=(DefaultTableModel)  l.table().getModel(); 
+		StringTokenizer tok = new StringTokenizer(room,":");
+		
+		int n=0;
+			Object[] value=new Object[4];
+		
+		  while(tok.hasMoreTokens()){  
+		 value[n++]  = tok.nextToken(); 	  
+		  }
+		  model.addRow(value);
+		}
+	
 	}
 	public void addToChat(String speak) {
 		GameView room = (GameView) window;

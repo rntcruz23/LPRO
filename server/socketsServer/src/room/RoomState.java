@@ -18,6 +18,7 @@ public class RoomState implements Serializable{
 	private String turnStatus;
 	private String whitePlayer;
 	private String blackPlayer;
+	private String nextPlayer;
 	private LinkedList<String> history;
 	private static final long serialVersionUID = 1L;
 	public static void sendRoom(UserThread user,Room room) {
@@ -41,8 +42,10 @@ public class RoomState implements Serializable{
 	}
 	public static RoomState getRoomState(Room room) {
 		RoomState roomstate = new RoomState();
-		roomstate.setWhitePlayer(room.getPlayers().get(0).getUser().getName());
-		String black = (room.getPlayers().size() > 1)?room.getPlayers().get(1).getUser().getName():"";
+		roomstate.setWhitePlayer(room.getPlayers().get(0).getUser().getTurn()==Piece.color.white?room.getPlayers().get(0).getUser().getName():room.getPlayers().get(1).getUser().getName());
+		String black = (room.getPlayers().size() > 1)?(room.getPlayers().get(0).getUser().getTurn()==Piece.color.black?room.getPlayers().get(1).getUser().getName():room.getPlayers().get(0).getUser().getName()):"";
+		String next = (room.getSpectators().size() > 0)?room.getSpectators().getFirst().getUser().getName():"";
+		roomstate.setNextPlayer(next);
 		roomstate.setBlackPlayer(black);
 		roomstate.setHistory(room.getHistory().getPublicText());
 		roomstate.setRoomName(room.getRoomName());
@@ -99,5 +102,11 @@ public class RoomState implements Serializable{
 	}
 	public void setBlackPlayer(String blackPlayer) {
 		this.blackPlayer = blackPlayer;
+	}
+	public String getNextPlayer() {
+		return nextPlayer;
+	}
+	public void setNextPlayer(String nextPlayer) {
+		this.nextPlayer = nextPlayer;
 	}
 }

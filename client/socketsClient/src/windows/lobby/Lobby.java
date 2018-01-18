@@ -23,12 +23,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import server.SocketAPI;
 import window.Window;
@@ -42,6 +44,13 @@ public class Lobby extends Window{
 	private JButton btnStats;
 	private JButton btnNewRoom;
 	private JButton btnLogout;
+	private JTable table_1;
+	
+	
+	public JTable table() {
+		return table_1;
+	}
+	
 	public JTextArea getTextArea() {
 		return textArea;
 	}
@@ -64,6 +73,7 @@ public class Lobby extends Window{
 		frmChess.setBounds(100, 100, 963, 658);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Lobby.class.getResource("FreeChessKing.png")));
 		
+		
 		JPanel roomsPanel = new JPanel();
 		roomsPanel.setBorder(new TitledBorder(new CompoundBorder(new BevelBorder(BevelBorder.LOWERED, null, null, new Color(192, 192, 192), new Color(192, 192, 192)), new LineBorder(new Color(0, 0, 0))), "Room List", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		frmChess.getContentPane().add(roomsPanel, BorderLayout.WEST);
@@ -72,10 +82,30 @@ public class Lobby extends Window{
 		JScrollPane scrollPane = new JScrollPane();
 		roomsPanel.add(scrollPane);
 		
+		table_1 = new JTable();
+
+		DefaultTableModel model=new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Name Room", "Player", "Spectator", "Guest"
+				}
+			);
+		
+		table_1.setModel(model);
+		
+		scrollPane.setViewportView(table_1);
+		
+		/*
 		textArea = new JTextArea();
-		scrollPane.setViewportView(textArea);
+	
 		textArea.setEditable(false);
 		textArea.setColumns(50);
+		*/
+		
+		
+		
+		
 		
 		JPanel title = new JPanel();
 		frmChess.getContentPane().add(title, BorderLayout.NORTH);
