@@ -42,8 +42,8 @@ public class RoomState implements Serializable{
 	}
 	public static RoomState getRoomState(Room room) {
 		RoomState roomstate = new RoomState();
-		roomstate.setWhitePlayer(room.getPlayers().get(0).getUser().getTurn()==Piece.color.white?room.getPlayers().get(0).getUser().getName():room.getPlayers().get(1).getUser().getName());
-		String black = (room.getPlayers().size() > 1)?(room.getPlayers().get(0).getUser().getTurn()==Piece.color.black?room.getPlayers().get(1).getUser().getName():room.getPlayers().get(0).getUser().getName()):"";
+		roomstate.setWhitePlayer(UsersHandler.getColorPlayer(room, Piece.color.white).getUser().getName());
+		String black = (room.getPlayers().size() > 1)?(UsersHandler.getColorPlayer(room, Piece.color.black).getUser().getName()):"";
 		String next = (room.getSpectators().size() > 0)?room.getSpectators().getFirst().getUser().getName():"";
 		roomstate.setNextPlayer(next);
 		roomstate.setBlackPlayer(black);
