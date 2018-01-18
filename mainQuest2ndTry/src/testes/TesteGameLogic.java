@@ -65,6 +65,11 @@ public class TesteGameLogic {
 		board.cells[0 * 8 + 1].moveInPiece(piece2);
 		assertEquals(board.checkMoves(board.cells[8], finalPos), 2); //valid movement - diagonal movement to capture piece
 		board.cells[0 * 8 + 1].moveOutPiece();
+		Piece piece3 = new Queen(Piece.color.black);
+		board.cells[1 * 8 + 2].moveInPiece(piece3);
+		finalPos[0] = 1;
+		finalPos[1] = 2;
+		assertEquals(board.checkMoves(board.cells[8], finalPos), 0);
 	}
 	
 	@Test
