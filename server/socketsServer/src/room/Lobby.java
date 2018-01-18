@@ -79,7 +79,7 @@ public class Lobby extends Window implements Runnable{
 	public String listToString(LinkedList<Room> room) {
 		String output = "";
 		for(Room r: room)
-			output += r.getRoomName()+"|Players:"+ r.getPlayers().size() +"|Spectators:"+r.getSpectators().size()+"|Guests:"+r.getGuests().size()+" ";
+			output += r.getRoomName()+":"+ r.getPlayers().size() +":"+r.getSpectators().size()+":"+r.getGuests().size()+" ";
 		return output;
 	}
 	public Room getRoom(String name) {

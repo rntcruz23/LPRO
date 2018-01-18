@@ -118,6 +118,8 @@ public class Room extends Window implements Runnable{
 	public void playC(Piece.color color,String move) {
 		if(!gameRunning) return;
 		if(color != turn) return;
+		System.out.println(color);
+		if(turn == Piece.color.white) reverseInput(move);
 		int[][] movement = inputInt(move);
 		sendBoard();
 		board.printBoard(getTurn());
@@ -154,9 +156,9 @@ public class Room extends Window implements Runnable{
 		output += board.toString(Piece.color.white)+"";
 		System.out.println(output);
 		lock();
-		SocketAPI.writeToSocket(players.get(0).getUser().getSocket(), output);
+		SocketAPI.writeToSocket(UsersHandler.getColorPlayer(this, Piece.color.white).getUser().getSocket(), output);
 		if (players.size() > 1)
-			SocketAPI.writeToSocket(players.get(1).getUser().getSocket(), black);
+			SocketAPI.writeToSocket(UsersHandler.getColorPlayer(this, Piece.color.black).getUser().getSocket(), black);
 		ListAPI.writeToList(viewers,output);
 		unlock();
 	}
@@ -169,6 +171,14 @@ public class Room extends Window implements Runnable{
 	}
 	public char turnToString() {
 		return ColorsAPI.colorToString(turn);
+	}
+	public String reverseInput(String whiteMove) {
+		char xi = whiteMove.charAt(0);
+		char xf = whiteMove.charAt(2);
+		int yi = Math.abs(whiteMove.charAt(1) -'a' - 7) + 'a';
+		int yf = Math.abs(whiteMove.charAt(3) -'a' - 7) + 'a';
+		System.out.println("New y: "+yf);
+		return ""+xi+yi+xf+yf;
 	}
 	
 	public LinkedList<UserThread> getPlayers() {

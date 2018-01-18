@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import api.ColorsAPI;
 import api.SocketAPI;
+import pieces.Piece;
 import server.Server;
 import users.UserThread;
 
@@ -63,9 +64,14 @@ public class UsersHandler {
 		SocketAPI.writeToSocket(user.getUser().getSocket(),"j s p");
 		players.add(user);
 		char t;
-		if(players.size() == 1)
+		if(players.size() == 1) {
+			user.getUser().setTurn(Piece.color.white);
 			t = 'w';
-		else t = 'b';
+		}
+		else {
+			user.getUser().setTurn(Piece.color.black);
+			t = 'b';
+		}
 		SocketAPI.writeToSocket(user.getUser().getSocket(),"t "+t);
 	}
 	@SafeVarargs
@@ -73,5 +79,8 @@ public class UsersHandler {
 		for(LinkedList<UserThread> list:args) {
 			RoomState.sendRoom(list,room);
 		}
+	}
+	public static UserThread getColorPlayer(Room room, Piece.color color) {
+		return (room.getPlayers().get(0).getUser().getTurn()==color?room.getPlayers().get(0):room.getPlayers().get(1));
 	}
 }

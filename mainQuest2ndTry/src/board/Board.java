@@ -499,6 +499,9 @@ public class Board {
 								}
 							}
 							if(capturePiece) {
+								if(cell.showPieceName() == 'P') {
+									return 0;
+								}
 								return 4;
 							}
 							return 1; //valid movement
@@ -510,6 +513,9 @@ public class Board {
 								}
 							}
 							if(capturePiece) {
+								if(cell.showPieceName() == 'P') {
+									return 0;
+								}
 								return 4;
 							}
 							return 1; //valid movement
