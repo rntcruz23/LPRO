@@ -78,7 +78,7 @@ public class Lobby extends Window{
 	 */
 	private void initialize() {
 		frmChess.setResizable(false);
-		frmChess.setBounds(100, 100, 963, 658);
+		frmChess.setBounds(100, 100, 763, 658);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Lobby.class.getResource("FreeChessKing.png")));
 		
 		
@@ -91,6 +91,7 @@ public class Lobby extends Window{
 		roomsPanel.add(scrollPane);
 		
 		table_1 = new JTable();
+		table_1.setEnabled(false);
 		table_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		DefaultTableModel model=new DefaultTableModel(
 				new Object[][] {
@@ -103,7 +104,7 @@ public class Lobby extends Window{
 		table_1.setModel(model);
 		
 		scrollPane.setViewportView(table_1);
-		//table_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		
 		JPanel title = new JPanel();
 		frmChess.getContentPane().add(title, BorderLayout.NORTH);
 		
@@ -127,7 +128,7 @@ public class Lobby extends Window{
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
 		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
-		gbc_horizontalStrut.gridx = 0;
+		gbc_horizontalStrut.gridx = 1;
 		gbc_horizontalStrut.gridy = 1;
 		panel_1.add(horizontalStrut, gbc_horizontalStrut);
 		
@@ -149,16 +150,18 @@ public class Lobby extends Window{
 		gbc_btnLogout.gridy = 1;
 		panel_1.add(btnLogout, gbc_btnLogout);
 		
+		
 		Component verticalStrut = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
 		gbc_verticalStrut.gridx = 1;
-		gbc_verticalStrut.gridy = 2;
+		gbc_verticalStrut.gridy = 0;
 		panel_1.add(verticalStrut, gbc_verticalStrut);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(UIManager.getBorder("CheckBox.border"));
 		frmChess.getContentPane().add(panel_2, BorderLayout.EAST);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{120, 137, 99, 0};
+		gbl_panel_2.columnWidths = new int[]{85, 75, 50, 0};
 		gbl_panel_2.rowHeights = new int[]{177, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -171,20 +174,13 @@ public class Lobby extends Window{
 		textField.setForeground(Color.RED);
 		textField.setBackground(SystemColor.menu);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 3;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridwidth = 5;
+		gbc_textField.insets = new Insets(0, 0, 0, 5);
 		gbc_textField.gridx = 0;
 		gbc_textField.gridy = 0;
 		panel_2.add(textField, gbc_textField);
 		textField.setColumns(10);
-	/*
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();
-		gbc_verticalStrut_1.insets = new Insets(0, 0, 5, 5);
-		gbc_verticalStrut_1.gridx = 1;
-		gbc_verticalStrut_1.gridy = 0;
-		panel_2.add(verticalStrut_1, gbc_verticalStrut_1);
-	*/	
+	
 		
 		
 		ImageIcon bStats=getScaledImage(createImageIcon("button_stats.png"),120,50);
@@ -208,30 +204,6 @@ public class Lobby extends Window{
 			}
 		});
 		
-		/*
-		btnStats = new JButton("Stats");
-		Border line = new LineBorder(Color.BLACK);
-		 Border margin = new EmptyBorder(5, 15, 5, 15);
-		Border compound = new CompoundBorder(line, margin);
-		btnStats.setBorder(compound);
-		btnStats.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Stats frmStats = new Stats();
-				frmStats.setUser(getUser());
-				getUser().setBackWindow(getUser().getRoom());
-				getUser().setRoom(frmStats);
-				frmStats.getFrmChess().setVisible(true);
-				SocketAPI.writeToSocket(getUser().getClient().getSocket(),"y");
-			}
-		});
-		btnStats.setFont(new Font("Baskerville Old Face", Font.PLAIN, 15));
-		GridBagConstraints gbc_btnStats = new GridBagConstraints();
-		gbc_btnStats.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnStats.insets = new Insets(0, 0, 5, 5);
-		gbc_btnStats.gridx = 1;
-		gbc_btnStats.gridy = 1;
-		panel_2.add(btnStats, gbc_btnStats);
-		*/
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_2 = new GridBagConstraints();
 		gbc_verticalStrut_2.insets = new Insets(0, 0, 5, 5);
@@ -264,42 +236,7 @@ public class Lobby extends Window{
 					
 			}
 		});
-		
-		
-		
-		
-		/*
-		JButton btnJoinGame = new JButton("Join Game");
-		btnJoinGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				//JoinRoom frmGame = new JoinRoom();
-				//frmGame.setUser(getUser());
-				//getUser().setBackWindow(getUser().getRoom());
-				//getUser().setRoom(frmGame);
-				//frmGame.getFrmChess().setVisible(true);
-				
-				int i = table_1.getSelectedRow();
-				
-				if(i>=0) {
-				String room =(String) table_1.getValueAt(i, 0);
-				String query = "j "+room;
-				SocketAPI.writeToSocket(getUser().getClient().getSocket(), query);
-				}
-				else {
-					textField.setText("Select a room!");	
-				}
-				
-			}
-		});
-		btnJoinGame.setFont(new Font("Baskerville Old Face", Font.PLAIN, 15));
-		GridBagConstraints gbc_btnJoinGame = new GridBagConstraints();
-		gbc_btnJoinGame.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnJoinGame.insets = new Insets(0, 0, 5, 5);
-		gbc_btnJoinGame.gridx = 1;
-		gbc_btnJoinGame.gridy = 3;
-		panel_2.add(btnJoinGame, gbc_btnJoinGame);
-		*/
+
 			
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_3 = new GridBagConstraints();
@@ -327,25 +264,6 @@ public class Lobby extends Window{
 					
 			}
 		});
-		/*
-		btnNewRoom = new JButton("New Room");
-		btnNewRoom.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CreateRoom frmNewRoom = new CreateRoom();
-				frmNewRoom.setUser(getUser());
-				getUser().setBackWindow(getUser().getRoom());
-				getUser().setRoom(frmNewRoom);
-				frmNewRoom.getFrmChess().setVisible(true);
-			}
-		});
-		btnNewRoom.setFont(new Font("Baskerville Old Face", Font.PLAIN, 15));
-		GridBagConstraints gbc_btnNewRoom = new GridBagConstraints();
-		gbc_btnNewRoom.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewRoom.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewRoom.gridx = 1;
-		gbc_btnNewRoom.gridy = 5;
-		panel_2.add(btnNewRoom, gbc_btnNewRoom);
-		*/
 		
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_4 = new GridBagConstraints();
@@ -368,24 +286,7 @@ public class Lobby extends Window{
 				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "u");
 			}
 		});
-			
-		
-		/*
-		JButton refresh = new JButton("");
-		refresh.setIcon(getScaledImage(new ImageIcon(Lobby.class.getResource("/images/swap-arrows-refresh.jpg")),40,40));
-		refresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "u");
-			}
-		});
-		
-		
-		GridBagConstraints gbc_refresh = new GridBagConstraints();
-		gbc_refresh.insets = new Insets(0, 0, 0, 5);
-		gbc_refresh.gridx = 1;
-		gbc_refresh.gridy = 7;
-		panel_2.add(refresh, gbc_refresh);
-		*/
+
 	}
 	private ImageIcon getScaledImage(ImageIcon srcImgIcon, int w, int h){
 		Image srcImg = srcImgIcon.getImage();
