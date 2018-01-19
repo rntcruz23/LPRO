@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -51,6 +52,7 @@ public class CreateAcc extends Window{
 		frmChess.setAlwaysOnTop(true);
 		frmChess.setBounds(100, 100, 461, 310);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(CreateAcc.class.getResource("FreeChessKing.png")));
+		frmChess.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel signin = new JPanel();
 		frmChess.getContentPane().add(signin, BorderLayout.CENTER);

@@ -272,7 +272,7 @@ public class User {
 			StringTokenizer tok = new StringTokenizer(speak.substring(2,speak.length()),":");
 			username= tok.nextToken();
 			text = tok.nextToken();
-			room.getChatArea().setForeground(Color.BLUE);
+			//room.getChatArea().setForeground(Color.BLUE);
 			//room.getChatArea().setFont(new Font("Tahoma", Font.BOLD, 14));
 			room.getChatArea().append(username + ":");
 			//room.getChatArea().setForeground(Color.BLACK);
