@@ -87,13 +87,7 @@ public class Draw extends Window {
 		gbc_btnYes.gridx = 2;
 		gbc_btnYes.gridy = 2;
 		panel.add(btnYes, gbc_btnYes);
-		btnYes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				getUser().setRoom(getUser().getBackWindow());
-				frmChess.setVisible(false);
-
-			}
-		});
+		
 		GridBagConstraints gbc_btnNo = new GridBagConstraints();
 		gbc_btnNo.gridx = 3;
 		gbc_btnNo.gridy = 2;
