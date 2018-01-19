@@ -32,6 +32,7 @@ public class Room extends Window implements Runnable{
 	private Thread t;
 	private Piece.color turn;
 	private Server server;
+	
 	public Room(String name,UserThread player1,Server server) {
 		super();	
 		setServer(server);
