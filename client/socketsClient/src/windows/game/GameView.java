@@ -23,10 +23,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 
-import pieces.Piece;
 import server.SocketAPI;
 import user.Guest;
-import user.Player;
 import user.Spectator;
 import user.User;
 import window.Window;
@@ -51,14 +49,12 @@ public class GameView extends Window{
 	public JLabel getlbl_nextPlayer() {
 		return lbl_nextPlayer;
 	}
-	
 	public JLabel getlbl_white() {
 		return lbl_white;
 	}
 	public JLabel getlbl_black() {
 		return lbl_black;
 	}
-	
 	public JLabel getJoinLabel() {
 		return joinLabel;
 	}
@@ -110,7 +106,6 @@ public class GameView extends Window{
 		frmChess.setTitle("Chess Game");
 		frmChess.setBounds(50, 50, 1024, 700);
 		
-
 		JPanel exit = new JPanel();
 		getFrmChess().getContentPane().add(exit, BorderLayout.SOUTH);
 		GridBagLayout gbl_exit = new GridBagLayout();

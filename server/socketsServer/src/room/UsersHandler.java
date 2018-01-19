@@ -16,11 +16,16 @@ public class UsersHandler {
 		LinkedList<UserThread> guests = room.getGuests();
 		LinkedList<UserThread> viewers = room.getViewers();
 		Server server = room.getServer();
-		if(players.remove(user) && !spectators.isEmpty()) {
-			UserThread nP = spectators.removeFirst();
-			players.add(nP);
-			char t = ColorsAPI.colorToString(user.getUser().getTurn());
-			SocketAPI.writeToSocket(nP.getUser().getSocket(), "p "+t);
+		if(players.remove(user)) {
+			if(!spectators.isEmpty()) {
+				UserThread nP = spectators.removeFirst();
+				viewers.remove(nP);
+				players.add(nP);
+				Piece.color color = user.getUser().getTurn();
+				char t = ColorsAPI.colorToString(color);
+				nP.getUser().setTurn(color);
+				SocketAPI.writeToSocket(nP.getUser().getSocket(), "z "+t);
+			}
 			if(room.isGameRunning()) {
 				GameResultHandler.playerDefeated(room,user);
 			}
@@ -52,6 +57,7 @@ public class UsersHandler {
 		}
 		room.setJoinStatus(newUser+" joined");
 		UsersHandler.broadcastState(room,players,viewers);
+		room.setJoinStatus("");
 		room.sendBoard();
 		room.setGameRunning(players.size() == 2);
 	}
@@ -69,7 +75,7 @@ public class UsersHandler {
 			t = 'w';
 		}
 		else {
-			user.getUser().setTurn(Piece.color.black);
+			user.getUser().setTurn(players.get(0).getUser().getTurn() == Piece.color.white?Piece.color.black:Piece.color.white);
 			t = 'b';
 		}
 		SocketAPI.writeToSocket(user.getUser().getSocket(),"t "+t);
@@ -81,6 +87,10 @@ public class UsersHandler {
 		}
 	}
 	public static UserThread getColorPlayer(Room room, Piece.color color) {
-		return (room.getPlayers().get(0).getUser().getTurn()==color?room.getPlayers().get(0):room.getPlayers().get(1));
+		UserThread u = null;
+		u = room.getPlayers().get(0).getUser().getTurn()==color?room.getPlayers().get(0):new UserThread("");
+		if (room.getPlayers().size() > 1)
+			u = room.getPlayers().get(1).getUser().getTurn()==color?room.getPlayers().get(1):u;
+		return u;
 	}
 }

@@ -1,7 +1,10 @@
 package user;
 
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
+
+import javax.swing.border.MatteBorder;
 
 import client.Client;
 import pieces.Piece;
@@ -144,22 +147,28 @@ public class User {
 		String roomName = roomstate.getRoomName();
 		String joinStatus = roomstate.getJoinStatus();
 		String turnStatus = roomstate.getTurnStatus();
-		String white_player=roomstate.getWhitePlayer();
-		String black_player=roomstate.getBlackPlayer();
-		String next_player=roomstate.getNextPlayer();
-		
+		String whitePlayer = roomstate.getWhitePlayer();
+		String blackPlayer = roomstate.getBlackPlayer();
+		String nextPlayer = roomstate.getNextPlayer();
 		boolean roomEmpty = roomstate.isRoomEmpty();
 		LinkedList<String> history = roomstate.getHistory();
-		
 		if(roomEmpty)
 			joinStatus = "Room is empty";
 		g.getTurnLabel().setText(turnStatus);
-		addToChat("*********-"+joinStatus+"-*********");
+		if(!joinStatus.equals(""))
+			addToChat("*********-"+joinStatus+"-*********");
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
-		g.getlbl_white().setText(white_player);
-		g.getlbl_black().setText(black_player);
-		g.getlbl_nextPlayer().setText(next_player);
-
+		g.getlbl_white().setText(whitePlayer);
+		g.getlbl_black().setText(blackPlayer);
+		g.getlbl_nextPlayer().setText(nextPlayer);
+		if (turn == Piece.color.white) {
+			g.getlbl_white().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+			g.getlbl_black().setBorder(null);
+		}
+		else {
+			g.getlbl_white().setBorder(null);
+			g.getlbl_black().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+		}
 		for(String move : history) {
 			g.getHistoryArea().append(move);
 		}

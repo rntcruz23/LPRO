@@ -11,6 +11,9 @@ public class UserThread extends Thread{
 	private User user;
 	private Window window;
 	private ObjectOutputStream out;
+	public UserThread(String name) {
+		user = new User("","");
+	}
 	public UserThread(Socket socket) {
 		user = new User(socket);
 		try {

@@ -43,10 +43,9 @@ public class RoomState implements Serializable{
 	public static RoomState getRoomState(Room room) {
 		RoomState roomstate = new RoomState();
 		roomstate.setWhitePlayer(UsersHandler.getColorPlayer(room, Piece.color.white).getUser().getName());
-		String black = (room.getPlayers().size() > 1)?(UsersHandler.getColorPlayer(room, Piece.color.black).getUser().getName()):"";
+		roomstate.setBlackPlayer((UsersHandler.getColorPlayer(room, Piece.color.black).getUser().getName()));
 		String next = (room.getSpectators().size() > 0)?room.getSpectators().getFirst().getUser().getName():"";
 		roomstate.setNextPlayer(next);
-		roomstate.setBlackPlayer(black);
 		roomstate.setHistory(room.getHistory().getPublicText());
 		roomstate.setRoomName(room.getRoomName());
 		roomstate.setRoomEmpty(room.isRoomEmpty());
@@ -55,6 +54,7 @@ public class RoomState implements Serializable{
 		roomstate.setTurnStatus(room.getTurnStatus());
 		return roomstate;
 	}
+
 	public Piece.color getTurn() {
 		return turn;
 	}

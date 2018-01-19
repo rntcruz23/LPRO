@@ -55,24 +55,19 @@ public class Room extends Window implements Runnable{
  	public void run(){
 		while((players.size() < 2))
 			Thread.yield();
-		prepPlayers();
+		setGameRunning(true);
 		System.out.println("Room going to sleep");
-		while((players.size() + viewers.size()) != 0)
+		while(((players.size() + viewers.size()) > 0) || !isGameFinished())
 			Thread.yield();
+		System.out.println(String.format("Closing room, players %d; spec: %d",players.size(),viewers.size()));
 		closeRoom();	
 	}
 	public void closeRoom() {
+		server.getLob().getRooms().remove(this);
 		lock();
 		ListAPI.terminateList(players);
 		ListAPI.terminateList(viewers);
 		unlock();
-	}
-	public void prepPlayers() {
-		players.get(0).setRoom(this);
-		players.get(1).setRoom(this);
-		players.get(0).getUser().setTurn(Piece.color.white);
-		players.get(1).getUser().setTurn(Piece.color.black);
-		sendBoard();
 	}
 	@Override
 	public void processCommands(String input,UserThread user) {
@@ -118,14 +113,12 @@ public class Room extends Window implements Runnable{
 	public void playC(Piece.color color,String move) {
 		if(!gameRunning) return;
 		if(color != turn) return;
-		System.out.println(color);
-		if(turn == Piece.color.white) reverseInput(move);
+		if(turn == Piece.color.white) move = reverseInput(move);
 		int[][] movement = inputInt(move);
 		sendBoard();
 		board.printBoard(getTurn());
 		if(board.move(movement[0],movement[1],color)) {
 			if(board.checkCheck(getTurn())) System.out.println(ColorsAPI.colorToString(color)+" king is in check");
-			String turnStatus = getTurn()+" turn";
 			if(board.checkCheckMate(getTurn())) {
 				System.out.println(ColorsAPI.colorToString(color)+" king is in check mate");
 				turnStatus = ColorsAPI.colorToString(color)+" king is in check mate";
@@ -133,6 +126,7 @@ public class Room extends Window implements Runnable{
 			}
 			history.broadcast(ColorsAPI.colorToString(color) + ": " + move);
 			setTurn(ColorsAPI.getOp(color));
+			String turnStatus = getTurn()+" turn";
 			setTurnStatus(turnStatus);
 			UsersHandler.broadcastState(this,players,viewers);
 			informTurn();
@@ -151,14 +145,10 @@ public class Room extends Window implements Runnable{
 		return new int[][] {init, fin};
 	}
 	public void sendBoard() {
-		String output = "b ";
-		String black = output+board.toString(Piece.color.black)+"";
-		output += board.toString(Piece.color.white)+"";
-		System.out.println(output);
+		String output = "b " + board.toString(Piece.color.white);
 		lock();
-		SocketAPI.writeToSocket(UsersHandler.getColorPlayer(this, Piece.color.white).getUser().getSocket(), output);
-		if (players.size() > 1)
-			SocketAPI.writeToSocket(UsersHandler.getColorPlayer(this, Piece.color.black).getUser().getSocket(), black);
+		for(UserThread u : players)
+			SocketAPI.writeToSocket(u.getUser().getSocket(), "b "+board.toString(u.getUser().getTurn()));
 		ListAPI.writeToList(viewers,output);
 		unlock();
 	}
@@ -175,9 +165,8 @@ public class Room extends Window implements Runnable{
 	public String reverseInput(String whiteMove) {
 		char xi = whiteMove.charAt(0);
 		char xf = whiteMove.charAt(2);
-		int yi = Math.abs(whiteMove.charAt(1) -'a' - 7) + 'a';
-		int yf = Math.abs(whiteMove.charAt(3) -'a' - 7) + 'a';
-		System.out.println("New y: "+yf);
+		char yi = (char)((char)Math.abs(whiteMove.charAt(1) -'0' - 9) + '0');
+		char yf = (char)((char)Math.abs(whiteMove.charAt(3) -'0' - 9) + '0');
 		return ""+xi+yi+xf+yf;
 	}
 	

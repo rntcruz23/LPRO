@@ -20,11 +20,6 @@ public class Lobby extends Window implements Runnable{
 		this.setServer(server);
 	}
 	@Override
-	public Condition newCondition() {
-
-		return null;
-	}
-	@Override
 	public void run() {
 		while(true) Thread.yield();
 	}
@@ -93,6 +88,12 @@ public class Lobby extends Window implements Runnable{
 			if(r.getRoomName().equals(name))
 				return true;
 		return false;
+	}
+	
+	@Override
+	public Condition newCondition() {
+
+		return null;
 	}
 	public LinkedList<UserThread> getUsers() {
 		return users;
