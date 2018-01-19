@@ -84,6 +84,7 @@ public class Lobby extends Window implements Runnable{
 		return null;
 	}
 	public boolean checkRoom(String name) {
+		if (name.contains(" ")) return true;
 		for(Room r : rooms)
 			if(r.getRoomName().equals(name))
 				return true;

@@ -31,6 +31,7 @@ public class RoomState implements Serializable{
 			return null;
 		}
 	}
+	
 	public Piece.color getTurn() {
 		return turn;
 	}

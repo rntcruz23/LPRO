@@ -20,6 +20,7 @@ public class Window {
 		getFrmChess().setTitle("Chess");
 		frmChess.setFont(new Font("Baskerville Old Face", Font.PLAIN, 12));
 		frmChess.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frmChess.setResizable(false);
 	}
 	public void run() {
 		EventQueue.invokeLater(new Runnable() {

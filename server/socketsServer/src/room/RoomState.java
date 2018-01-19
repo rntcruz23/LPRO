@@ -26,9 +26,8 @@ public class RoomState implements Serializable{
 		System.out.println("Sendind room state");
 		try {
 			Thread.sleep(500);
-			SocketAPI.writeToSocket(user.getUser().getSocket(), "spiroca");
+			SocketAPI.writeToSocket(user.getUser().getSocket(), "s");
 			Thread.sleep(500);
-			System.out.println("sending room: s");
 			RoomState roomstate = getRoomState(room);
 			user.getOut().writeObject(roomstate);
 			System.out.println("State sent to user");

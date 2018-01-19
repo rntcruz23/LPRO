@@ -23,7 +23,7 @@ public class UsersHandler {
 				players.add(nP);
 				Piece.color color = user.getUser().getTurn();
 				char t = ColorsAPI.colorToString(color);
-				String c = t+"";
+				String c = t + "";
 				nP.getUser().setTurn(color);
 				SocketAPI.writeToSocket(nP.getUser().getSocket(), "z "+c.toLowerCase());
 			}
@@ -89,6 +89,7 @@ public class UsersHandler {
 	}
 	public static UserThread getColorPlayer(Room room, Piece.color color) {
 		UserThread u = null;
+		if(room.getPlayers().size() == 0) return new UserThread("");
 		u = room.getPlayers().get(0).getUser().getTurn()==color?room.getPlayers().get(0):new UserThread("");
 		if (room.getPlayers().size() > 1)
 			u = room.getPlayers().get(1).getUser().getTurn()==color?room.getPlayers().get(1):u;

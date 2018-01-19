@@ -36,7 +36,6 @@ public class Draw extends Window {
 		setUser(u);
 		run();
 	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -53,6 +52,7 @@ public class Draw extends Window {
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
+
 		
 		
 		JPanel panel_2 = new JPanel();
@@ -64,6 +64,7 @@ public class Draw extends Window {
 		 gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout( gbl_panel_2);
 
+
 		JLabel drawOffer = new JLabel("Your opponent is offering a draw, do you accept?");
 		GridBagConstraints gbc_drawOffer = new GridBagConstraints();
 		gbc_drawOffer.gridwidth = 3;
@@ -73,21 +74,26 @@ public class Draw extends Window {
 		panel.add(drawOffer, gbc_drawOffer);
 
 		JButton btnNo = new JButton("No");
+		btnNo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				getUser().setRoom(getUser().getBackWindow());
+			}
+		});
+		JButton btnYes = new JButton("Yes");
+		btnYes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				getUser().setRoom(getUser().getBackWindow());
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "a");
+			}
+		});
+		GridBagConstraints gbc_btnYes = new GridBagConstraints();
+		gbc_btnYes.insets = new Insets(0, 0, 0, 5);
+		gbc_btnYes.gridx = 2;
+		gbc_btnYes.gridy = 2;
+		panel.add(btnYes, gbc_btnYes);
 		
-				JButton btnYes = new JButton("Yes");
-				btnYes.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						frmChess.setVisible(false);
-						getUser().setRoom(getUser().getBackWindow());
-						SocketAPI.writeToSocket(getUser().getClient().getSocket(), "a");
-					}
-				});
-				
-				GridBagConstraints gbc_btnYes = new GridBagConstraints();
-				gbc_btnYes.insets = new Insets(0, 0, 0, 5);
-				gbc_btnYes.gridx = 2;
-				gbc_btnYes.gridy = 1;
-				panel.add(btnYes, gbc_btnYes);
 				
 		GridBagConstraints gbc_btnNo = new GridBagConstraints();
 		gbc_btnYes.insets = new Insets(0, 0, 0, 5);

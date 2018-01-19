@@ -39,7 +39,6 @@ public class GameView extends Window{
 	private JTextArea chatArea;
 	private JTextArea historyArea;
 	private JLabel lblGameRoom;
-	private JButton btnSend;
 	private JButton drawButton;
 	private JButton forfitButton;
 	private JLabel joinLabel;
@@ -48,46 +47,6 @@ public class GameView extends Window{
 	private JLabel lblWhite;
 	private JLabel lblBlack;
 	private JLabel lblNextPlayer;
-
-	public JLabel getlbl_nextPlayer() {
-		return lblNextPlayer;
-	}
-	public JLabel getlbl_white() {
-		return lblWhite;
-	}
-	public JLabel getlbl_black() {
-		return lblBlack;
-	}
-	public JLabel getJoinLabel() {
-		return joinLabel;
-	}
-	public void setJoinLabel(JLabel joinLabel) {
-		this.joinLabel = joinLabel;
-	}
-	public JLabel getTurnLabel() {
-		return turnLabel;
-	}
-	public void setTurnLabel(JLabel turnLabel) {
-		this.turnLabel = turnLabel;
-	}
-	public JLabel getLblGameRoom() {
-		return lblGameRoom;
-	}
-	public void setLblGameRoom(JLabel lblGameRoom) {
-		this.lblGameRoom = lblGameRoom;
-	}
-	public JTextArea getChatArea() {
-		return chatArea;
-	}
-	public void setChatArea(JTextArea chatArea) {
-		this.chatArea = chatArea;
-	}
-	public JTextArea getHistoryArea() {
-		return historyArea;
-	}
-	public void setHistoryArea(JTextArea historyArea) {
-		this.historyArea = historyArea;
-	}
 	/**
 	 * Create the application.
 	 */
@@ -102,9 +61,7 @@ public class GameView extends Window{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
 		frmChess.setVisible(true);
-		frmChess.setResizable(false);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(GameView.class.getResource("FreeChessKing.png")));
 		frmChess.setTitle("Chess Game");
 		frmChess.setBounds(50, 50, 1024, 700);
@@ -234,25 +191,18 @@ public class GameView extends Window{
 
 		speakArea = new JTextArea();
 		scrollPane_2.setViewportView(speakArea);
-		speakArea.setLineWrap(true);
-
-		
+		speakArea.setLineWrap(true);		
 		speakArea.addKeyListener(new KeyAdapter() {
-			
-		
-	         public void keyReleased(KeyEvent e) {
-	             int key = e.getKeyCode();
-	             if (key == KeyEvent.VK_ENTER) {
-	                //Toolkit.getDefaultToolkit().beep();   
-	                String speak = speakArea.getText();
-	        
+			public void keyReleased(KeyEvent e) {
+				int key = e.getKeyCode();
+				if (getUser().getClass() == (new Guest().getClass())) return;
+				if (key == KeyEvent.VK_ENTER) { 
+					String speak = speakArea.getText();
 					speak = "c "+speak;
 					speakArea.setText("");
 					getUser().sendCommand(speak);
-	                           
-	                }		
-		}});
-		
+				}		
+			}});
 
 		joinLabel = new JLabel("");
 		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
@@ -383,9 +333,6 @@ public class GameView extends Window{
 		board.initPieces();
 		game.add(gameScreen, gbc_gameScreen);
 	}
-	public void removeUserButtons() {
-		btnSend.setEnabled(false);
-	}
 	public void removePlayerButtons() {
 		drawButton.setEnabled(false);
 		forfitButton.setEnabled(false);
@@ -405,21 +352,60 @@ public class GameView extends Window{
 			removePlayerButtons();
 		else if (getUser().getClass() == (new Guest()).getClass()) {
 			removePlayerButtons();
-			removeUserButtons();
 		}
 	}
 	public void managePlayerLabels(Piece.color turn,String whitePlayer,String blackPlayer,String nextPlayer) {
-		getlbl_white().setText(whitePlayer);
-		getlbl_black().setText(blackPlayer);
-		getlbl_nextPlayer().setText(nextPlayer);
+		getLblWhite().setText(whitePlayer);
+		getLblBlack().setText(blackPlayer);
+		getLblNextPlayer().setText(nextPlayer);
 		if (turn == Piece.color.white) {
-			getlbl_white().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
-			getlbl_black().setBorder(null);
+			getLblWhite().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+			getLblBlack().setBorder(null);
 		}
 		else {
-			getlbl_white().setBorder(null);
-			getlbl_black().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+			getLblWhite().setBorder(null);
+			getLblBlack().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
 		}
 
+	}
+
+	public JLabel getLblNextPlayer() {
+		return lblNextPlayer;
+	}
+	public JLabel getLblWhite() {
+		return lblWhite;
+	}
+	public JLabel getLblBlack() {
+		return lblBlack;
+	}
+	public JLabel getJoinLabel() {
+		return joinLabel;
+	}
+	public void setJoinLabel(JLabel joinLabel) {
+		this.joinLabel = joinLabel;
+	}
+	public JLabel getTurnLabel() {
+		return turnLabel;
+	}
+	public void setTurnLabel(JLabel turnLabel) {
+		this.turnLabel = turnLabel;
+	}
+	public JLabel getLblGameRoom() {
+		return lblGameRoom;
+	}
+	public void setLblGameRoom(JLabel lblGameRoom) {
+		this.lblGameRoom = lblGameRoom;
+	}
+	public JTextArea getChatArea() {
+		return chatArea;
+	}
+	public void setChatArea(JTextArea chatArea) {
+		this.chatArea = chatArea;
+	}
+	public JTextArea getHistoryArea() {
+		return historyArea;
+	}
+	public void setHistoryArea(JTextArea historyArea) {
+		this.historyArea = historyArea;
 	}
 }
