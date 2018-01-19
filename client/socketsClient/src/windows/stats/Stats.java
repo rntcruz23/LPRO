@@ -55,6 +55,7 @@ public class Stats extends Window{
 		
 		JPanel panel_1 = new JPanel();
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Stats.class.getResource("FreeChessKing.png")));
+		frmChess.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmChess.getContentPane().add(panel_1, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{143, 41, 34, 45, 0};

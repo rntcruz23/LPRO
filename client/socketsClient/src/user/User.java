@@ -248,24 +248,25 @@ public class User {
 	public void printRooms(String[] rooms) {
 		Lobby l = (Lobby) getRoom();
 		
-	
-		for(String room : rooms) {	
 		DefaultTableModel model=(DefaultTableModel)  l.table().getModel(); 
-		StringTokenizer tok = new StringTokenizer(room,":");
+		int q=l.table().getRowCount();
+		while(q!=0){
+		model.removeRow(0);
+		q--;
+		}
 		
+		for(String room : rooms) {			
+		StringTokenizer tok = new StringTokenizer(room,":");
 		int n=0;
 			Object[] value=new Object[4];
 		
 		  while(tok.hasMoreTokens()){  
 		 value[n++]  = tok.nextToken(); 	  
-		  }
-		  System.out.println(value[0]);
-		  System.out.println(value[2]);
-		    
+		  }   
 		  model.addRow(value);
 		}
-	
 	}
+	
 	public void addToChat(String speak) {
 		GameView room = (GameView) window;
 		room.getChatArea().append(speak.substring(2,speak.length())+'\n');

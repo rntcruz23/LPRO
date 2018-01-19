@@ -30,7 +30,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -86,7 +88,7 @@ public class Lobby extends Window{
 		roomsPanel.add(scrollPane);
 		
 		table_1 = new JTable();
-
+		table_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		DefaultTableModel model=new DefaultTableModel(
 				new Object[][] {
 				},
@@ -98,7 +100,7 @@ public class Lobby extends Window{
 		table_1.setModel(model);
 		
 		scrollPane.setViewportView(table_1);
-		
+		//table_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		JPanel title = new JPanel();
 		frmChess.getContentPane().add(title, BorderLayout.NORTH);
 		
@@ -181,6 +183,10 @@ public class Lobby extends Window{
 		panel_2.add(verticalStrut_1, gbc_verticalStrut_1);
 		
 		btnStats = new JButton("Stats");
+		Border line = new LineBorder(Color.BLACK);
+		 Border margin = new EmptyBorder(5, 15, 5, 15);
+		Border compound = new CompoundBorder(line, margin);
+		btnStats.setBorder(compound);
 		btnStats.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Stats frmStats = new Stats();
