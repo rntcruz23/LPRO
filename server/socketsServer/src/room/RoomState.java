@@ -21,10 +21,11 @@ public class RoomState implements Serializable{
 	private String nextPlayer;
 	private LinkedList<String> history;
 	private static final long serialVersionUID = 1L;
+	
 	public static void sendRoom(UserThread user,Room room) {
 		System.out.println("Sendind room state");
 		try {
-			Thread.sleep(100);
+			Thread.sleep(500);
 			SocketAPI.writeToSocket(user.getUser().getSocket(), "spiroca");
 			Thread.sleep(500);
 			System.out.println("sending room: s");

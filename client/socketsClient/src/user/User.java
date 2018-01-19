@@ -18,7 +18,6 @@ import windows.lobby.Lobby;
 import windows.login.Login;
 
 public class User {
-	private static final Object[] Object = null;
 	protected Client client;
 	private String name;
 	private String password;
