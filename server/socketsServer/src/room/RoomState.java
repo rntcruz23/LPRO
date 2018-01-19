@@ -26,9 +26,8 @@ public class RoomState implements Serializable{
 		System.out.println("Sendind room state");
 		try {
 			Thread.sleep(500);
-			SocketAPI.writeToSocket(user.getUser().getSocket(), "spiroca");
+			SocketAPI.writeToSocket(user.getUser().getSocket(), "s");
 			Thread.sleep(500);
-			System.out.println("sending room: s");
 			RoomState roomstate = getRoomState(room);
 			user.getOut().writeObject(roomstate);
 			System.out.println("State sent to user");
@@ -43,9 +42,13 @@ public class RoomState implements Serializable{
 	}
 	public static RoomState getRoomState(Room room) {
 		RoomState roomstate = new RoomState();
+		System.out.println("H");
 		roomstate.setWhitePlayer(UsersHandler.getColorPlayer(room, Piece.color.white).getUser().getName());
+		System.out.println("H");
 		roomstate.setBlackPlayer((UsersHandler.getColorPlayer(room, Piece.color.black).getUser().getName()));
+		System.out.println("H");
 		String next = (room.getSpectators().size() > 0)?room.getSpectators().getFirst().getUser().getName():"";
+		System.out.println("H");
 		roomstate.setNextPlayer(next);
 		roomstate.setHistory(room.getHistory().getPublicText());
 		roomstate.setRoomName(room.getRoomName());
