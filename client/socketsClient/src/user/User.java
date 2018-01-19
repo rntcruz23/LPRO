@@ -3,6 +3,7 @@ package user;
 
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -27,9 +28,9 @@ public class User {
 	private Window window;
 	private Window backWindow;
 	public User() {
-		
+
 	}
- 	public User(Client client) {
+	public User(Client client) {
 		setClient(client);
 	}
 	public Client getClient() {
@@ -216,9 +217,9 @@ public class User {
 	}
 	public boolean ev(char r) {
 		switch(r) {
-			case 's': return true;
-			case 'u': return false;
-			default: return false;
+		case 's': return true;
+		case 'u': return false;
+		default: return false;
 		}
 	}
 	public boolean threadSafe(String com) {
@@ -245,29 +246,45 @@ public class User {
 	}
 	public void printRooms(String[] rooms) {
 		Lobby l = (Lobby) getRoom();
-		
+
 		DefaultTableModel model=(DefaultTableModel)  l.table().getModel(); 
 		int q=l.table().getRowCount();
 		while(q!=0){
-		model.removeRow(0);
-		q--;
+			model.removeRow(0);
+			q--;
 		}
-		
+
 		for(String room : rooms) {			
-		StringTokenizer tok = new StringTokenizer(room,":");
-		int n=0;
+			StringTokenizer tok = new StringTokenizer(room,":");
+			int n=0;
 			Object[] value=new Object[4];
-		
-		  while(tok.hasMoreTokens()){  
-		 value[n++]  = tok.nextToken(); 	  
-		  }   
-		  model.addRow(value);
+
+			while(tok.hasMoreTokens()){  
+				value[n++]  = tok.nextToken(); 	  
+			}   
+			model.addRow(value);
 		}
 	}
-	
+
 	public void addToChat(String speak) {
 		GameView room = (GameView) window;
-		room.getChatArea().append(speak.substring(2,speak.length())+'\n');
+		String username = "";
+		String text = "";
+		try {
+			StringTokenizer tok = new StringTokenizer(speak.substring(2,speak.length()),":");
+			username= tok.nextToken();
+			text = tok.nextToken();
+			room.getChatArea().setForeground(Color.BLUE);
+			//room.getChatArea().setFont(new Font("Tahoma", Font.BOLD, 14));
+			room.getChatArea().append(username + ":");
+			//room.getChatArea().setForeground(Color.BLACK);
+			//room.getChatArea().setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}catch(Exception e) {
+			text = speak+"\n";
+			return ;
+		}finally{
+			room.getChatArea().append(text);
+		}
 	}
 	public String getName() {
 		return name;

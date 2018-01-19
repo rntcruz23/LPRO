@@ -10,6 +10,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -234,6 +236,23 @@ public class GameView extends Window{
 		scrollPane_2.setViewportView(speakArea);
 		speakArea.setLineWrap(true);
 		
+		speakArea.addKeyListener(new KeyAdapter() {
+			
+		
+	         public void keyReleased(KeyEvent e) {
+	             int key = e.getKeyCode();
+	             if (key == KeyEvent.VK_ENTER) {
+	                //Toolkit.getDefaultToolkit().beep();   
+	                String speak = speakArea.getText();
+	        
+					speak = "c "+speak;
+					speakArea.setText("");
+					getUser().sendCommand(speak);
+	                           
+	                }		
+		}});
+		
+		/*
 		btnSend = new JButton("Send");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -248,7 +267,7 @@ public class GameView extends Window{
 		gbc_btnSend.gridx = 1;
 		gbc_btnSend.gridy = 0;
 		chatMenu.add(btnSend, gbc_btnSend);
-
+       */
 		joinLabel = new JLabel("");
 		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
 		gbc_joinLabel.insets = new Insets(0, 0, 5, 5);

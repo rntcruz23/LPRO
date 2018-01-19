@@ -129,6 +129,7 @@ public class CreateRoom extends Window{
 				frmChess.setVisible(false);
 				Lobby frmLobby = (Lobby)getUser().getBackWindow();
 				getUser().setRoom(frmLobby);
+				getUser().getRoom().getFrmChess().setEnabled(true);
 			}
 		});
 		GridBagConstraints gbc_btnExit = new GridBagConstraints();
