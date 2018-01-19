@@ -311,4 +311,16 @@ public class Lobby extends Window{
 		LabelnewGame.setEnabled(false);
 		btnLogout.setText("Exit");
 	}
+	public void clearTable() {
+		DefaultTableModel model=(DefaultTableModel) table_1.getModel(); 
+		int q = table_1.getRowCount();
+		while(q != 0){
+			model.removeRow(0);
+			q--;
+		}
+	}
+	public void addRow(Object[] newRow) {
+		DefaultTableModel model=(DefaultTableModel) table_1.getModel(); 
+		model.addRow(newRow);
+	}
 }

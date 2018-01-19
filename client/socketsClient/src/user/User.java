@@ -1,11 +1,7 @@
 package user;
 
-
-
 import java.util.LinkedList;
 import java.util.StringTokenizer;
-
-import javax.swing.table.DefaultTableModel;
 
 import client.Client;
 import pieces.Piece;
@@ -24,17 +20,12 @@ public class User {
 	private Window window;
 	private Window backWindow;
 	public User() {
-		
+
 	}
- 	public User(Client client) {
+	public User(Client client) {
 		setClient(client);
 	}
-	public Client getClient() {
-		return client;
-	}
-	public void setClient(Client client) {
-		this.client = client;
-	}
+
 	protected void printBoard(String command) {
 		GameView room =(GameView) window;
 		room.getBoard().putPieces(command.substring(2,command.length()));
@@ -213,9 +204,9 @@ public class User {
 	}
 	public boolean ev(char r) {
 		switch(r) {
-			case 's': return true;
-			case 'u': return false;
-			default: return false;
+		case 's': return true;
+		case 'u': return false;
+		default: return false;
 		}
 	}
 	public boolean threadSafe(String com) {
@@ -242,26 +233,24 @@ public class User {
 	}
 	public void printRooms(String[] rooms) {
 		Lobby l = (Lobby) getRoom();
-		
-		DefaultTableModel model=(DefaultTableModel)  l.table().getModel(); 
-		int q=l.table().getRowCount();
-		while(q!=0){
-		model.removeRow(0);
-		q--;
-		}
-		
+		l.clearTable();
 		for(String room : rooms) {			
-		StringTokenizer tok = new StringTokenizer(room,":");
-		int n=0;
-			Object[] value=new Object[4];
-		
-		  while(tok.hasMoreTokens()){  
-		 value[n++]  = tok.nextToken(); 	  
-		  }   
-		  model.addRow(value);
+			StringTokenizer tok = new StringTokenizer(room,":");
+			int n = 0;
+			Object[] newRow = new Object[4];
+			while(tok.hasMoreTokens()){  
+				newRow[n++] = tok.nextToken(); 	  
+			}   
+			l.addRow(newRow);
 		}
 	}
-	
+
+	public Client getClient() {
+		return client;
+	}
+	public void setClient(Client client) {
+		this.client = client;
+	}
 	public void addToChat(String speak) {
 		GameView room = (GameView) window;
 		room.getChatArea().append(speak.substring(2,speak.length())+'\n');

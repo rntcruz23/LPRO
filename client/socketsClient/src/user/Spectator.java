@@ -70,6 +70,7 @@ public class Spectator extends User{
 		n[2] = Integer.parseInt(tok.nextToken());
 		return  n;
 	}
+
 	public String getUsername() {
 		return username;
 	}
