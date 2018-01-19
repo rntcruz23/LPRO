@@ -198,6 +198,7 @@ public class Lobby extends Window{
 				Stats frmStats = new Stats();
 				frmStats.setUser(getUser());
 				getUser().setBackWindow(getUser().getRoom());
+				getUser().getRoom().getFrmChess().setEnabled(false);
 				getUser().setRoom(frmStats);
 				frmStats.getFrmChess().setVisible(true);
 				SocketAPI.writeToSocket(getUser().getClient().getSocket(),"y");
@@ -260,6 +261,7 @@ public class Lobby extends Window{
 				CreateRoom frmNewRoom = new CreateRoom();
 				frmNewRoom.setUser(getUser());
 				getUser().setBackWindow(getUser().getRoom());
+				getUser().getRoom().getFrmChess().setEnabled(false);
 				getUser().setRoom(frmNewRoom);
 				frmNewRoom.getFrmChess().setVisible(true);
 					

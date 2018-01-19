@@ -1,5 +1,7 @@
 package user;
 
+
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -253,7 +255,23 @@ public class User {
 	}
 	public void addToChat(String speak) {
 		GameView room = (GameView) window;
-		room.getChatArea().append(speak.substring(2,speak.length())+'\n');
+		String username = "";
+		String text = "";
+		try {
+			StringTokenizer tok = new StringTokenizer(speak.substring(2,speak.length()),":");
+			username= tok.nextToken();
+			text = tok.nextToken();
+			room.getChatArea().setForeground(Color.BLUE);
+			//room.getChatArea().setFont(new Font("Tahoma", Font.BOLD, 14));
+			room.getChatArea().append(username + ":");
+			//room.getChatArea().setForeground(Color.BLACK);
+			//room.getChatArea().setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}catch(Exception e) {
+			text = speak+"\n";
+			return ;
+		}finally{
+			room.getChatArea().append(text);
+		}
 	}
 	public String getName() {
 		return name;
