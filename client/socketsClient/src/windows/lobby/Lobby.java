@@ -86,7 +86,6 @@ public class Lobby extends Window{
 		roomsPanel.add(scrollPane);
 		
 		table_1 = new JTable();
-		table_1.setEnabled(false);
 		table_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		DefaultTableModel model=new DefaultTableModel(
 				new Object[][] {
@@ -167,7 +166,7 @@ public class Lobby extends Window{
 		textField.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setForeground(Color.RED);
-		textField.setBackground(SystemColor.menu);
+		
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.gridwidth = 5;
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
