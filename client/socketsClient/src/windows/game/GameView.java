@@ -23,6 +23,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 
+import pieces.Piece;
 import server.SocketAPI;
 import user.Guest;
 import user.Spectator;
@@ -414,5 +415,19 @@ public class GameView extends Window{
 			removePlayerButtons();
 			removeUserButtons();
 		}
+	}
+	public void managePlayerLabels(Piece.color turn,String whitePlayer,String blackPlayer,String nextPlayer) {
+		getlbl_white().setText(whitePlayer);
+		getlbl_black().setText(blackPlayer);
+		getlbl_nextPlayer().setText(nextPlayer);
+		if (turn == Piece.color.white) {
+			getlbl_white().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+			getlbl_black().setBorder(null);
+		}
+		else {
+			getlbl_white().setBorder(null);
+			getlbl_black().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+		}
+		
 	}
 }

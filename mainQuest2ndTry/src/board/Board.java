@@ -848,24 +848,32 @@ public class Board {
 		}
 		System.out.println("  a b c d e f g h");
 	}
-	@Override
-	public String toString() {
+	public String toString(Piece.color side) {
 		String output = "";
-		for(int j = 0; j < 8; j++) {
+		int start = 0;
+		int end = 7;
+		int offset = 1;
+		if(side == Piece.color.white) {
+			start = 7;
+			end = 0;
+			offset = -1;
+		}
+		while(start != end+offset) {
 			for(int i = 0; i < 8; i++) {
 				String p;
 				String v;
-				if(cells[i * 8 + j].isEmpty()) {
+				if(cells[i * 8 + start].isEmpty()) {
 					p = "n";
-					v = ColorsAPI.colorToStringCell(cells[i * 8 + j].showColor())+"";
+					v = ColorsAPI.colorToStringCell(cells[i * 8 + start].showColor())+"";
 					output+=p+v;
 				}
 				else {
-					p = cells[i * 8 + j].showPieceName()+"";
-					v = ColorsAPI.colorToString(cells[i * 8 + j].showPieceColor())+"";
+					p = cells[i * 8 + start].showPieceName()+"";
+					v = ColorsAPI.colorToString(cells[i * 8 + start].showPieceColor())+"";
 					output += p+v;
 				}
 			}
+			start += offset;
 		}
 		return output;
 	}

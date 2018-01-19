@@ -154,37 +154,15 @@ public class User {
 		String whitePlayer = roomstate.getWhitePlayer();
 		String blackPlayer = roomstate.getBlackPlayer();
 		String nextPlayer = roomstate.getNextPlayer();
-
 		boolean roomEmpty = roomstate.isRoomEmpty();
 		LinkedList<String> history = roomstate.getHistory();
 		if(roomEmpty)
 			joinStatus = "Room is empty";
-		
 		g.getTurnLabel().setText(turnStatus);
 		if(!joinStatus.equals(""))
 			addToChat("*********-"+joinStatus+"-*********");
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
-		g.getlbl_white().setText(whitePlayer);
-		g.getlbl_black().setText(blackPlayer);
-		g.getlbl_nextPlayer().setText(nextPlayer);
-		if (turn == Piece.color.white) {
-			g.getlbl_white().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
-			g.getlbl_black().setBorder(null);
-		}
-		else {
-			g.getlbl_white().setBorder(null);
-			g.getlbl_black().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
-		}
-
-		g.getTurnLabel().setText(turnStatus);
-		addToChat("*********-"+joinStatus+"-*********");
-		g.getFrmChess().setTitle("Chess Game - "+ roomName);
-		
-		g.getlbl_white().setText(whitePlayer);
-		g.getlbl_black().setText(blackPlayer);
-		g.getlbl_nextPlayer().setText(nextPlayer);
-		
-
+		g.managePlayerLabels(turn, whitePlayer, blackPlayer, nextPlayer);
 		for(String move : history) {
 			g.getHistoryArea().append(move);
 		}
