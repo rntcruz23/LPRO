@@ -25,6 +25,8 @@ public class Room extends Window implements Runnable{
 	private String roomName;
 	private String joinStatus;
 	private String turnStatus;
+	private boolean check;
+	private boolean checkmate;
 	private boolean roomEmpty;
 	private Board board;
 	private Chat chat;
@@ -119,19 +121,26 @@ public class Room extends Window implements Runnable{
 		sendBoard();
 		board.printBoard(getTurn());
 		if(board.move(movement[0],movement[1],color)) {
-			if(board.checkCheck(getTurn())) System.out.println(ColorsAPI.colorToString(color)+" king is in check");
+			if(board.checkCheck(getTurn())) {
+				System.out.println(ColorsAPI.colorToString(color)+" king is in check");
+				setCheck(true);
+			} else setCheck(false);
 			if(board.checkCheckMate(getTurn())) {
-				System.out.println(ColorsAPI.colorToString(color)+" king is in check mate");
-				turnStatus = ColorsAPI.colorToString(color)+" king is in check mate";
+				System.out.println(ColorsAPI.colorToString(color)+" king is in checkmate");
+				turnStatus = ColorsAPI.colorToString(color)+" king is in checkmate";
 				gameRunning = false;
+				setCheckmate(true);
 			}
 			history.broadcast(ColorsAPI.colorToString(color) + ": " + move);
 			setTurn(ColorsAPI.getOp(color));
 			String turnStatus = getTurn()+" turn";
 			setTurnStatus(turnStatus);
-			UsersHandler.broadcastState(this,players,viewers);
 			informTurn();
+		} else {
+			setJoinStatus("Invalid movement");
 		}
+		UsersHandler.broadcastState(this,players,viewers);
+		setJoinStatus("");
 		board.printBoard(getTurn());
 		sendBoard();
 	}
@@ -262,5 +271,17 @@ public class Room extends Window implements Runnable{
 	}
 	public void setTurnStatus(String turnStatus) {
 		this.turnStatus = turnStatus;
+	}
+	public boolean isCheck() {
+		return check;
+	}
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
+	public boolean isCheckmate() {
+		return checkmate;
+	}
+	public void setCheckmate(boolean checkmate) {
+		this.checkmate = checkmate;
 	}
 }
