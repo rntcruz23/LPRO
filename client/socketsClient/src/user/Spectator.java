@@ -13,7 +13,7 @@ public class Spectator extends User{
 	public Spectator() {
 	
 	}
-		public Spectator(Client client) {
+	public Spectator(Client client) {
 		super(client);
 	}
 	protected void chat(String message) {
@@ -40,7 +40,8 @@ public class Spectator extends User{
 				c.getStatus().setText("Error creating room");
 				System.out.println("Error creating");
 			}
-		case 'p':
+			break;
+		case 'z':
 			char t = com.charAt(2);
 			Player n = new Player(client);
 			n.setTurn(t);

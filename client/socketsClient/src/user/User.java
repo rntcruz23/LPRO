@@ -1,9 +1,12 @@
 package user;
 
-import java.awt.Cursor;
+
+
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
 import client.Client;
@@ -13,7 +16,6 @@ import server.SocketAPI;
 import window.Window;
 import windows.create.CreateAcc;
 import windows.game.GameView;
-import windows.joinroom.JoinRoom;
 import windows.lobby.Lobby;
 import windows.login.Login;
 
@@ -148,23 +150,19 @@ public class User {
 		String roomName = roomstate.getRoomName();
 		String joinStatus = roomstate.getJoinStatus();
 		String turnStatus = roomstate.getTurnStatus();
-		String whitePlayer=roomstate.getWhitePlayer();
-		String blackPlayer=roomstate.getBlackPlayer();
-		String nextPlayer=roomstate.getNextPlayer();
-		
+
+		String whitePlayer = roomstate.getWhitePlayer();
+		String blackPlayer = roomstate.getBlackPlayer();
+		String nextPlayer = roomstate.getNextPlayer();
 		boolean roomEmpty = roomstate.isRoomEmpty();
 		LinkedList<String> history = roomstate.getHistory();
-		
 		if(roomEmpty)
 			joinStatus = "Room is empty";
 		g.getTurnLabel().setText(turnStatus);
-		addToChat("*********-"+joinStatus+"-*********");
+		if(!joinStatus.equals(""))
+			addToChat("*********-"+joinStatus+"-*********");
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
-		
-		g.getlbl_white().setText(whitePlayer);
-		g.getlbl_black().setText(blackPlayer);
-		g.getlbl_nextPlayer().setText(nextPlayer);
-		
+		g.managePlayerLabels(turn, whitePlayer, blackPlayer, nextPlayer);
 		for(String move : history) {
 			g.getHistoryArea().append(move);
 		}

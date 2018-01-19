@@ -26,7 +26,6 @@ import javax.swing.border.TitledBorder;
 import pieces.Piece;
 import server.SocketAPI;
 import user.Guest;
-import user.Player;
 import user.Spectator;
 import user.User;
 import window.Window;
@@ -51,14 +50,12 @@ public class GameView extends Window{
 	public JLabel getlbl_nextPlayer() {
 		return lbl_nextPlayer;
 	}
-	
 	public JLabel getlbl_white() {
 		return lbl_white;
 	}
 	public JLabel getlbl_black() {
 		return lbl_black;
 	}
-	
 	public JLabel getJoinLabel() {
 		return joinLabel;
 	}
@@ -110,7 +107,6 @@ public class GameView extends Window{
 		frmChess.setTitle("Chess Game");
 		frmChess.setBounds(50, 50, 1024, 700);
 		
-
 		JPanel exit = new JPanel();
 		getFrmChess().getContentPane().add(exit, BorderLayout.SOUTH);
 		GridBagLayout gbl_exit = new GridBagLayout();
@@ -419,5 +415,19 @@ public class GameView extends Window{
 			removePlayerButtons();
 			removeUserButtons();
 		}
+	}
+	public void managePlayerLabels(Piece.color turn,String whitePlayer,String blackPlayer,String nextPlayer) {
+		getlbl_white().setText(whitePlayer);
+		getlbl_black().setText(blackPlayer);
+		getlbl_nextPlayer().setText(nextPlayer);
+		if (turn == Piece.color.white) {
+			getlbl_white().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+			getlbl_black().setBorder(null);
+		}
+		else {
+			getlbl_white().setBorder(null);
+			getlbl_black().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+		}
+		
 	}
 }
