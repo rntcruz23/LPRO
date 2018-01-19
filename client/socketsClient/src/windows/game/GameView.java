@@ -103,6 +103,8 @@ public class GameView extends Window{
 				Lobby lob =  new Lobby();
 				lob.setUser(getUser());
 				getUser().setRoom(lob);
+				if (getUser().getClass() == (new Guest()).getClass())
+					lob.removeUserButtons();
 				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "x");
 			}
 		});

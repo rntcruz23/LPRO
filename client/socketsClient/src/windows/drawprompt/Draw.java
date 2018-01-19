@@ -1,7 +1,7 @@
 package windows.drawprompt;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -12,19 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.MatteBorder;
 
 import server.SocketAPI;
 import user.User;
 import window.Window;
-import java.awt.Component;
-import java.awt.Graphics2D;
-
-import javax.swing.Box;
-import javax.swing.ImageIcon;
 
 public class Draw extends Window {
 	/**

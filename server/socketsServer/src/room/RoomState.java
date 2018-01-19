@@ -19,15 +19,17 @@ public class RoomState implements Serializable{
 	private String whitePlayer;
 	private String blackPlayer;
 	private String nextPlayer;
+	private boolean check;
+	private boolean checkmate;
 	private LinkedList<String> history;
 	private static final long serialVersionUID = 1L;
 	
 	public static void sendRoom(UserThread user,Room room) {
 		System.out.println("Sendind room state");
 		try {
-			Thread.sleep(500);
+			Thread.sleep(400);
 			SocketAPI.writeToSocket(user.getUser().getSocket(), "s");
-			Thread.sleep(500);
+			Thread.sleep(400);
 			RoomState roomstate = getRoomState(room);
 			user.getOut().writeObject(roomstate);
 			System.out.println("State sent to user");
@@ -52,6 +54,8 @@ public class RoomState implements Serializable{
 		roomstate.setTurn(room.getTurn());
 		roomstate.setJoinStatus(room.getJoinStatus());
 		roomstate.setTurnStatus(room.getTurnStatus());
+		roomstate.setCheck(room.isCheck());
+		roomstate.setCheckmate(room.isCheckmate());
 		return roomstate;
 	}
 
@@ -108,5 +112,17 @@ public class RoomState implements Serializable{
 	}
 	public void setNextPlayer(String nextPlayer) {
 		this.nextPlayer = nextPlayer;
+	}
+	public boolean isCheck() {
+		return check;
+	}
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
+	public boolean isCheckmate() {
+		return checkmate;
+	}
+	public void setCheckmate(boolean checkmate) {
+		this.checkmate = checkmate;
 	}
 }
