@@ -45,18 +45,18 @@ public class GameView extends Window{
 	private JLabel joinLabel;
 	private JLabel turnLabel;
 	private JTextArea speakArea;
-	private JLabel lbl_white;
-	private JLabel lbl_black;
-	private JLabel lbl_nextPlayer;
-	
+	private JLabel lblWhite;
+	private JLabel lblBlack;
+	private JLabel lblNextPlayer;
+
 	public JLabel getlbl_nextPlayer() {
-		return lbl_nextPlayer;
+		return lblNextPlayer;
 	}
 	public JLabel getlbl_white() {
-		return lbl_white;
+		return lblWhite;
 	}
 	public JLabel getlbl_black() {
-		return lbl_black;
+		return lblBlack;
 	}
 	public JLabel getJoinLabel() {
 		return joinLabel;
@@ -108,7 +108,7 @@ public class GameView extends Window{
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(GameView.class.getResource("FreeChessKing.png")));
 		frmChess.setTitle("Chess Game");
 		frmChess.setBounds(50, 50, 1024, 700);
-		
+
 		JPanel exit = new JPanel();
 		getFrmChess().getContentPane().add(exit, BorderLayout.SOUTH);
 		GridBagLayout gbl_exit = new GridBagLayout();
@@ -152,7 +152,7 @@ public class GameView extends Window{
 
 		JPanel history = new JPanel();
 		frmChess.getContentPane().add(history, BorderLayout.WEST);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "History", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		history.add(panel);
@@ -162,7 +162,7 @@ public class GameView extends Window{
 		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
@@ -178,7 +178,7 @@ public class GameView extends Window{
 		JPanel chat = new JPanel();
 		frmChess.getContentPane().add(chat, BorderLayout.EAST);
 		chat.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		chat.add(panel_1);
@@ -188,18 +188,18 @@ public class GameView extends Window{
 		gbl_panel_1.columnWeights = new double[]{1.0};
 		gbl_panel_1.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 0;
 		panel_1.add(scrollPane, gbc_scrollPane);
-		
+
 		chatArea = new JTextArea();
 		chatArea.setEditable(false);
 		scrollPane.setViewportView(chatArea);
-		
+
 		JPanel chatMenu = new JPanel();
 		chat.add(chatMenu, BorderLayout.SOUTH);
 		GridBagLayout gbl_chatMenu = new GridBagLayout();
@@ -208,7 +208,7 @@ public class GameView extends Window{
 		gbl_chatMenu.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_chatMenu.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		chatMenu.setLayout(gbl_chatMenu);
-		
+
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
@@ -217,24 +217,25 @@ public class GameView extends Window{
 		gbc_panel_3.gridx = 0;
 		gbc_panel_3.gridy = 0;
 		chatMenu.add(panel_3, gbc_panel_3);
-		
+
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{202, 0};
 		gbl_panel_3.rowHeights = new int[]{57, 0};
 		gbl_panel_3.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_panel_3.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
-		
+
 		JScrollPane scrollPane_2 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
 		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_2.gridx = 0;
 		gbc_scrollPane_2.gridy = 0;
 		panel_3.add(scrollPane_2, gbc_scrollPane_2);
-		
+
 		speakArea = new JTextArea();
 		scrollPane_2.setViewportView(speakArea);
 		speakArea.setLineWrap(true);
+
 		
 		speakArea.addKeyListener(new KeyAdapter() {
 			
@@ -252,22 +253,7 @@ public class GameView extends Window{
 	                }		
 		}});
 		
-		/*
-		btnSend = new JButton("Send");
-		btnSend.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String speak = speakArea.getText();
-				speak = "c "+speak;
-				speakArea.setText("");
-				getUser().sendCommand(speak);
-			}
-		});
-		GridBagConstraints gbc_btnSend = new GridBagConstraints();
-		gbc_btnSend.anchor = GridBagConstraints.EAST;
-		gbc_btnSend.gridx = 1;
-		gbc_btnSend.gridy = 0;
-		chatMenu.add(btnSend, gbc_btnSend);
-       */
+
 		joinLabel = new JLabel("");
 		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
 		gbc_joinLabel.insets = new Insets(0, 0, 5, 5);
@@ -345,40 +331,35 @@ public class GameView extends Window{
 
 		JPanel title = new JPanel();
 		frmChess.getContentPane().add(title, BorderLayout.NORTH);
-		
-	   
-		//panel_2.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
-		
-		
-		lbl_white = new JLabel();
-		lbl_black = new JLabel();
-		lbl_nextPlayer = new JLabel();
-		lbl_white.setOpaque(true);
-		lbl_black.setOpaque(true);
-		lbl_nextPlayer.setOpaque(true);
-	
-		
-		lbl_white.setBackground(Color.WHITE);
-		lbl_white.setForeground(Color.BLACK);
-		lbl_nextPlayer.setForeground(Color.BLACK);
-		
-		lbl_black.setBackground(Color.BLACK);
-		lbl_white.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.WHITE));
-		lbl_black.setForeground(Color.WHITE);
-		lbl_black.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
-		
-		lbl_nextPlayer.setBackground(Color.gray);
-		lbl_nextPlayer.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.gray));
-		
-		title.add(lbl_white,BorderLayout.WEST);
-		title.add(lbl_black,BorderLayout.EAST);
-		title.add(lbl_nextPlayer,BorderLayout.PAGE_START);
-		
-		lbl_white.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
-		lbl_black.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
-		lbl_nextPlayer.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
 
-		
+		lblWhite = new JLabel();
+		lblBlack = new JLabel();
+		lblNextPlayer = new JLabel();
+		lblWhite.setOpaque(true);
+		lblBlack.setOpaque(true);
+		lblNextPlayer.setOpaque(true);
+
+
+		lblWhite.setBackground(Color.WHITE);
+		lblWhite.setForeground(Color.BLACK);
+		lblNextPlayer.setForeground(Color.BLACK);
+
+		lblBlack.setBackground(Color.BLACK);
+		lblWhite.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.WHITE));
+		lblBlack.setForeground(Color.WHITE);
+		lblBlack.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLACK));
+
+		lblNextPlayer.setBackground(Color.gray);
+		lblNextPlayer.setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.gray));
+
+		title.add(lblWhite,BorderLayout.WEST);
+		title.add(lblBlack,BorderLayout.EAST);
+		title.add(lblNextPlayer,BorderLayout.PAGE_START);
+
+		lblWhite.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
+		lblBlack.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
+		lblNextPlayer.setFont(new Font("Baskerville Old Face", Font.PLAIN, 32));
+
 		JPanel game = new JPanel();
 		getFrmChess().getContentPane().add(game, BorderLayout.CENTER);
 		GridBagLayout gbl_game = new GridBagLayout();
@@ -387,7 +368,7 @@ public class GameView extends Window{
 		gbl_game.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_game.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		game.setLayout(gbl_game);
-		
+
 		JLayeredPane gameScreen = new JLayeredPane();
 		gameScreen.setBounds(198, 71, 530, 530);
 		GridBagConstraints gbc_gameScreen = new GridBagConstraints();
@@ -395,20 +376,12 @@ public class GameView extends Window{
 		gbc_gameScreen.anchor = GridBagConstraints.NORTHWEST;
 		gbc_gameScreen.gridx = 0;
 		gbc_gameScreen.gridy = 0;
-		
+
 		board = new BoardView(gameScreen,this);
 		board.create(frmChess);
 		board.listener();
 		board.initPieces();
 		game.add(gameScreen, gbc_gameScreen);
-		
-		/*
-		frmChess.getContentPane().setLayout(null);
-		JLabel lblNewLabel = new JLabel();
-		lblNewLabel.setBounds(0, 0, 1350, 800);
-		lblNewLabel.setIcon(new ImageIcon(GameView.class.getResource("99.jpg")));
-		frmChess.getContentPane().add(lblNewLabel);	
-		*/
 	}
 	public void removeUserButtons() {
 		btnSend.setEnabled(false);
@@ -447,6 +420,6 @@ public class GameView extends Window{
 			getlbl_white().setBorder(null);
 			getlbl_black().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
 		}
-		
+
 	}
 }

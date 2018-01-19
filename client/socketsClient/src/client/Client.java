@@ -21,12 +21,6 @@ public class Client {
 		System.out.println("New client");
 		setConnected(false);
 	}
-	public Socket getSocket() {
-		return socket;
-	}
-	public void setSocket(Socket socket) {
-		this.socket = socket;
-	}
 	/**
 	 * @param ip
 	 * @param port
@@ -62,5 +56,11 @@ public class Client {
 	}
 	public void setConnected(boolean connected) {
 		this.connected = connected;
+	}
+	public Socket getSocket() {
+		return socket;
+	}
+	public void setSocket(Socket socket) {
+		this.socket = socket;
 	}
 }

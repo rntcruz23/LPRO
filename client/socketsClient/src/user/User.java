@@ -2,12 +2,11 @@ package user;
 
 
 
+
 import java.awt.Color;
-import java.awt.Font;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
-import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
 import client.Client;
@@ -21,7 +20,6 @@ import windows.lobby.Lobby;
 import windows.login.Login;
 
 public class User {
-	private static final Object[] Object = null;
 	protected Client client;
 	private String name;
 	private String password;
