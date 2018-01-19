@@ -1,10 +1,13 @@
 package user;
 
+
+
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 
 import client.Client;
 import pieces.Piece;
@@ -13,11 +16,11 @@ import server.SocketAPI;
 import window.Window;
 import windows.create.CreateAcc;
 import windows.game.GameView;
-import windows.joinroom.JoinRoom;
 import windows.lobby.Lobby;
 import windows.login.Login;
 
 public class User {
+	private static final Object[] Object = null;
 	protected Client client;
 	private String name;
 	private String password;
@@ -110,9 +113,9 @@ public class User {
 				g.manageButtons();
 			}
 			else {
-				JoinRoom j = (JoinRoom)getRoom();
-				j.getStatus().setText("Error joining room");
-				System.out.println("Error joining");
+				//JoinRoom j = (JoinRoom)getRoom();
+				//j.getStatus().setText("Error joining room");
+				//System.out.println("Error joining");
 				valid = true;
 			}
 			break;
@@ -147,13 +150,16 @@ public class User {
 		String roomName = roomstate.getRoomName();
 		String joinStatus = roomstate.getJoinStatus();
 		String turnStatus = roomstate.getTurnStatus();
+
 		String whitePlayer = roomstate.getWhitePlayer();
 		String blackPlayer = roomstate.getBlackPlayer();
 		String nextPlayer = roomstate.getNextPlayer();
+
 		boolean roomEmpty = roomstate.isRoomEmpty();
 		LinkedList<String> history = roomstate.getHistory();
 		if(roomEmpty)
 			joinStatus = "Room is empty";
+		
 		g.getTurnLabel().setText(turnStatus);
 		if(!joinStatus.equals(""))
 			addToChat("*********-"+joinStatus+"-*********");
@@ -169,6 +175,16 @@ public class User {
 			g.getlbl_white().setBorder(null);
 			g.getlbl_black().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
 		}
+
+		g.getTurnLabel().setText(turnStatus);
+		addToChat("*********-"+joinStatus+"-*********");
+		g.getFrmChess().setTitle("Chess Game - "+ roomName);
+		
+		g.getlbl_white().setText(whitePlayer);
+		g.getlbl_black().setText(blackPlayer);
+		g.getlbl_nextPlayer().setText(nextPlayer);
+		
+
 		for(String move : history) {
 			g.getHistoryArea().append(move);
 		}
@@ -251,10 +267,26 @@ public class User {
 	}
 	public void printRooms(String[] rooms) {
 		Lobby l = (Lobby) getRoom();
-		l.getTextArea().setText("");
-		for(String room : rooms)
-			l.getTextArea().append(room+'\n');
+		
+		DefaultTableModel model=(DefaultTableModel)  l.table().getModel(); 
+		int q=l.table().getRowCount();
+		while(q!=0){
+		model.removeRow(0);
+		q--;
+		}
+		
+		for(String room : rooms) {			
+		StringTokenizer tok = new StringTokenizer(room,":");
+		int n=0;
+			Object[] value=new Object[4];
+		
+		  while(tok.hasMoreTokens()){  
+		 value[n++]  = tok.nextToken(); 	  
+		  }   
+		  model.addRow(value);
+		}
 	}
+	
 	public void addToChat(String speak) {
 		GameView room = (GameView) window;
 		room.getChatArea().append(speak.substring(2,speak.length())+'\n');

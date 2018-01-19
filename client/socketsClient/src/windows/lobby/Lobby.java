@@ -10,9 +10,12 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Box;
@@ -23,12 +26,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import server.SocketAPI;
 import window.Window;
@@ -42,6 +52,13 @@ public class Lobby extends Window{
 	private JButton btnStats;
 	private JButton btnNewRoom;
 	private JButton btnLogout;
+	private JTable table_1;
+	
+	
+	public JTable table() {
+		return table_1;
+	}
+	
 	public JTextArea getTextArea() {
 		return textArea;
 	}
@@ -64,6 +81,7 @@ public class Lobby extends Window{
 		frmChess.setBounds(100, 100, 963, 658);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Lobby.class.getResource("FreeChessKing.png")));
 		
+		
 		JPanel roomsPanel = new JPanel();
 		roomsPanel.setBorder(new TitledBorder(new CompoundBorder(new BevelBorder(BevelBorder.LOWERED, null, null, new Color(192, 192, 192), new Color(192, 192, 192)), new LineBorder(new Color(0, 0, 0))), "Room List", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		frmChess.getContentPane().add(roomsPanel, BorderLayout.WEST);
@@ -72,11 +90,20 @@ public class Lobby extends Window{
 		JScrollPane scrollPane = new JScrollPane();
 		roomsPanel.add(scrollPane);
 		
-		textArea = new JTextArea();
-		scrollPane.setViewportView(textArea);
-		textArea.setEditable(false);
-		textArea.setColumns(50);
+		table_1 = new JTable();
+		table_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		DefaultTableModel model=new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Name Room", "Player", "Spectator", "Guest"
+				}
+			);
 		
+		table_1.setModel(model);
+		
+		scrollPane.setViewportView(table_1);
+		//table_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		JPanel title = new JPanel();
 		frmChess.getContentPane().add(title, BorderLayout.NORTH);
 		
@@ -137,14 +164,56 @@ public class Lobby extends Window{
 		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
+		JTextField textField = new JTextField();
+		textField.setEditable(false);
+		textField.setFont(new Font("Tahoma", Font.BOLD, 14));
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setForeground(Color.RED);
+		textField.setBackground(SystemColor.menu);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.gridwidth = 3;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridx = 0;
+		gbc_textField.gridy = 0;
+		panel_2.add(textField, gbc_textField);
+		textField.setColumns(10);
+	/*
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();
 		gbc_verticalStrut_1.insets = new Insets(0, 0, 5, 5);
 		gbc_verticalStrut_1.gridx = 1;
 		gbc_verticalStrut_1.gridy = 0;
 		panel_2.add(verticalStrut_1, gbc_verticalStrut_1);
+	*/	
 		
+		
+		ImageIcon bStats=getScaledImage(createImageIcon("button_stats.png"),120,50);
+		JLabel LabelStats = new JLabel();
+		GridBagConstraints gbc_LabelStats = new GridBagConstraints();
+		gbc_LabelStats.insets = new Insets(0, 0, 15, 15);
+		gbc_LabelStats.gridx = 1;
+		gbc_LabelStats.gridy = 1;
+		panel_2.add(LabelStats, gbc_LabelStats,new Integer(1));
+		LabelStats.setIcon(bStats);
+		LabelStats.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Stats frmStats = new Stats();
+				frmStats.setUser(getUser());
+				getUser().setBackWindow(getUser().getRoom());
+				getUser().setRoom(frmStats);
+				frmStats.getFrmChess().setVisible(true);
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(),"y");
+					
+			}
+		});
+		
+		/*
 		btnStats = new JButton("Stats");
+		Border line = new LineBorder(Color.BLACK);
+		 Border margin = new EmptyBorder(5, 15, 5, 15);
+		Border compound = new CompoundBorder(line, margin);
+		btnStats.setBorder(compound);
 		btnStats.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Stats frmStats = new Stats();
@@ -162,7 +231,7 @@ public class Lobby extends Window{
 		gbc_btnStats.gridx = 1;
 		gbc_btnStats.gridy = 1;
 		panel_2.add(btnStats, gbc_btnStats);
-		
+		*/
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_2 = new GridBagConstraints();
 		gbc_verticalStrut_2.insets = new Insets(0, 0, 5, 5);
@@ -170,14 +239,57 @@ public class Lobby extends Window{
 		gbc_verticalStrut_2.gridy = 2;
 		panel_2.add(verticalStrut_2, gbc_verticalStrut_2);
 		
+		
+		ImageIcon bJoin=getScaledImage(createImageIcon("button_join.png"),120,50);
+		JLabel LabelJjoin = new JLabel();
+		GridBagConstraints gbc_LabelJjoin = new GridBagConstraints();
+		gbc_LabelJjoin.insets = new Insets(0, 0, 15, 15);
+		gbc_LabelJjoin.gridx = 1;
+		gbc_LabelJjoin.gridy = 3;
+		panel_2.add(LabelJjoin, gbc_LabelJjoin,new Integer(1));
+		LabelJjoin.setIcon(bJoin);
+		LabelJjoin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int i = table_1.getSelectedRow();
+				
+				if(i>=0) {
+				String room =(String) table_1.getValueAt(i, 0);
+				String query = "j "+room;
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(), query);
+				}
+				else {
+					textField.setText("Select a room!");	
+				}
+					
+			}
+		});
+		
+		
+		
+		
+		/*
 		JButton btnJoinGame = new JButton("Join Game");
 		btnJoinGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JoinRoom frmGame = new JoinRoom();
-				frmGame.setUser(getUser());
-				getUser().setBackWindow(getUser().getRoom());
-				getUser().setRoom(frmGame);
-				frmGame.getFrmChess().setVisible(true);
+				
+				//JoinRoom frmGame = new JoinRoom();
+				//frmGame.setUser(getUser());
+				//getUser().setBackWindow(getUser().getRoom());
+				//getUser().setRoom(frmGame);
+				//frmGame.getFrmChess().setVisible(true);
+				
+				int i = table_1.getSelectedRow();
+				
+				if(i>=0) {
+				String room =(String) table_1.getValueAt(i, 0);
+				String query = "j "+room;
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(), query);
+				}
+				else {
+					textField.setText("Select a room!");	
+				}
+				
 			}
 		});
 		btnJoinGame.setFont(new Font("Baskerville Old Face", Font.PLAIN, 15));
@@ -187,7 +299,8 @@ public class Lobby extends Window{
 		gbc_btnJoinGame.gridx = 1;
 		gbc_btnJoinGame.gridy = 3;
 		panel_2.add(btnJoinGame, gbc_btnJoinGame);
-		
+		*/
+			
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_3 = new GridBagConstraints();
 		gbc_verticalStrut_3.insets = new Insets(0, 0, 5, 5);
@@ -195,6 +308,26 @@ public class Lobby extends Window{
 		gbc_verticalStrut_3.gridy = 4;
 		panel_2.add(verticalStrut_3, gbc_verticalStrut_3);
 		
+		ImageIcon bnewGame=getScaledImage(createImageIcon("button_newgame.png"),120,50);
+		JLabel LabelnewGame = new JLabel();
+		GridBagConstraints gbc_LabelnewGame = new GridBagConstraints();
+		gbc_LabelnewGame.insets = new Insets(0, 0, 15, 15);
+		gbc_LabelnewGame.gridx = 1;
+		gbc_LabelnewGame.gridy = 5;
+		panel_2.add(LabelnewGame, gbc_LabelnewGame,new Integer(1));
+		LabelnewGame.setIcon(bnewGame);
+		LabelnewGame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				CreateRoom frmNewRoom = new CreateRoom();
+				frmNewRoom.setUser(getUser());
+				getUser().setBackWindow(getUser().getRoom());
+				getUser().setRoom(frmNewRoom);
+				frmNewRoom.getFrmChess().setVisible(true);
+					
+			}
+		});
+		/*
 		btnNewRoom = new JButton("New Room");
 		btnNewRoom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -212,6 +345,7 @@ public class Lobby extends Window{
 		gbc_btnNewRoom.gridx = 1;
 		gbc_btnNewRoom.gridy = 5;
 		panel_2.add(btnNewRoom, gbc_btnNewRoom);
+		*/
 		
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_4 = new GridBagConstraints();
@@ -220,18 +354,38 @@ public class Lobby extends Window{
 		gbc_verticalStrut_4.gridy = 6;
 		panel_2.add(verticalStrut_4, gbc_verticalStrut_4);
 		
+		ImageIcon brefresh=getScaledImage(createImageIcon("refresh.png"),60,50);
+		JLabel Labelrefresh = new JLabel();
+		GridBagConstraints gbc_Labelrefresh = new GridBagConstraints();
+		gbc_Labelrefresh.insets = new Insets(0, 0, 0, 5);
+		gbc_Labelrefresh.gridx = 1;
+		gbc_Labelrefresh.gridy = 7;
+		panel_2.add(Labelrefresh, gbc_Labelrefresh,new Integer(1));
+		Labelrefresh.setIcon(brefresh);
+		Labelrefresh.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "u");
+			}
+		});
+			
+		
+		/*
 		JButton refresh = new JButton("");
-		refresh.setIcon(getScaledImage(new ImageIcon(Lobby.class.getResource("/images/swap-arrows-refresh.jpg")),20,20));
+		refresh.setIcon(getScaledImage(new ImageIcon(Lobby.class.getResource("/images/swap-arrows-refresh.jpg")),40,40));
 		refresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "u");
 			}
 		});
+		
+		
 		GridBagConstraints gbc_refresh = new GridBagConstraints();
 		gbc_refresh.insets = new Insets(0, 0, 0, 5);
 		gbc_refresh.gridx = 1;
 		gbc_refresh.gridy = 7;
 		panel_2.add(refresh, gbc_refresh);
+		*/
 	}
 	private ImageIcon getScaledImage(ImageIcon srcImgIcon, int w, int h){
 		Image srcImg = srcImgIcon.getImage();
@@ -243,6 +397,14 @@ public class Lobby extends Window{
 	    g2.dispose();
 	    
 	    return new ImageIcon(resizedImg);
+	}
+	
+	private ImageIcon createImageIcon(String path) {
+		java.net.URL imgUrl = getClass().getResource(path);
+		if(imgUrl != null)
+			return new ImageIcon(imgUrl);
+		System.out.println("No file path " + path);
+		return null;	
 	}
 	public void removeUserButtons() {
 		btnStats.setEnabled(false);
