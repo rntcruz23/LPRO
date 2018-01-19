@@ -145,13 +145,29 @@ public class User {
 		String blackPlayer = roomstate.getBlackPlayer();
 		String nextPlayer = roomstate.getNextPlayer();
 		boolean roomEmpty = roomstate.isRoomEmpty();
+		boolean check=roomstate.check();
+		boolean checkmate=roomstate.checkmate();
 		LinkedList<String> history = roomstate.getHistory();
+		
 		if(roomEmpty)
 			joinStatus = "Room is empty";
 		g.getTurnLabel().setText(turnStatus);
 		if(!joinStatus.equals(""))
 			addToChat("*********-"+joinStatus+"-*********");
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
+		
+		if(check) {
+			g.getLabelcheck().setEnabled(true);
+		}
+		else
+			g.getLabelcheck().setEnabled(false);
+		
+		if(checkmate) {
+			g.getLabelcheckMate().setEnabled(true);
+		}
+		else
+			g.getLabelcheckMate().setEnabled(false);
+			
 		g.managePlayerLabels(turn, whitePlayer, blackPlayer, nextPlayer);
 		for(String move : history) {
 			g.getHistoryArea().append(move);

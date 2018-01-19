@@ -4,16 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -47,9 +52,18 @@ public class GameView extends Window{
 	private JLabel lblWhite;
 	private JLabel lblBlack;
 	private JLabel lblNextPlayer;
+	private JLabel LabelcheckMate; 
+	private JLabel Labelcheck; 
 	/**
 	 * Create the application.
 	 */
+	public JLabel getLabelcheckMate() {
+		return LabelcheckMate;
+	}
+	
+	public JLabel getLabelcheck() {
+		return Labelcheck;
+	}
 	public GameView(User u) {
 		super();
 		System.out.println("Starting room");
@@ -204,13 +218,34 @@ public class GameView extends Window{
 				}		
 			}});
 
+		
+		ImageIcon checkMate=getScaledImage(createImageIcon("checkmate.png"),60,50);
+		JLabel LabelcheckMate = new JLabel();
+		GridBagConstraints gbc_LabelcheckMate = new GridBagConstraints();
+		gbc_LabelcheckMate.insets = new Insets(0, 0, 0, 0);
+		gbc_LabelcheckMate.gridx = 3;
+		gbc_LabelcheckMate.gridy = 1;
+		exit.add(LabelcheckMate, gbc_LabelcheckMate,new Integer(1));
+		LabelcheckMate.setIcon(checkMate);
+		
+		
+		ImageIcon check=getScaledImage(createImageIcon("check.png"),60,50);
+		JLabel Labelcheck = new JLabel();
+		GridBagConstraints gbc_Labelcheck = new GridBagConstraints();
+		 gbc_Labelcheck.insets = new Insets(0, 0, 0, 200);
+		 gbc_Labelcheck.gridx = 3;
+		 gbc_Labelcheck.gridy = 1;
+		exit.add(Labelcheck, gbc_Labelcheck,new Integer(1));
+		Labelcheck.setIcon(check);
+		
+		/*
 		joinLabel = new JLabel("");
 		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
 		gbc_joinLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_joinLabel.gridx = 4;
 		gbc_joinLabel.gridy = 1;
 		exit.add(joinLabel, gbc_joinLabel);
-
+*/
 		turnLabel = new JLabel("");
 		GridBagConstraints gbc_turnLabel = new GridBagConstraints();
 		gbc_turnLabel.insets = new Insets(0, 0, 5, 5);
@@ -359,12 +394,12 @@ public class GameView extends Window{
 		getLblBlack().setText(blackPlayer);
 		getLblNextPlayer().setText(nextPlayer);
 		if (turn == Piece.color.white) {
-			getLblWhite().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+			getLblWhite().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.RED));
 			getLblBlack().setBorder(null);
 		}
 		else {
 			getLblWhite().setBorder(null);
-			getLblBlack().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.BLUE));
+			getLblBlack().setBorder(new MatteBorder(2, 2, 2, 2, (Color) Color.RED));
 		}
 
 	}
@@ -407,5 +442,23 @@ public class GameView extends Window{
 	}
 	public void setHistoryArea(JTextArea historyArea) {
 		this.historyArea = historyArea;
+	}
+	private ImageIcon getScaledImage(ImageIcon srcImgIcon, int w, int h){
+		Image srcImg = srcImgIcon.getImage();
+	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2 = resizedImg.createGraphics();
+
+	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g2.drawImage(srcImg, 0, 0, w, h, null);
+	    g2.dispose();
+	    
+	    return new ImageIcon(resizedImg);
+	}	
+	private ImageIcon createImageIcon(String path) {
+		java.net.URL imgUrl = getClass().getResource(path);
+		if(imgUrl != null)
+			return new ImageIcon(imgUrl);
+		System.out.println("No file path " + path);
+		return null;	
 	}
 }
