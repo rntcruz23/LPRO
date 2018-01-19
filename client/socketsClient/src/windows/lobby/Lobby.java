@@ -10,7 +10,6 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
-import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,16 +43,25 @@ import windows.stats.Stats;
 
 public class Lobby extends Window{
 	private JTextArea textArea;
-	private JButton btnStats;
-	private JButton btnNewRoom;
+	public JLabel getLabelStats() {
+		return LabelStats;
+	}
+	public void setLabelStats(JLabel labelStats) {
+		LabelStats = labelStats;
+	}
+	public JLabel getLabelnewGame() {
+		return LabelnewGame;
+	}
+	public void setLabelnewGame(JLabel labelnewGame) {
+		LabelnewGame = labelnewGame;
+	}
 	private JButton btnLogout;
 	private JTable table_1;
-	
-	
+	private JLabel LabelStats;
+	private JLabel LabelnewGame;
 	public JTable table() {
 		return table_1;
 	}
-	
 	public JTextArea getTextArea() {
 		return textArea;
 	}
@@ -75,7 +83,6 @@ public class Lobby extends Window{
 		frmChess.setResizable(false);
 		frmChess.setBounds(100, 100, 763, 658);
 		frmChess.setIconImage(Toolkit.getDefaultToolkit().getImage(Lobby.class.getResource("FreeChessKing.png")));
-		
 		
 		JPanel roomsPanel = new JPanel();
 		roomsPanel.setBorder(new TitledBorder(new CompoundBorder(new BevelBorder(BevelBorder.LOWERED, null, null, new Color(192, 192, 192), new Color(192, 192, 192)), new LineBorder(new Color(0, 0, 0))), "Room List", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -178,7 +185,7 @@ public class Lobby extends Window{
 		
 		
 		ImageIcon bStats=getScaledImage(createImageIcon("button_stats.png"),120,50);
-		JLabel LabelStats = new JLabel();
+		LabelStats = new JLabel();
 		GridBagConstraints gbc_LabelStats = new GridBagConstraints();
 		gbc_LabelStats.insets = new Insets(0, 0, 15, 15);
 		gbc_LabelStats.gridx = 1;
@@ -240,7 +247,7 @@ public class Lobby extends Window{
 		panel_2.add(verticalStrut_3, gbc_verticalStrut_3);
 		
 		ImageIcon bnewGame=getScaledImage(createImageIcon("button_newgame.png"),120,50);
-		JLabel LabelnewGame = new JLabel();
+		LabelnewGame = new JLabel();
 		GridBagConstraints gbc_LabelnewGame = new GridBagConstraints();
 		gbc_LabelnewGame.insets = new Insets(0, 0, 15, 15);
 		gbc_LabelnewGame.gridx = 1;
@@ -280,7 +287,6 @@ public class Lobby extends Window{
 				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "u");
 			}
 		});
-
 	}
 	private ImageIcon getScaledImage(ImageIcon srcImgIcon, int w, int h){
 		Image srcImg = srcImgIcon.getImage();
@@ -292,8 +298,7 @@ public class Lobby extends Window{
 	    g2.dispose();
 	    
 	    return new ImageIcon(resizedImg);
-	}
-	
+	}	
 	private ImageIcon createImageIcon(String path) {
 		java.net.URL imgUrl = getClass().getResource(path);
 		if(imgUrl != null)
@@ -302,8 +307,8 @@ public class Lobby extends Window{
 		return null;	
 	}
 	public void removeUserButtons() {
-		btnStats.setEnabled(false);
-		btnNewRoom.setEnabled(false);
+		LabelStats.setEnabled(false);
+		LabelnewGame.setEnabled(false);
 		btnLogout.setText("Exit");
 	}
 }

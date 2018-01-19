@@ -1,9 +1,5 @@
 package user;
 
-import java.awt.Color;
-
-import javax.swing.border.MatteBorder;
-
 import client.Client;
 import pieces.Piece;
 import windows.drawprompt.Draw;

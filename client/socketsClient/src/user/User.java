@@ -2,11 +2,9 @@ package user;
 
 
 
-import java.awt.Color;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
-import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
 import client.Client;

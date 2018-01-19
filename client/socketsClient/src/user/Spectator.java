@@ -45,11 +45,11 @@ public class Spectator extends User{
 			char t = com.charAt(2);
 			Player n = new Player(client);
 			n.setTurn(t);
-			System.out.println("Player left, your turn: "+t);
+			System.out.println("Player left, your turn: "+n.getTurn());
 			setType(n,getName(),getPassword(),getRoom());
 			GameView play = (GameView)getRoom();
 			play.enablePlayerButtons();
-			play.getTurnLabel().setText("Player left, your turn: "+t);
+			play.getTurnLabel().setText("Player left, your turn: "+n.getTurn());
 			break;
 		case 'y':
 			int[] stats = getStatsFromServer(com.substring(2,com.length()));

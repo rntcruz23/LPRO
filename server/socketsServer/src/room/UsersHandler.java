@@ -23,8 +23,9 @@ public class UsersHandler {
 				players.add(nP);
 				Piece.color color = user.getUser().getTurn();
 				char t = ColorsAPI.colorToString(color);
+				String c = t+"";
 				nP.getUser().setTurn(color);
-				SocketAPI.writeToSocket(nP.getUser().getSocket(), "z "+t);
+				SocketAPI.writeToSocket(nP.getUser().getSocket(), "z "+c.toLowerCase());
 			}
 			if(room.isGameRunning()) {
 				GameResultHandler.playerDefeated(room,user);
