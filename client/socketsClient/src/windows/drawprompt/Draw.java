@@ -28,7 +28,6 @@ public class Draw extends Window {
 		setUser(u);
 		run();
 	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -45,14 +44,14 @@ public class Draw extends Window {
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
-		
+
 		Component verticalStrut = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
 		gbc_verticalStrut.insets = new Insets(0, 0, 5, 0);
 		gbc_verticalStrut.gridx = 3;
 		gbc_verticalStrut.gridy = 0;
 		panel.add(verticalStrut, gbc_verticalStrut);
-		
+
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
 		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
@@ -69,27 +68,32 @@ public class Draw extends Window {
 		panel.add(drawOffer, gbc_drawOffer);
 
 		JButton btnNo = new JButton("No");
-		
-				JButton btnYes = new JButton("Yes");
-				btnYes.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						frmChess.setVisible(false);
-						getUser().setRoom(getUser().getBackWindow());
-						SocketAPI.writeToSocket(getUser().getClient().getSocket(), "a");
-					}
-				});
-				GridBagConstraints gbc_btnYes = new GridBagConstraints();
-				gbc_btnYes.insets = new Insets(0, 0, 0, 5);
-				gbc_btnYes.gridx = 2;
-				gbc_btnYes.gridy = 2;
-				panel.add(btnYes, gbc_btnYes);
-				btnYes.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						getUser().setRoom(getUser().getBackWindow());
-						frmChess.setVisible(false);
+		btnNo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				getUser().setRoom(getUser().getBackWindow());
+			}
+		});
+		JButton btnYes = new JButton("Yes");
+		btnYes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmChess.setVisible(false);
+				getUser().setRoom(getUser().getBackWindow());
+				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "a");
+			}
+		});
+		GridBagConstraints gbc_btnYes = new GridBagConstraints();
+		gbc_btnYes.insets = new Insets(0, 0, 0, 5);
+		gbc_btnYes.gridx = 2;
+		gbc_btnYes.gridy = 2;
+		panel.add(btnYes, gbc_btnYes);
+		btnYes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				getUser().setRoom(getUser().getBackWindow());
+				frmChess.setVisible(false);
 
-					}
-				});
+			}
+		});
 		GridBagConstraints gbc_btnNo = new GridBagConstraints();
 		gbc_btnNo.gridx = 3;
 		gbc_btnNo.gridy = 2;

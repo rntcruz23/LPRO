@@ -39,7 +39,6 @@ public class GameView extends Window{
 	private JTextArea chatArea;
 	private JTextArea historyArea;
 	private JLabel lblGameRoom;
-	private JButton btnSend;
 	private JButton drawButton;
 	private JButton forfitButton;
 	private JLabel joinLabel;
@@ -192,25 +191,18 @@ public class GameView extends Window{
 
 		speakArea = new JTextArea();
 		scrollPane_2.setViewportView(speakArea);
-		speakArea.setLineWrap(true);
-
-		
+		speakArea.setLineWrap(true);		
 		speakArea.addKeyListener(new KeyAdapter() {
-			
-		
-	         public void keyReleased(KeyEvent e) {
-	             int key = e.getKeyCode();
-	             if (key == KeyEvent.VK_ENTER) {
-	                //Toolkit.getDefaultToolkit().beep();   
-	                String speak = speakArea.getText();
-	        
+			public void keyReleased(KeyEvent e) {
+				int key = e.getKeyCode();
+				if (getUser().getClass() == (new Guest().getClass())) return;
+				if (key == KeyEvent.VK_ENTER) { 
+					String speak = speakArea.getText();
 					speak = "c "+speak;
 					speakArea.setText("");
 					getUser().sendCommand(speak);
-	                           
-	                }		
-		}});
-		
+				}		
+			}});
 
 		joinLabel = new JLabel("");
 		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
@@ -341,9 +333,6 @@ public class GameView extends Window{
 		board.initPieces();
 		game.add(gameScreen, gbc_gameScreen);
 	}
-	public void removeUserButtons() {
-		btnSend.setEnabled(false);
-	}
 	public void removePlayerButtons() {
 		drawButton.setEnabled(false);
 		forfitButton.setEnabled(false);
@@ -363,7 +352,6 @@ public class GameView extends Window{
 			removePlayerButtons();
 		else if (getUser().getClass() == (new Guest()).getClass()) {
 			removePlayerButtons();
-			removeUserButtons();
 		}
 	}
 	public void managePlayerLabels(Piece.color turn,String whitePlayer,String blackPlayer,String nextPlayer) {
