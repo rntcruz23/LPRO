@@ -89,9 +89,9 @@ public class RoomState implements Serializable{
 		this.nextPlayer = nextPlayer;
 	}
 	public boolean check() {
-		return this.check;
+		return check;
 	}
 	public boolean checkmate() {
-		return this.checkmate;
+		return checkmate;
 	}
 }

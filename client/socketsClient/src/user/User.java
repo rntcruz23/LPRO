@@ -21,6 +21,8 @@ public class User {
 	private String password;
 	private Window window;
 	private Window backWindow;
+	private boolean check;
+	 private boolean checkmate;
 	public User() {
 
 	}
@@ -31,6 +33,8 @@ public class User {
 	protected void printBoard(String command) {
 		GameView room =(GameView) window;
 		room.getBoard().putPieces(command.substring(2,command.length()));
+		room.getLabelcheck().setEnabled(check);	
+		room.getLabelcheckMate().setEnabled(checkmate);
 		System.out.println("Finished");
 	}
 	protected String getCommandsFromServer() {
@@ -145,8 +149,8 @@ public class User {
 		String blackPlayer = roomstate.getBlackPlayer();
 		String nextPlayer = roomstate.getNextPlayer();
 		boolean roomEmpty = roomstate.isRoomEmpty();
-		boolean check=roomstate.check();
-		boolean checkmate=roomstate.checkmate();
+		check=roomstate.check();
+	    checkmate=roomstate.checkmate();
 		LinkedList<String> history = roomstate.getHistory();
 		
 		if(roomEmpty)
@@ -156,18 +160,6 @@ public class User {
 			addToChat("*********-"+joinStatus+"-*********");
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
 		
-		if(check) {
-			g.getLabelcheck().setEnabled(true);
-		}
-		else
-			g.getLabelcheck().setEnabled(false);
-		
-		if(checkmate) {
-			g.getLabelcheckMate().setEnabled(true);
-		}
-		else
-			g.getLabelcheckMate().setEnabled(false);
-			
 		g.managePlayerLabels(turn, whitePlayer, blackPlayer, nextPlayer);
 		for(String move : history) {
 			g.getHistoryArea().append(move);

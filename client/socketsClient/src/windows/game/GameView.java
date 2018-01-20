@@ -222,7 +222,7 @@ public class GameView extends Window{
 
 		
 		ImageIcon checkMate=getScaledImage(createImageIcon("checkmate.png"),60,50);
-		JLabel LabelcheckMate = new JLabel();
+		LabelcheckMate = new JLabel();
 		GridBagConstraints gbc_LabelcheckMate = new GridBagConstraints();
 		gbc_LabelcheckMate.insets = new Insets(0, 0, 0, 0);
 		gbc_LabelcheckMate.gridx = 3;
@@ -232,7 +232,7 @@ public class GameView extends Window{
 		
 		
 		ImageIcon check=getScaledImage(createImageIcon("check.png"),60,50);
-		JLabel Labelcheck = new JLabel();
+		 Labelcheck = new JLabel();
 		GridBagConstraints gbc_Labelcheck = new GridBagConstraints();
 		 gbc_Labelcheck.insets = new Insets(0, 0, 0, 200);
 		 gbc_Labelcheck.gridx = 3;
