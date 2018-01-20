@@ -1,7 +1,6 @@
 package user;
 
 
-import java.awt.Color;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -21,9 +20,7 @@ public class User {
 	private String password;
 	private Window window;
 	private Window backWindow;
-	public User() {
-
-	}
+	public User() {}
 	public User(Client client) {
 		setClient(client);
 	}
@@ -190,12 +187,6 @@ public class User {
 		client.setUser(n);
 		newWindow.setUser(n);
 	}
-	public Window getRoom() {
-		return window;
-	}
-	public void setRoom(Window room) {
-		this.window = room;
-	}
 	public String[] getLogin(String input) {
 		System.out.println(input);
 		StringTokenizer tok = new StringTokenizer(input," ");
@@ -246,13 +237,6 @@ public class User {
 			l.addRow(newRow);
 		}
 	}
-
-	public Client getClient() {
-		return client;
-	}
-	public void setClient(Client client) {
-		this.client = client;
-	}
 	public void addToChat(String speak) {
 		GameView room = (GameView) window;
 		String username = "";
@@ -261,17 +245,26 @@ public class User {
 			StringTokenizer tok = new StringTokenizer(speak.substring(2,speak.length()),":");
 			username= tok.nextToken();
 			text = tok.nextToken();
-			//room.getChatArea().setForeground(Color.BLUE);
-			//room.getChatArea().setFont(new Font("Tahoma", Font.BOLD, 14));
 			room.getChatArea().append(username + ":");
-			//room.getChatArea().setForeground(Color.BLACK);
-			//room.getChatArea().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}catch(Exception e) {
-			text = speak+"\n";
+			text = speak + "\n";
 			return ;
 		}finally{
 			room.getChatArea().append(text);
 		}
+	}
+	
+	public Window getRoom() {
+		return window;
+	}
+	public void setRoom(Window room) {
+		this.window = room;
+	}
+	public Client getClient() {
+		return client;
+	}
+	public void setClient(Client client) {
+		this.client = client;
 	}
 	public String getName() {
 		return name;
