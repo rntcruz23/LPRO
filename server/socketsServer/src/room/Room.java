@@ -35,6 +35,12 @@ public class Room extends Window implements Runnable{
 	private Piece.color turn;
 	private Server server;
 	
+	/**
+	 * Start new room
+	 * @param name			room name
+	 * @param player1		player that created the room, i.e first player to join
+	 * @param server		server hosting the room
+	 */
 	public Room(String name,UserThread player1,Server server) {
 		super();	
 		setServer(server);
@@ -54,6 +60,9 @@ public class Room extends Window implements Runnable{
 		setGameRunning(false);
 		setGameFinished(false);
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override 
  	public void run(){
 		while((players.size() < 2))
@@ -65,6 +74,11 @@ public class Room extends Window implements Runnable{
 		System.out.println(String.format("Closing room, players %d; spec: %d",players.size(),viewers.size()));
 		closeRoom();	
 	}
+	/**
+	 * Terminate room
+	 * Delete it from lobby list room
+	 * Warn remaining users room will be closed
+	 */
 	public void closeRoom() {
 		server.getLob().getRooms().remove(this);
 		lock();
@@ -72,6 +86,17 @@ public class Room extends Window implements Runnable{
 		ListAPI.terminateList(viewers);
 		unlock();
 	}
+	/**
+	 * Command list:
+	 * c [text] - new chat entry
+	 * m [chess standard] - play
+	 * x - user left room, user loses game. Game continues
+	 * d - user attempting to draw the game, prompt opponent
+	 * a - user accepted to draw match. Game end
+	 * f - user forfeits current game. Game ends
+	 * default - unknown command. Re-inform players about current turn
+	 * @see room.Window#processCommands(java.lang.String, users.UserThread)
+	 */
 	@Override
 	public void processCommands(String input,UserThread user) {
 		Piece.color color = user.getUser().getTurn();
@@ -98,7 +123,7 @@ public class Room extends Window implements Runnable{
 			UsersHandler.broadcastState(this,players,viewers);
 			break;
 		case 'f':
-			if(gameRunning) {
+			if(isGameRunning()) {
 				GameResultHandler.playerDefeated(this,user);
 				GameResultHandler.playerWin(this,getOpponent(user));
 				UsersHandler.broadcastState(this,players,viewers);
@@ -109,41 +134,58 @@ public class Room extends Window implements Runnable{
 		default: informTurn();
 		}
 	}
+	/**
+	 * Get user'opponent
+	 * @param user
+	 * @return			<code>UserThread</code> representing opponent
+	 * 					<code>null</code> if room has only 1 player
+	 */
 	public UserThread getOpponent(UserThread user) {
 		int index = players.indexOf(user);
 		return (players.size() < 2)?null:players.get(index^1);
 	}
+	/**
+	 * Play
+	 * @param color		color representing who is trying the move
+	 * @param move		move to make
+	 */
 	public void playC(Piece.color color,String move) {
-		if(!gameRunning) return;
+		if(!isGameRunning()) return;
 		if(color != turn) return;
 		if(turn == Piece.color.white) move = reverseInput(move);
 		int[][] movement = inputInt(move);
 		sendBoard();
 		board.printBoard(getTurn());
 		if(board.move(movement[0],movement[1],color)) {
-			if(board.checkCheck(getTurn())) {
-				System.out.println(ColorsAPI.colorToString(color)+" king is in check");
-				setCheck(true);
-			} else setCheck(false);
-			if(board.checkCheckMate(getTurn())) {
-				System.out.println(ColorsAPI.colorToString(color)+" king is in checkmate");
-				turnStatus = ColorsAPI.colorToString(color)+" king is in checkmate";
+			setCheck(board.checkCheck(getTurn()));
+			setCheckmate(board.checkCheckMate(getTurn()));
+			if(isCheck())
+				System.out.println(ColorsAPI.colorToString(ColorsAPI.getOp(color))+" king is in check");
+			if(isCheckmate()) {
+				System.out.println(ColorsAPI.getOp(color)+" king is in check mate");
+				turnStatus = ColorsAPI.colorToString(ColorsAPI.getOp(color)) + " king is in check mate";
 				gameRunning = false;
-				setCheckmate(true);
+				gameFinished = true;
 			}
 			history.broadcast(ColorsAPI.colorToString(color) + ": " + move);
+			turnStatus = isCheckmate()?color + " won!!!":getTurn() + " turn";
 			setTurn(ColorsAPI.getOp(color));
-			String turnStatus = getTurn()+" turn";
 			setTurnStatus(turnStatus);
 			informTurn();
-		} else {
-			setJoinStatus("Invalid movement");
-		}
+		} else setJoinStatus("Invalid movement");
 		UsersHandler.broadcastState(this,players,viewers);
 		setJoinStatus("");
 		board.printBoard(getTurn());
 		sendBoard();
 	}
+	/**
+	 * Convert standard chess notation to matrix
+	 * representing move's initial and final position 
+	 * @param string			standard chess notation [[a-h][1-8](initial)][[a-h][1-8](final)]
+	 * @return					matrix representing move
+	 * 							[0-7][0-7](initial)
+	 * 							[0-7][0-7](final)
+	 */
 	public int[][] inputInt(String string) {
 		if(string.length() != 4) return null;
 		int[] init = new int[2];
@@ -154,6 +196,9 @@ public class Room extends Window implements Runnable{
 		fin[1] = string.charAt(3) - '1';		
 		return new int[][] {init, fin};
 	}
+	/**
+	 * Send current board state to users
+	 */
 	public void sendBoard() {
 		String output = "b " + board.toString(Piece.color.white);
 		lock();
@@ -162,6 +207,9 @@ public class Room extends Window implements Runnable{
 		ListAPI.writeToList(viewers,output);
 		unlock();
 	}
+	/**
+	 * Inform players of who has to play
+	 */
 	public void informTurn() {
 		String output = "p "+turnToString();
 		System.out.println(output);
@@ -169,9 +217,16 @@ public class Room extends Window implements Runnable{
 		ListAPI.writeToList(players,output);
 		unlock();
 	}
-	public char turnToString() {
-		return ColorsAPI.colorToString(turn);
-	}
+	/**
+	 * Reverse move's row
+	 * Client interface has reversed indexing
+	 * Used when receiving move from white player
+	 * @param whiteMove				white move received
+	 * @return						string with rows reverse
+	 * 								i.e 1 becomes 8 and vice-versa
+	 * 									2->7
+	 * 									...
+	 */
 	public String reverseInput(String whiteMove) {
 		char xi = whiteMove.charAt(0);
 		char xf = whiteMove.charAt(2);
@@ -180,6 +235,9 @@ public class Room extends Window implements Runnable{
 		return ""+xi+yi+xf+yf;
 	}
 	
+	public char turnToString() {
+		return ColorsAPI.colorToString(turn);
+	}
 	public LinkedList<UserThread> getPlayers() {
 		return players;
 	}

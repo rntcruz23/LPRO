@@ -12,6 +12,7 @@ public class Lobby extends Window implements Runnable{
 	private LinkedList<Room> rooms;
 	private Server server;
 	private Thread t;
+	
 	public Lobby(Server server) {
 		super();
 		users = new LinkedList<UserThread> ();

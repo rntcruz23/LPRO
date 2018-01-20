@@ -7,7 +7,12 @@ import server.Server;
 import users.UserThread;
 
 public class GameResultHandler {
-	private GameResultHandler() {}
+	private GameResultHandler() {};
+	/**
+	 * Set user as winner
+	 * @param room			room to define winner
+	 * @param user			user to become winner
+	 */
 	public static void playerWin(Room room, UserThread user) {
 		Server server = room.getServer();
 		String username = user.getUser().getName();
@@ -23,6 +28,11 @@ public class GameResultHandler {
 			System.out.println("Error updating stats");
 		}
 	}
+	/**
+	 * Draw game
+	 * Count as draw for both players
+	 * @param room
+	 */
 	public static void drawGame(Room room) {
 		Server server = room.getServer();
 		for(UserThread user: room.getPlayers()) {
@@ -40,6 +50,11 @@ public class GameResultHandler {
 			}
 		}
 	}
+	/**
+	 * Set defeat for user
+	 * @param room			room game where user is playing
+	 * @param user			defeated user
+	 */
 	public static void playerDefeated(Room room,UserThread user){
 		Server server = room.getServer();
 		String username = user.getUser().getName();
@@ -52,6 +67,10 @@ public class GameResultHandler {
 			System.out.println("Error updating stats");
 		}
 	}
+	/**
+	 * Send a draw prompt to user
+	 * @param user			user to ask for draw
+	 */
 	public static void promptDraw(UserThread user) {
 		if(user != null)
 			SocketAPI.writeToSocket(user.getUser().getSocket(),"d");

@@ -31,16 +31,7 @@ public class Player extends Spectator{
 		char com = input.charAt(0);
 		if(com != 't') return false;
 		char c = input.charAt(2);
-		switch(c) {
-			case 'w':
-				setTurn(Piece.color.white);
-				
-			case 'b':
-				setTurn(Piece.color.black);
-				
-			break;
-			default: return false;
-		}
+		setTurn(c);
 		return true;
 	}
 	public void myTurn(String input) {

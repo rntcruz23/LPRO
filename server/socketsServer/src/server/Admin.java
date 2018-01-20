@@ -19,7 +19,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Admin {
-
 	private JFrame frame;
 	private JTextField login;
 	private JPasswordField pass;
@@ -35,29 +34,14 @@ public class Admin {
 	private JLabel ipLbl;
 
 	/**
-	 * Launch the application.
-	 */
-	public void run() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
+	 * @param server
 	 */
 	public Admin(Server server) {
 		setServer(server);
 		initialize();
 		run();
 	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -188,6 +172,21 @@ public class Admin {
 		gbc_occupationLbl.gridy = 7;
 		panel.add(occupationLbl, gbc_occupationLbl);
 	}
+	/**
+	 * Launch the application.
+	 */
+	public void run() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	public JLabel getStatus() {
 		return status;
 	}

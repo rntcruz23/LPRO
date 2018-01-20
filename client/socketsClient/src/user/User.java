@@ -22,9 +22,9 @@ public class User {
 	private Window backWindow;
 	private boolean check;
 	private boolean checkmate;
-	
+
 	public User() {}
-		public User(Client client) {
+	public User(Client client) {
 		setClient(client);
 	}
 

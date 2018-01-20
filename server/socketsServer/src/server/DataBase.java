@@ -8,6 +8,10 @@ import java.sql.SQLException;
 
 public class DataBase {
 	private Connection con;
+	/**
+	 * Starts new database connection
+	 * @throws SQLException
+	 */
 	public DataBase() throws SQLException{
 		con = null;
 		String username = "sibd17g27";
@@ -21,6 +25,14 @@ public class DataBase {
 			e.printStackTrace();
 		}		
 	}
+	/**
+	 * Insert new user to database
+	 * @param name 								new username
+	 * @param pass								new password
+	 * @return 									<code>true</code> if the query was successful
+	 * 											i.e new username doesn't exist
+	 * @throws SQLException
+	 */
 	public boolean insertNewUser(String name,String pass) throws SQLException{
 		PreparedStatement stmt = null;
 		try {
@@ -31,13 +43,13 @@ public class DataBase {
 			stmt.executeUpdate();
 			con.commit();
 		} catch (SQLException  e) {
-			if(isConstraintViolation(e)) {
+			if(isConstraintViolation(e))
 				System.out.println("Username already exists");
-				return false;
-			}
+			con.rollback();
+			return false;
 		}
 		finally{
-			if(stmt!=null)
+			if(stmt != null)
 				stmt.close();
 		}
 		return true;
@@ -45,6 +57,13 @@ public class DataBase {
 	private boolean isConstraintViolation(SQLException e){
 		return e.getSQLState().startsWith("23");
 	}
+	/**
+	 * Check if combination exists in the database i.e login
+	 * @param name					username
+	 * @param pass					password
+	 * @return						<code>true</code> for valid login
+	 * @throws SQLException
+	 */
 	public boolean userExists(String name,String pass)throws SQLException {
 		ResultSet rs;
 		PreparedStatement stmt = null;
@@ -63,6 +82,7 @@ public class DataBase {
 			}
 		} catch (SQLException e) {
 			System.out.println("Error accessing database: "+e.getMessage());
+			con.rollback();
 			return false;
 		}	
 		finally {
@@ -71,6 +91,13 @@ public class DataBase {
 		}
 		return false;
 	}
+	/**
+	 * Remove user from database
+	 * @param name					username to remove
+	 * @param pass					user password
+	 * @return						<code>true</true> for successful removal
+	 * @throws SQLException
+	 */
 	public boolean removeUser(String name,String pass) throws SQLException{
 		String query = "DELETE FROM lpro.users WHERE username=? AND password=?";
 		PreparedStatement stmt=null;
@@ -83,6 +110,7 @@ public class DataBase {
 			if(r == 1) return true;
 		} catch (SQLException e) {
 			System.out.println("Error accessing database: "+e.getMessage());
+			con.rollback();
 			return false;
 		}	
 		finally{
@@ -91,6 +119,15 @@ public class DataBase {
 		}
 		return false;
 	}
+	/**
+	 * Change user'statistics
+	 * @param name					username to change stats
+	 * @param pass					user's password
+	 * @param w						new win count
+	 * @param l						new loss count
+	 * @param d						new draw count
+	 * @throws SQLException
+	 */
 	public void changeinfo(String name, String pass,int w,int l,int d)throws SQLException {
 		String sql = "UPDATE lpro.users SET	lost=?,won=?,draw=? WHERE username=? AND password=?;";
 		PreparedStatement stmt=null;
@@ -105,6 +142,7 @@ public class DataBase {
 			con.commit();
 		} catch (SQLException e) {
 			System.out.println("There was a problem accessing database: "+e.getMessage());
+			con.rollback();
 			return;
 		}
 		finally{
@@ -112,6 +150,13 @@ public class DataBase {
 				stmt.close();
 		}
 	}
+	/**
+	 * Get user's statistics from database
+	 * @param name					username
+	 * @param pass					password
+	 * @return						array containing user'statistics [wins,losses,draws]
+	 * @throws SQLException
+	 */
 	public int[] getinfo(String name,String pass) throws SQLException{
 		String sql = "SELECT lost,won,draw FROM lpro.users WHERE username=? AND password=?;";
 		PreparedStatement stmt=null;
@@ -129,6 +174,7 @@ public class DataBase {
 			}
 		} catch (SQLException e) {
 			System.out.println("There was a problem accessing database: "+e.getMessage());
+			con.rollback();
 			return null;
 		}
 		finally{

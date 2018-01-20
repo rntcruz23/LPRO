@@ -24,12 +24,17 @@ public class RoomState implements Serializable{
 	private LinkedList<String> history;
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Send room information to user
+	 * @param user			user to send
+	 * @param room			room to send
+	 */
 	public static void sendRoom(UserThread user,Room room) {
 		System.out.println("Sendind room state");
 		try {
-			Thread.sleep(400);
+			Thread.sleep(500);
 			SocketAPI.writeToSocket(user.getUser().getSocket(), "s");
-			Thread.sleep(400);
+			Thread.sleep(500);
 			RoomState roomstate = getRoomState(room);
 			user.getOut().writeObject(roomstate);
 			System.out.println("State sent to user");
@@ -38,10 +43,20 @@ public class RoomState implements Serializable{
 			System.out.println("Error sending: "+e.getMessage());
 		}
 	}
+	/**
+	 * Send room information to user list
+	 * @param user			user list to send
+	 * @param room			room to send
+	 */
 	public static void sendRoom(LinkedList<UserThread> user,Room room) {
 		for(UserThread u: user)
 			sendRoom(u,room);
 	}
+	/**
+	 * Convert room into roomstate object to send to client
+	 * @param room				room to convert
+	 * @return					<code>RoomState</code> object to send
+	 */
 	public static RoomState getRoomState(Room room) {
 		RoomState roomstate = new RoomState();
 		roomstate.setWhitePlayer(UsersHandler.getColorPlayer(room, Piece.color.white).getUser().getName());
