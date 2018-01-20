@@ -996,8 +996,8 @@ public class Board {
 						undoMove();
 						return false;
 					}
+					undoMove();
 				}
-				undoMove();
 			}
 			
 			//verificar check com todos os movimentos das restantes peças
@@ -1016,6 +1016,7 @@ public class Board {
 									undoMove();
 									return false;
 								}
+								undoMove();
 							}
 						}
 					}
@@ -1045,6 +1046,7 @@ public class Board {
 						undoMove();
 						return false;
 					}
+					undoMove();
 				}
 			}
 			
@@ -1064,6 +1066,7 @@ public class Board {
 									undoMove();
 									return false;
 								}
+								undoMove();
 							}
 						}
 					}

@@ -192,7 +192,7 @@ public class TesteGameLogic {
 		assertFalse(board.move(init, fin, Piece.color.white));
 		board.printBoard(Piece.color.white);
 	}
-	
+	*/
 	@Test
 	public void checkCheckMate() {
 		Piece wking = new King(Piece.color.white);
@@ -214,8 +214,8 @@ public class TesteGameLogic {
 		assertTrue(board.checkCheckMate(Piece.color.black)); 			//teste checkMate true
 		board.printBoard(Piece.color.white);
 		
-	}*/
-	
+	}
+	/*
 	@Test
 	public void checkCastling() {
 		//white side
@@ -281,4 +281,9 @@ public class TesteGameLogic {
 		assertTrue(board.cells[7 * 8 + 7].isEmpty());
 		board.printBoard(Piece.color.black);
 	}
+	
+	@Test
+	public void checkEnPassant() {
+		
+	}*/
 }
