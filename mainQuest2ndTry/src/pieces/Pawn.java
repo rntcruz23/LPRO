@@ -1,7 +1,14 @@
 package pieces;
 
+import pieces.Piece.color;
+
 public class Pawn extends Piece implements Move{
 	private color c;
+	/**
+	 * creates a pawn piece
+	 * @param pColor				color of the pawn
+	 * @see pieces.Piece#Piece(char, color)
+	 */
 	public Pawn(color pColor) {
 		super('P', pColor);
 		c = pColor;
@@ -9,6 +16,9 @@ public class Pawn extends Piece implements Move{
 		points = 1;
 	}
 	
+	/**
+	 * @see pieces.Move#calculateMoves()
+	 */
 	@Override
 	public void calculateMoves() {
 		if(c == color.white) {
@@ -29,6 +39,9 @@ public class Pawn extends Piece implements Move{
 		}
 	}
 	
+	/**
+	 * @see pieces.Piece#movePiece()
+	 */
 	@Override
 	public void movePiece() {
 		neverMoved = false;
