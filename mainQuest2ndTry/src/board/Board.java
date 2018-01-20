@@ -611,7 +611,7 @@ public class Board {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
 												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
-														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
+														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.white)) {
 														return 7; //black pawn en passant
 													}
 												}
@@ -651,7 +651,7 @@ public class Board {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
 												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
-														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
+														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.white)) {
 														return 7; //black pawn en passant
 													}
 												}
@@ -693,7 +693,7 @@ public class Board {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
 												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
-														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
+														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.white)) {
 														return 7; //black pawn en passant
 													}
 												}
@@ -736,7 +736,7 @@ public class Board {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
 												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
-														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
+														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.white)) {
 														return 7; //black pawn en passant
 													}
 												}

@@ -192,7 +192,7 @@ public class TesteGameLogic {
 		assertFalse(board.move(init, fin, Piece.color.white));
 		board.printBoard(Piece.color.white);
 	}
-	*/
+	
 	@Test
 	public void checkCheckMate() {
 		Piece wking = new King(Piece.color.white);
@@ -215,7 +215,7 @@ public class TesteGameLogic {
 		board.printBoard(Piece.color.white);
 		
 	}
-	/*
+	
 	@Test
 	public void checkCastling() {
 		//white side
@@ -281,9 +281,29 @@ public class TesteGameLogic {
 		assertTrue(board.cells[7 * 8 + 7].isEmpty());
 		board.printBoard(Piece.color.black);
 	}
-	
+	*/
 	@Test
 	public void checkEnPassant() {
-		
-	}*/
+		Piece wpawn = new Pawn(Piece.color.white);
+		Piece bpawn = new Pawn(Piece.color.black);
+		board.cells[2 * 8 + 1].moveInPiece(wpawn);
+		board.cells[3 * 8 + 4].moveInPiece(bpawn);
+		board.printBoard(Piece.color.white);
+		int[] initialPos = {3,4};
+		int[] finalPos = {3,3};
+		assertTrue(board.move(initialPos, finalPos, Piece.color.black));
+		board.printBoard(Piece.color.white);
+		initialPos[0] = 2;
+		initialPos[1] = 1;
+		finalPos[0] = 2;
+		finalPos[1] = 3;
+		assertTrue(board.move(initialPos, finalPos, Piece.color.white));
+		board.printBoard(Piece.color.white);
+		initialPos[0] = 3;
+		initialPos[1] = 3;
+		finalPos[0] = 2;
+		finalPos[1] = 2;
+		assertTrue(board.move(initialPos, finalPos, Piece.color.black));
+		board.printBoard(Piece.color.white);
+	}
 }
