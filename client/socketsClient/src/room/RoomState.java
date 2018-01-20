@@ -20,6 +20,8 @@ public class RoomState implements Serializable{
 	private String whitePlayer;
 	private String blackPlayer;
 	private String nextPlayer;
+	private boolean check;
+	private boolean checkmate;
 	private static final long serialVersionUID = 1L;
 	public static RoomState waitroom(User user,ObjectInputStream in) {
 		try {
@@ -85,5 +87,11 @@ public class RoomState implements Serializable{
 	}
 	public void setNextPlayer(String nextPlayer) {
 		this.nextPlayer = nextPlayer;
+	}
+	public boolean check() {
+		return check;
+	}
+	public boolean checkmate() {
+		return checkmate;
 	}
 }

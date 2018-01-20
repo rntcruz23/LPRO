@@ -20,14 +20,19 @@ public class User {
 	private String password;
 	private Window window;
 	private Window backWindow;
+	private boolean check;
+	private boolean checkmate;
+	
 	public User() {}
-	public User(Client client) {
+		public User(Client client) {
 		setClient(client);
 	}
 
 	protected void printBoard(String command) {
 		GameView room =(GameView) window;
 		room.getBoard().putPieces(command.substring(2,command.length()));
+		room.getLabelcheck().setEnabled(check);	
+		room.getLabelcheckMate().setEnabled(checkmate);
 		System.out.println("Finished");
 	}
 	protected String getCommandsFromServer() {
@@ -142,13 +147,17 @@ public class User {
 		String blackPlayer = roomstate.getBlackPlayer();
 		String nextPlayer = roomstate.getNextPlayer();
 		boolean roomEmpty = roomstate.isRoomEmpty();
+		check=roomstate.check();
+		checkmate=roomstate.checkmate();
 		LinkedList<String> history = roomstate.getHistory();
+
 		if(roomEmpty)
 			joinStatus = "Room is empty";
 		g.getTurnLabel().setText(turnStatus);
 		if(!joinStatus.equals(""))
 			addToChat("*********-"+joinStatus+"-*********");
 		g.getFrmChess().setTitle("Chess Game - "+ roomName);
+
 		g.managePlayerLabels(turn, whitePlayer, blackPlayer, nextPlayer);
 		for(String move : history) {
 			g.getHistoryArea().append(move);
@@ -253,7 +262,7 @@ public class User {
 			room.getChatArea().append(text);
 		}
 	}
-	
+
 	public Window getRoom() {
 		return window;
 	}

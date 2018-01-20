@@ -48,15 +48,15 @@ public class Draw extends Window {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 
-		
-		
+
+
 		JPanel panel_2 = new JPanel();
 		getFrmChess().getContentPane().add(panel_2, BorderLayout.SOUTH);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		 gbl_panel_2.columnWidths = new int[]{50, 50, 50, 50, 0};
-		 gbl_panel_2.rowHeights = new int[]{60, 0, 0, 0};
-		 gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		 gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWidths = new int[]{50, 50, 50, 50, 0};
+		gbl_panel_2.rowHeights = new int[]{60, 0, 0, 0};
+		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout( gbl_panel_2);
 
 
@@ -86,17 +86,17 @@ public class Draw extends Window {
 		GridBagConstraints gbc_btnYes = new GridBagConstraints();
 		gbc_btnYes.insets = new Insets(0, 0, 0, 5);
 		gbc_btnYes.gridx = 2;
-		gbc_btnYes.gridy = 2;
+		gbc_btnYes.gridy = 1;
 		panel.add(btnYes, gbc_btnYes);
-		
-				
+
+
 		GridBagConstraints gbc_btnNo = new GridBagConstraints();
 		gbc_btnYes.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNo.gridx =3;
 		gbc_btnNo.gridy = 1;
 		panel.add(btnNo, gbc_btnNo);
-		
-		
+
+
 		ImageIcon bnewGame=getScaledImage(createImageIcon("gestures.png"),150,150);
 		JLabel LabelnewGame = new JLabel();
 		GridBagConstraints gbc_LabelnewGame = new GridBagConstraints();
@@ -106,19 +106,19 @@ public class Draw extends Window {
 		panel_2.add(LabelnewGame, gbc_LabelnewGame);
 		LabelnewGame.setIcon(bnewGame);		
 	}
-	
+
 	private ImageIcon getScaledImage(ImageIcon srcImgIcon, int w, int h){
 		Image srcImg = srcImgIcon.getImage();
-	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-	    Graphics2D g2 = resizedImg.createGraphics();
+		BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = resizedImg.createGraphics();
 
-	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-	    g2.drawImage(srcImg, 0, 0, w, h, null);
-	    g2.dispose();
-	    
-	    return new ImageIcon(resizedImg);
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g2.drawImage(srcImg, 0, 0, w, h, null);
+		g2.dispose();
+
+		return new ImageIcon(resizedImg);
 	}
-	
+
 	private ImageIcon createImageIcon(String path) {
 		java.net.URL imgUrl = getClass().getResource(path);
 		if(imgUrl != null)
