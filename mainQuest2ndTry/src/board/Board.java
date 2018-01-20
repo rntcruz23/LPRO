@@ -226,12 +226,12 @@ public class Board {
 			lastMoveFirstOfPiece = piece.showNeverMoved();
 			if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.white) i = 0;
 			else if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.black) i = 7;
-			Piece aux2 = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
+			Piece auxking = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
 			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
-			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux2);
-			aux2 = cells[7 * 8 + i].getPiece();
+			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(auxking);
+			Piece auxrook = cells[7 * 8 + i].getPiece();
 			cells[7 * 8 + i].moveOutPiece();
-			cells[5 * 8 + i].moveInPiece(aux2);
+			cells[5 * 8 + i].moveInPiece(auxrook);
 			storeLastMoves(initialPos, finalPos);
 			capturedPieceLastMove = false;
 			lastPlayer = side;
@@ -241,12 +241,12 @@ public class Board {
 			lastMoveFirstOfPiece = piece.showNeverMoved();
 			if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.white) j = 0;
 			else if(cells[initialPos[0] * 8 + initialPos[1]].showPieceColor() == Piece.color.black) j = 7;
-			Piece aux3 = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
+			Piece auxking1 = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
 			cells[initialPos[0] * 8 + initialPos[1]].moveOutPiece();
-			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(aux3);
-			aux1 = cells[0 * 8 + j].getPiece();
+			cells[finalPos[0] * 8 + finalPos[1]].moveInPiece(auxking1);
+			Piece auxrook1 = cells[0 * 8 + j].getPiece();
 			cells[0 * 8 + j].moveOutPiece();
-			cells[3 * 8 + j].moveInPiece(aux3);
+			cells[3 * 8 + j].moveInPiece(auxrook1);
 			storeLastMoves(initialPos, finalPos);
 			capturedPieceLastMove = false;
 			lastPlayer = side;
@@ -322,7 +322,43 @@ public class Board {
 	}
 	public void undoMove() {
 		Piece aux = cells[lastMovePos[0] * 8 + lastMovePos[1]].getPiece();
-		System.out.println(lastMoveFirstOfPiece);
+		if(capturedPieceLastMove) {
+			if(lastPlayer == Piece.color.white) {
+				Piece auxCap = capturedPiecesByWhite.removeLast();
+				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveOutPiece();
+				cells[lastMoveInit[0] * 8 + lastMoveInit[1]].moveInPiece(aux);
+				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveInPiece(auxCap);
+				if(aux.showName() == 'P') {
+					if(lastMovePos[1] - lastMoveInit[1] == 2 || lastMovePos[1] - lastMoveInit[1] == -2) {
+						aux.neverMoved();
+					}
+				}
+				whitePoints -= auxCap.getPoints();
+			}
+			else {
+				Piece auxCap = capturedPiecesByBlack.removeLast();
+				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveOutPiece();
+				cells[lastMoveInit[0] * 8 + lastMoveInit[1]].moveInPiece(aux);
+				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveInPiece(auxCap);
+				if(aux.showName() == 'P') {
+					if(lastMovePos[1] - lastMoveInit[1] == 2 || lastMovePos[1] - lastMoveInit[1] == -2) {
+						aux.neverMoved();
+					}
+				}
+				blackPoints -= auxCap.getPoints();
+			}
+		}
+		else {
+			cells[lastMovePos[0] * 8 + lastMovePos[1]].moveOutPiece();
+			cells[lastMoveInit[0] * 8 + lastMoveInit[1]].moveInPiece(aux);
+			if(aux.showName() == 'P') {
+				if(lastMovePos[1] - lastMoveInit[1] == 2 || lastMovePos[1] - lastMoveInit[1] == -2) {
+					aux.neverMoved();
+					aux.calculateMoves();
+				}
+			}
+		}
+		/*System.out.println(lastMoveFirstOfPiece);
 		System.out.print("lastMoveInit ");
 		System.out.print(lastMoveInit[0]);
 		System.out.println(lastMoveInit[1]);
@@ -381,7 +417,7 @@ public class Board {
 		}
 		if(lastMoveFirstOfPiece) {
 			aux.neverMoved();
-		}
+		}*/
 	}
 	public void redoMove() {
 		
@@ -921,18 +957,18 @@ public class Board {
 		return capturedPiecesByBlack.size();
 	}
 	private void storeLastMoves(int[] init, int[] fin) {
-		if(lastMoveInit != lastMovePos) {
+		/*if(lastMoveInit != lastMovePos) {
 			int[] aux1 = {lastMoveInit[0], lastMoveInit[1]};
 			int[] aux2 = {lastMovePos[0], lastMovePos[1]};
 			lastMovesInit.push(aux1);
 			lastMovesFin.push(aux2);
-		}
+		}*/
 		this.lastMoveInit[0] = init[0];
 		this.lastMoveInit[1] = init[1];
 		this.lastMovePos[0] = fin[0];
 		this.lastMovePos[1] = fin[1];
-		System.out.print("stack size: ");
-		System.out.println(lastMovesInit.size());
+		//System.out.print("stack size: ");
+		//System.out.println(lastMovesInit.size());
 		
 	}	
 	public boolean checkCheckMate(Piece.color attackingSide) {

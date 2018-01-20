@@ -21,7 +21,7 @@ public class TesteGameLogic {
 	public void emptyBoard() {
 		board = new Board('t');
 	}
-	
+	/*
 	@Test
 	public void emptyCell() {
 		assertEquals(board.cells[0].isEmpty(), true);
@@ -170,20 +170,6 @@ public class TesteGameLogic {
 		assertTrue(board.checkCheck(Piece.color.white));
 		assertTrue(board.checkCheck(board.cells[0]));
 	}
-
-	@Test
-	public void checkCastling() {
-		Piece wking = new King(Piece.color.white);
-		Piece wkrook = new Rook(Piece.color.white);
-		Piece wqrook = new Rook(Piece.color.white);
-		board.cells[0].moveInPiece(wqrook);
-		board.cells[4 * 8 + 0].moveInPiece(wking);
-		board.cells[7 * 8 + 0].moveInPiece(wkrook);
-		int[] fin = {6, 0};
-		assertEquals(board.checkMoves(board.cells[4 * 8 + 0], fin), 5);
-		fin[0] = 2;
-		assertEquals(board.checkMoves(board.cells[4 * 8 + 0], fin), 6);
-	}
 	
 	@Test
 	public void checkMoveCheck() {
@@ -228,5 +214,71 @@ public class TesteGameLogic {
 		assertTrue(board.checkCheckMate(Piece.color.black)); 			//teste checkMate true
 		board.printBoard(Piece.color.white);
 		
+	}*/
+	
+	@Test
+	public void checkCastling() {
+		//white side
+		//queen side
+		Piece wking = new King(Piece.color.white);
+		Piece wrookl = new Rook(Piece.color.white);
+		int[] init = {4,0};
+		int[] fin = {2,0};
+		board.cells[4 * 8 + 0].moveInPiece(wking);
+		board.cells[0 * 8 + 0].moveInPiece(wrookl);
+		board.printBoard(Piece.color.white);
+		assertTrue(board.move(init, fin, Piece.color.white));
+		assertEquals('K', board.cells[2 * 8 + 0].showPieceName());
+		assertEquals('R', board.cells[3 * 8 + 0].showPieceName());
+		assertTrue(board.cells[4 * 8 + 0].isEmpty());
+		assertTrue(board.cells[0 * 8 + 0].isEmpty());
+		board.printBoard(Piece.color.white);
+		board.cells[2 * 8 + 0].moveOutPiece();
+		board.cells[3 * 8 + 0].moveOutPiece();
+		//king side
+		Piece wking1 = new King(Piece.color.white);
+		Piece wrookr = new Rook(Piece.color.white);
+		fin[0] = 6;
+		fin[1] = 0;
+		board.cells[4 * 8 + 0].moveInPiece(wking1);
+		board.cells[7 * 8 + 0].moveInPiece(wrookr);
+		assertTrue(board.move(init, fin, Piece.color.white));
+		assertEquals('K', board.cells[6 * 8 + 0].showPieceName());
+		assertEquals('R', board.cells[5 * 8 + 0].showPieceName());
+		assertTrue(board.cells[4 * 8 + 0].isEmpty());
+		assertTrue(board.cells[7 * 8 + 0].isEmpty());
+		board.printBoard(Piece.color.white);
+		//black side
+		//queen side
+		Piece bking = new King(Piece.color.black);
+		Piece brookl = new Rook(Piece.color.black);
+		init[0] = 4;
+		init[1] = 7;
+		fin[0] = 2;
+		fin[1] = 7;
+		board.cells[4 * 8 + 7].moveInPiece(bking);
+		board.cells[0 * 8 + 7].moveInPiece(brookl);
+		board.printBoard(Piece.color.black);
+		assertTrue(board.move(init, fin, Piece.color.black));
+		assertEquals('K', board.cells[2 * 8 + 7].showPieceName());
+		assertEquals('R', board.cells[3 * 8 + 7].showPieceName());
+		assertTrue(board.cells[4 * 8 + 7].isEmpty());
+		assertTrue(board.cells[0 * 8 + 7].isEmpty());
+		board.printBoard(Piece.color.black);
+		board.cells[2 * 8 + 7].moveOutPiece();
+		board.cells[3 * 8 + 7].moveOutPiece();
+		//king side
+		Piece bking1 = new King(Piece.color.black);
+		Piece brookr = new Rook(Piece.color.black);
+		fin[0] = 6;
+		fin[1] = 7;
+		board.cells[4 * 8 + 7].moveInPiece(bking1);
+		board.cells[7 * 8 + 7].moveInPiece(brookr);
+		assertTrue(board.move(init, fin, Piece.color.black));
+		assertEquals('K', board.cells[6 * 8 + 7].showPieceName());
+		assertEquals('R', board.cells[5 * 8 + 7].showPieceName());
+		assertTrue(board.cells[4 * 8 + 7].isEmpty());
+		assertTrue(board.cells[7 * 8 + 7].isEmpty());
+		board.printBoard(Piece.color.black);
 	}
 }
