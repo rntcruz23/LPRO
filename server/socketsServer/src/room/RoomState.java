@@ -8,9 +8,6 @@ import pieces.Piece;
 import users.UserThread;
 
 public class RoomState implements Serializable{
-	/**
-	 * 
-	 */
 	private Piece.color turn;
 	private String roomName;
 	private boolean roomEmpty;
@@ -32,9 +29,9 @@ public class RoomState implements Serializable{
 	public static void sendRoom(UserThread user,Room room) {
 		System.out.println("Sendind room state");
 		try {
-			Thread.sleep(500);
+			Thread.sleep(200);
 			SocketAPI.writeToSocket(user.getUser().getSocket(), "s");
-			Thread.sleep(500);
+			Thread.sleep(300);
 			RoomState roomstate = getRoomState(room);
 			user.getOut().writeObject(roomstate);
 			System.out.println("State sent to user");
@@ -53,7 +50,7 @@ public class RoomState implements Serializable{
 			sendRoom(u,room);
 	}
 	/**
-	 * Convert room into roomstate object to send to client
+	 * Convert room into room state object to send to client
 	 * @param room				room to convert
 	 * @return					<code>RoomState</code> object to send
 	 */

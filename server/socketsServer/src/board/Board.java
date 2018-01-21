@@ -27,6 +27,11 @@ public class Board {
 	private Piece.color lastPlayer;
 	private boolean lastMoveFirstOfPiece = false;
 	
+	/**
+	 * Board constructor
+	 * creates a Board and puts all the pieces in the respective cells
+	 * the board is ready to start the game
+	 */
 	public Board() {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
@@ -77,6 +82,11 @@ public class Board {
 		}
 		
 	}
+	/**
+	 * Board constructor
+	 * creates an empty board, used in testing
+	 * @param teste				any char, not used
+	 */
 	public Board(char teste) {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
@@ -84,14 +94,17 @@ public class Board {
 			}
 		}
 	}
+	/**
+	 * method move
+	 * interaction with the outside
+	 * moves the piece in initialPos to finalPos, if valid
+	 * @param initialPos 		vetor int[] of the initial position, [0] column, [1] line
+	 * @param finalPos 			vetor int[] of the final position, [0] column, [1] line
+	 * @param side 				side (Piece.color.white ou Piece.color.black) that is playign
+	 * @return 					<code>true</code> the piece was moved
+	 * @return 					<code>false</code> the piece was not moved
+	 */
 	public boolean move(int[] initialPos, int[] finalPos, Piece.color side) {
-		
-		/**
-		 * 
-		 * @return: true - se moveu uma peça
-		 * @return: false - se não moveu uma peça
-		 */
-		
 		Piece piece = cells[initialPos[0] * 8 + initialPos[1]].getPiece();
 		Piece aux;
 		if(piece == null) return false;
@@ -117,7 +130,7 @@ public class Board {
 		case 0:
 			return false;
 		case 1:
-			if(piece.showName() == 'P' && finalPos[1] == 7) { //pawn promotion
+			if(piece.showName() == 'P' && (finalPos[1] == 7 || finalPos[1] == 0)) { //pawn promotion
 				switch(getPromotion()) {
 				case 'Q':
 					aux = new Queen(piece.showColor());
@@ -168,7 +181,7 @@ public class Board {
 			Piece capturedPiece = cells[finalPos[0] * 8 + finalPos[1]].getPiece();
 			Piece aux1;
 			lastMoveFirstOfPiece = piece.showNeverMoved();
-			if(piece.showName() == 'P' && finalPos[1] == 7) { //pawn promotion
+			if(piece.showName() == 'P' && (finalPos[1] == 7 || finalPos[1] == 0)) { //pawn promotion
 				switch(getPromotion()) {
 				case 'Q':
 					aux1 = new Queen(piece.showColor());
@@ -320,6 +333,11 @@ public class Board {
 			
 		}
 	}
+	/**
+	 * undoes the previous move
+	 * only one move can be undone, before another play needs to be made
+	 * if a piece was captured in the previous move, the piece is returned to its cell
+	 */
 	public void undoMove() {
 		Piece aux = cells[lastMovePos[0] * 8 + lastMovePos[1]].getPiece();
 		if(capturedPieceLastMove) {
@@ -358,86 +376,23 @@ public class Board {
 				}
 			}
 		}
-		/*System.out.println(lastMoveFirstOfPiece);
-		System.out.print("lastMoveInit ");
-		System.out.print(lastMoveInit[0]);
-		System.out.println(lastMoveInit[1]);
-		System.out.print("lastMovePos ");
-		System.out.print(lastMovePos[0]);
-		System.out.println(lastMovePos[1]);
-		if(capturedPieceLastMove) {
-			if(lastPlayer == Piece.color.white) {
-				Piece auxCap = capturedPiecesByWhite.removeLast();
-				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveOutPiece();
-				cells[lastMoveInit[0] * 8 + lastMoveInit[1]].moveInPiece(aux);
-				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveInPiece(auxCap);
-				if(aux.showName() == 'P') {
-					if(lastMovePos[1] - lastMoveInit[1] == 2 || lastMovePos[1] - lastMoveInit[1] == -2) {
-						aux.neverMoved();
-					}
-				}
-				whitePoints -= auxCap.getPoints();
-			}
-			else {
-				Piece auxCap = capturedPiecesByBlack.removeLast();
-				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveOutPiece();
-				cells[lastMoveInit[0] * 8 + lastMoveInit[1]].moveInPiece(aux);
-				cells[lastMovePos[0] * 8 + lastMovePos[1]].moveInPiece(auxCap);
-				if(aux.showName() == 'P') {
-					if(lastMovePos[1] - lastMoveInit[1] == 2 || lastMovePos[1] - lastMoveInit[1] == -2) {
-						aux.neverMoved();
-					}
-				}
-				blackPoints -= auxCap.getPoints();
-			}
-		}
-		else {
-			cells[lastMovePos[0] * 8 + lastMovePos[1]].moveOutPiece();
-			cells[lastMoveInit[0] * 8 + lastMoveInit[1]].moveInPiece(aux);
-			if(aux.showName() == 'P') {
-				if(lastMovePos[1] - lastMoveInit[1] == 2 || lastMovePos[1] - lastMoveInit[1] == -2) {
-					aux.neverMoved();
-					aux.calculateMoves();
-				}
-			}
-		}
-		if(!lastMovesInit.isEmpty()) {
-			lastMoveInit[0] = lastMovesInit.peek()[0];
-			lastMoveInit[1] = lastMovesInit.pop()[1];
-			lastMovePos[0] = lastMovesFin.peek()[0];
-			lastMovePos[1] = lastMovesFin.pop()[1];
-			System.out.print("stack size: ");
-			System.out.println(lastMovesInit.size());
-			System.out.print("lastMoveInit ");
-			System.out.print(lastMoveInit[0]);
-			System.out.println(lastMoveInit[1]);
-			System.out.print("lastMovePos ");
-			System.out.print(lastMovePos[0]);
-			System.out.println(lastMovePos[1]);
-		}
-		if(lastMoveFirstOfPiece) {
-			aux.neverMoved();
-		}*/
 	}
-	public void redoMove() {
-		
-	}
+	/**
+	 * checks if the move in finalPos is valid for the piece in cell
+	 * @param cell 				board cell that contains the piece to be moved
+	 * @param finalPos 			position that the piece is to be moved to
+	 * @return 0 				invalid movement, the piece can't move like that
+	 * @return 1 				valid movement
+	 * @return 2 				invalid movement, piece with the same color in finalPos
+	 * @return 3 				invalid movement, another piece in the way
+	 * @return 4 				valid movement, oponent's piece on the final position, you can capture the piece
+	 * @return 5 				valid movement, castling king side (short)
+	 * @return 6 				valid movement, castling queen side (long)
+	 * @return 7 				valid movement, en passant
+	 * @return -1 				error: empty cell
+	 * @return -2 				error: invalid finalPos, outside the board
+	 */
 	public int checkMoves(Cell cell, int[] finalPos) {
-		/**
-		 * verifica a validade do movimento
-		 * @param cell - célula do board que queremos verificar os moviemntos
-		 * @param finalPos - posição para a qual queremos mover a piece que está na cell
-		 * @return 0 - movimento inválido, a peça não pode fazer esse movimento
-		 * @return 1 - movimento válido
-		 * @return 2 - movimento inválido, peça da mesma cor na posição final
-		 * @return 3 - movimento inválido, outra peça no caminho
-		 * @return 4 - movimento válido, peça da outra cor na posição final, pode capturar
-		 * @return 5 - movimento válido, castling king side
-		 * @return 6 - movimento válido, castling queen side
-		 * @return 7 - movimento válido, en passant
-		 * @return -1 - erro: celula vazia (sem peça)
-		 * @return -2 - erro: posição final fora do tabuleiro de jogo
-		 */
 		if(cell.isEmpty()) {			//check errors on input values
 			return -1;
 		}
@@ -611,7 +566,7 @@ public class Board {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
 												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
-														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
+														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.white)) {
 														return 7; //black pawn en passant
 													}
 												}
@@ -651,7 +606,7 @@ public class Board {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
 												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
-														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
+														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.white)) {
 														return 7; //black pawn en passant
 													}
 												}
@@ -693,7 +648,7 @@ public class Board {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
 												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
-														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
+														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.white)) {
 														return 7; //black pawn en passant
 													}
 												}
@@ -736,7 +691,7 @@ public class Board {
 											if((lastMovePos[0] == lastMoveInit[0]) && (lastMovePos[1] == lastMoveInit[1] + 2)) {
 												if((lastMovePos[0] == finalPos[0]) && (lastMovePos[1] == finalPos[1] + 1)) {
 													if((cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceName() == 'P') && 
-														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.black)) {
+														(cells[lastMovePos[0] * 8 + lastMovePos[1]].showPieceColor() == Piece.color.white)) {
 														return 7; //black pawn en passant
 													}
 												}
@@ -756,6 +711,12 @@ public class Board {
 		}
 	return 0;
 	}
+	/**
+	 * checks if a cell is in check
+	 * @param cellCheck 		cell to check
+	 * @return 					<code>true</code> the cell is in check
+	 * @return 					<code>false</code> the cell is not in check
+	 */
 	public boolean checkCheck(Cell cellCheck) {
 		Piece.color defSide = cellCheck.showPieceColor();
 		if(defSide == Piece.color.white) { //black attacking
@@ -789,6 +750,12 @@ public class Board {
 		
 		return false;
 	}
+	/**
+	 * checks if the opponent is in check
+	 * @param attackingSide		color of the player attacking
+	 * @return 					<code>true</code> the opponent is in check
+	 * @return 					<code>false</code> the opponent is not in check
+	 */
 	public boolean checkCheck(Piece.color attackingSide) {
 		Cell kingCell = null;
 		int ret;
@@ -854,6 +821,19 @@ public class Board {
 		}
 		return false;
 	}
+	/**
+	 * prints the board to the console
+	 * Pieces are print using letters:
+	 * 		'K' - King
+	 * 		'Q' - Queen
+	 * 		'B' - Bishop
+	 * 		'N' - Knight
+	 * 		'R' - Rook
+	 * 		'P' - Pawn
+	 * 		' ' - white cell
+	 * 		'X' - black cell
+	 * @param side				side of the board facing the player
+	 */
 	public void printBoard(Piece.color side) {
 		System.out.println("  a b c d e f g h");
 		int start = 0;
@@ -884,6 +864,11 @@ public class Board {
 		}
 		System.out.println("  a b c d e f g h");
 	}
+	/**
+	 * prints the board to a string
+	 * @param side				side of the board facing the player
+	 * @return					board on a string
+	 */
 	public String toString(Piece.color side) {
 		String output = "";
 		int start = 0;
@@ -913,6 +898,9 @@ public class Board {
 		}
 		return output;
 	}
+	/**
+	 * prints the board with white always facing the player
+	 */
 	public void printBoardColor() {
 		for(int j = 7; j >= 0; j--) {
 			System.out.print((j + 1) + " ");
@@ -932,6 +920,10 @@ public class Board {
 			System.out.println((j + 1));
 		}
 	}	
+	/**
+	 * gets the piece to promote the pawn to
+	 * @return					name of the piece to replace
+	 */
 	public char getPromotion() {
 		Scanner in = new Scanner(System.in);
 		System.out.println("What piece do you want? (Q, R, N, B)");
@@ -944,33 +936,47 @@ public class Board {
 			}
 		}
 	}
+	/**
+	 * @return					returns white player points
+	 */
 	public int getWhitePoints() {
 		return whitePoints;
 	}
+	/**
+	 * @return					returns black player points
+	 */
 	public int getBlackPoints() {
 		return blackPoints;
 	}
+	/**
+	 * @return					returns how many pieces the white player captured
+	 */
 	public int numberPiecesCapturedByWhite() {
 		return capturedPiecesByWhite.size();
 	}
+	/**
+	 * @return					returns how many pieces the black player captured
+	 */
 	public int numberPiecesCapturedByBlack() {
 		return capturedPiecesByBlack.size();
 	}
+	/**
+	 * stores the last move played
+	 * @param init				initial position of the movement
+	 * @param fin				final position of the movement
+	 */
 	private void storeLastMoves(int[] init, int[] fin) {
-		/*if(lastMoveInit != lastMovePos) {
-			int[] aux1 = {lastMoveInit[0], lastMoveInit[1]};
-			int[] aux2 = {lastMovePos[0], lastMovePos[1]};
-			lastMovesInit.push(aux1);
-			lastMovesFin.push(aux2);
-		}*/
 		this.lastMoveInit[0] = init[0];
 		this.lastMoveInit[1] = init[1];
 		this.lastMovePos[0] = fin[0];
 		this.lastMovePos[1] = fin[1];
-		//System.out.print("stack size: ");
-		//System.out.println(lastMovesInit.size());
 		
 	}	
+	/**
+	 * checks if the opponent is in checkmate
+	 * @param attackingSide		color of the attacking player
+	 * @return					<code>true</code> if the the opponent if in checkmate
+	 */
 	public boolean checkCheckMate(Piece.color attackingSide) {
 		Cell kingCell = null;
 		if(attackingSide == Piece.color.white) {

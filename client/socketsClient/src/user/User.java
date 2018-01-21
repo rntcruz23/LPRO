@@ -20,21 +20,31 @@ public class User {
 	private String password;
 	private Window window;
 	private Window backWindow;
-	private boolean check;
-	private boolean checkmate;
-
+	
+	/**
+	 * Start new empty user, used only for class comparison
+	 */
 	public User() {}
+	/**
+	 * Start new user
+	 * @param client					client responsible
+	 */
 	public User(Client client) {
 		setClient(client);
 	}
 
+	/**
+	 * Print pieces into board GUI
+	 * @param command								b [string representing board]
+	 */
 	protected void printBoard(String command) {
 		GameView room =(GameView) window;
-		room.getBoard().putPieces(command.substring(2,command.length()));
-		room.getLabelcheck().setEnabled(check);	
-		room.getLabelcheckMate().setEnabled(checkmate);
-		System.out.println("Finished");
+		room.getBoard().putPieces(command.substring(2,130));
 	}
+	/**
+	 * Reads connection to server
+	 * @return										command form server
+	 */
 	protected String getCommandsFromServer() {
 		try {
 			return SocketAPI.readConnection(client.getSocket());
@@ -43,11 +53,22 @@ public class User {
 			return " ";
 		}
 	}
+	/**
+	 * Command list:
+	 * u [room list]								- update room list
+	 * b [board string]								- received board state form server
+	 * l [validation] [user name] [password]		- login validation
+	 * r [validation] [user name] [password]		- register validation
+	 * j [validation] [type]						- join validation. Informs what type o user: [g]uest|[p]layer|[s]pectator
+	 * g											- logged as guest
+	 * s											- inform user that room state will be sent
+	 * @param com									command from server
+	 * @return										<code>true</code> if valid user command found
+	 */
 	public boolean processCommands(String com) {
 		char command = com.charAt(0);
 		System.out.println("command: "+com);
 		boolean valid = false;
-		valid = threadSafe(com);
 		System.out.println("command_teste: "+command);
 		switch(command) {
 		case 'u':
@@ -67,7 +88,6 @@ public class User {
 				window.getFrmChess().setVisible(false);
 				backWindow.getFrmChess().setVisible(false);
 				setType(new Spectator(client),info[0],info[1],new Lobby());
-				SocketAPI.writeToSocket(client.getSocket(), "u");
 				valid = false;
 			}
 			else {
@@ -104,12 +124,7 @@ public class User {
 				valid = false;
 				g.manageButtons();
 			}
-			else {
-				//JoinRoom j = (JoinRoom)getRoom();
-				//j.getStatus().setText("Error joining room");
-				//System.out.println("Error joining");
-				valid = true;
-			}
+			else valid = true;
 			break;
 		case 'g':
 			if(ev(com.charAt(2))) {
@@ -119,7 +134,7 @@ public class User {
 				setType(n,"","",new Lobby());
 				Lobby land = (Lobby)n.getRoom();
 				land.removeUserButtons();
-				SocketAPI.writeToSocket(client.getSocket(), "u");
+				sendCommand("u");
 				valid = true;
 			}
 			break;
@@ -133,39 +148,67 @@ public class User {
 			break;
 		case 'e':
 			goodbye();
+			break;
+		case 'h':
+			System.out.println("New history entry");
+			addToHistory(com);
+			break;
+		case 'c':
+			System.out.println("New chat entry");
+			addToChat(com);
+			break;
 		default: System.out.println("Unknown user command");
 		}
 		return valid;
 	}
+	/**
+	 * Load room state from object received from server to game view window
+	 * @param roomstate								room state object from server
+	 * @param g										game view window
+	 */
 	public void loadRoomStateToGameView(RoomState roomstate,GameView g) {
 		Piece.color turn = roomstate.getTurn();
 		String roomName = roomstate.getRoomName();
 		String joinStatus = roomstate.getJoinStatus();
 		String turnStatus = roomstate.getTurnStatus();
-
 		String whitePlayer = roomstate.getWhitePlayer();
 		String blackPlayer = roomstate.getBlackPlayer();
 		String nextPlayer = roomstate.getNextPlayer();
 		boolean roomEmpty = roomstate.isRoomEmpty();
-		check=roomstate.check();
-		checkmate=roomstate.checkmate();
+		boolean check = roomstate.isCheck();
+		boolean checkmate = roomstate.isCheckmate();
 		LinkedList<String> history = roomstate.getHistory();
-
+		
 		if(roomEmpty)
 			joinStatus = "Room is empty";
-		g.getTurnLabel().setText(turnStatus);
 		if(!joinStatus.equals(""))
 			addToChat("*********-"+joinStatus+"-*********");
-		g.getFrmChess().setTitle("Chess Game - "+ roomName);
-
-		g.managePlayerLabels(turn, whitePlayer, blackPlayer, nextPlayer);
+		
 		for(String move : history) {
 			g.getHistoryArea().append(move);
 		}
+		g.getTurnLabel().setText(turnStatus);
+		g.getFrmChess().setTitle("Chess Game - "+ roomName);
+		g.managePlayerLabels(turn, whitePlayer, blackPlayer, nextPlayer);
+		g.getLabelcheck().setEnabled(check);	
+		g.getLabelcheckMate().setEnabled(checkmate);
 	}
+	/**
+	 * After receiving s from server, wait for room state object
+	 * @param client								client
+	 * @return										room state object
+	 */
 	public RoomState waitRoom(Client client) {
 		return RoomState.waitroom(client.getUser(),client.getIn());
 	}
+	/**
+	 * Transform room list string into room list matrix
+	 * @param roomList								room list [room1:players:spectators:guests room2:...]
+	 * @return										array containing rooms
+	 * 												[room1:players:spectators:guests]
+	 * 												[room2:...						]
+	 * 												[....							]
+	 */
 	public String[] getRooms(String roomList) {
 		StringTokenizer tok = new StringTokenizer(roomList," ");
 		int number = tok.countTokens();
@@ -178,6 +221,11 @@ public class User {
 		}
 		return rooms;
 	}
+	/**
+	 * Get new object from char
+	 * @param t										char representing type [p]layer|[s]pectator
+	 * @return										new object corresponding to type
+	 */
 	public User getType(char t) {
 		switch(t) {
 		case 'p':
@@ -187,6 +235,13 @@ public class User {
 		default: return new Guest(client);
 		}
 	}
+	/**
+	 * Change user to new window
+	 * @param n										new user to add
+	 * @param name									user name
+	 * @param pass									password
+	 * @param newWindow								window to add user to
+	 */
 	public void setType(User n,String name,String pass,Window newWindow) {
 		n.setName(name);
 		n.setPassword(pass);
@@ -196,6 +251,12 @@ public class User {
 		client.setUser(n);
 		newWindow.setUser(n);
 	}
+	/**
+	 * Get login information
+	 * @param input									[user name] [password]
+	 * @return										[user name]
+	 * 												[password]
+	 */
 	public String[] getLogin(String input) {
 		System.out.println(input);
 		StringTokenizer tok = new StringTokenizer(input," ");
@@ -204,6 +265,12 @@ public class User {
 		output[1] = tok.nextToken();
 		return output;
 	}
+	/**
+	 * Get validation from commands from server
+	 * @param r										[command] [validation]
+	 * @return										<code>true</true> if command valid
+	 * 												validation: [s]uccessfull|[u]nccessfull
+	 */
 	public boolean ev(char r) {
 		switch(r) {
 		case 's': return true;
@@ -211,28 +278,25 @@ public class User {
 		default: return false;
 		}
 	}
-	public boolean threadSafe(String com) {
-		char command = com.charAt(0);
-		switch(command) {
-		case 'h':
-			System.out.println("New history entry");
-			addToHistory(com);
-			break;
-		case 'c':
-			System.out.println("New chat entry");
-			addToChat(com);
-			break;
-		default: return false;
-		}
-		return false;
-	}
+	/**
+	 * Send command to server
+	 * @param input									check command list
+	 */
 	public void sendCommand(String input) {
 		SocketAPI.writeToSocket(client.getSocket(),input);
 	}
+	/**
+	 * Insert new history entry to GUI
+	 * @param move									h [move]
+	 */
 	public void addToHistory(String move) {
 		GameView room = (GameView) window;
 		room.getHistoryArea().append(move.substring(2,move.length())+'\n');
 	}
+	/**
+	 * Print room matrix to GUI
+	 * @param rooms									room list matrix
+	 */
 	public void printRooms(String[] rooms) {
 		Lobby l = (Lobby) getRoom();
 		l.clearTable();
@@ -246,6 +310,10 @@ public class User {
 			l.addRow(newRow);
 		}
 	}
+	/**
+	 * Insert new chat entry to GUI
+	 * @param speak									c [text]
+	 */
 	public void addToChat(String speak) {
 		GameView room = (GameView) window;
 		String username = "";
@@ -262,13 +330,46 @@ public class User {
 			room.getChatArea().append(text);
 		}
 	}
-
+	/**
+	 * Close application
+	 * 
+	 */
+	public void goodbye(){
+		if(window != null)
+			window.getFrmChess().setVisible(false);
+		if(backWindow != null) 
+			backWindow.getFrmChess().setVisible(false);
+		client.setConnected(false);
+	}
+	/**
+	 * Get current window
+	 * @return						current window
+	 */
 	public Window getRoom() {
 		return window;
 	}
+	/**
+	 * Set current window
+	 * @param room					current window
+	 */
 	public void setRoom(Window room) {
 		this.window = room;
 	}
+	/**
+	 * Get last window
+	 * @return						last window
+	 */
+	public Window getBackWindow() {
+		return backWindow;
+	}
+	/**
+	 * Set last window
+	 * @param backWindow			set last window
+	 */
+	public void setBackWindow(Window backWindow) {
+		this.backWindow = backWindow;
+	}
+	
 	public Client getClient() {
 		return client;
 	}
@@ -286,18 +387,5 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public Window getBackWindow() {
-		return backWindow;
-	}
-	public void setBackWindow(Window backWindow) {
-		this.backWindow = backWindow;
-	}
-	public void goodbye(){
-		if(window != null)
-			window.getFrmChess().setVisible(false);
-		if(backWindow != null) 
-			backWindow.getFrmChess().setVisible(false);
-		client.setConnected(false);
 	}
 }

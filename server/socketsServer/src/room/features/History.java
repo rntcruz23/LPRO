@@ -1,17 +1,20 @@
 package room.features;
 
-import java.util.LinkedList;
-
 import room.Room;
-import users.UserThread;
 
 public class History extends Broadcasters{
 	/**
-	 * 
+	 *  Instantiate new history broadcaster
+	 * @param room			room to broadcast on
 	 */
-	public History(LinkedList<UserThread> viewers,LinkedList<UserThread> p,Room room) {
-		super(viewers,p,room);
+	public History(Room room) {
+		super(room);
 	}
+	/** 
+	 * broadcast new chat entry
+	 * i.e broadcast h + [input]
+	 * @see room.features.Broadcasters#broadcast(java.lang.String)
+	 */
 	@Override
 	public void broadcast(String input) {
 		String output = "h "+input;

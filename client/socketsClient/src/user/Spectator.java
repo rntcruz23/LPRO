@@ -10,14 +10,30 @@ import windows.stats.Stats;
 public class Spectator extends User{
 	private String username;
 	private String password;
+	
+	/**
+	 * Empty spectator, used only for class comparison
+	 * 
+	 */
 	public Spectator() {
 	
 	}
+	/**
+	 * Start new spectator
+	 * @param client					client responsible
+	 */
 	public Spectator(Client client) {
 		super(client);
 	}
-	protected void chat(String message) {
-	}
+	/**
+	 * Command list:
+	 * n [room name]					- new room created
+	 * z [color]						- inform spectator that it is now a player
+	 * y [wins] [losses] [draws]		- inform player statistics
+	 * @param com							command form server
+	 * @return							<code>true</code> if valid spectator command
+	 * @see user.User#processCommands(java.lang.String)
+	 */
 	@Override
 	public boolean processCommands(String com) {
 		if(super.processCommands(com)) return true;
@@ -62,6 +78,11 @@ public class Spectator extends User{
 		}
 		return false;	
 	}
+	/**
+	 * Convert input from server to array
+	 * @param com						input from server y [wins] [losses] [draws]
+	 * @return							array containing statistics
+	 */
 	public int[] getStatsFromServer(String com) {
 		StringTokenizer tok = new StringTokenizer(com," ");
 		int[] n = new int[3];

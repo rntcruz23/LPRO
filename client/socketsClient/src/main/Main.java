@@ -1,5 +1,6 @@
-package client;
+package main;
 
+import client.Client;
 import windows.connect.Connect;
 
 public class Main {

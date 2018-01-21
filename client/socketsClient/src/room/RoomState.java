@@ -88,10 +88,16 @@ public class RoomState implements Serializable{
 	public void setNextPlayer(String nextPlayer) {
 		this.nextPlayer = nextPlayer;
 	}
-	public boolean check() {
+	public boolean isCheck() {
 		return check;
 	}
-	public boolean checkmate() {
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
+	public boolean isCheckmate() {
 		return checkmate;
+	}
+	public void setCheckmate(boolean checkmate) {
+		this.checkmate = checkmate;
 	}
 }

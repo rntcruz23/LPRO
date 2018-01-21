@@ -36,6 +36,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import server.SocketAPI;
+import user.User;
 import window.Window;
 import windows.landing.LandingScreen;
 import windows.newroom.CreateRoom;
@@ -286,7 +287,7 @@ public class Lobby extends Window{
 		Labelrefresh.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "u");
+				getUser().sendCommand("u");
 			}
 		});
 	}
@@ -324,5 +325,10 @@ public class Lobby extends Window{
 	public void addRow(Object[] newRow) {
 		DefaultTableModel model=(DefaultTableModel) table_1.getModel(); 
 		model.addRow(newRow);
+	}
+	@Override
+	public void setUser(User u) {
+		super.setUser(u);
+		getUser().sendCommand("u");
 	}
 }

@@ -7,6 +7,11 @@ import java.net.Socket;
 
 public class SocketAPI {
 
+	/**
+	 * Write string to socket
+	 * @param destination				output socket
+	 * @param output					output string
+	 */
 	public static void writeToSocket(Socket destination,String output) {
 		byte[] bc;
 		try {
@@ -18,6 +23,12 @@ public class SocketAPI {
 			System.out.println("Error writing to socket: "+e.getMessage());
 		}
 	}
+	/**
+	 * Read from socket
+	 * @param socket					socket to read from
+	 * @return							string read
+	 * @throws IOException
+	 */
 	public static String readConnection(Socket socket) throws IOException{
 		InputStream input;
 		String readS = "Read failed";
@@ -28,6 +39,10 @@ public class SocketAPI {
 		readS = byteToString(b,size);
 		return readS;
 	}
+	/**
+	 * Closes connection. Writes exit to socket
+	 * @param toClose					socket to close
+	 */
 	public static void terminateConnection(Socket toClose) {
 		writeToSocket(toClose,"exit");
 		try {
@@ -37,10 +52,21 @@ public class SocketAPI {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Convert String to byte array to write to socket
+	 * @param s							string to write
+	 * @return							byte array to send
+	 */
 	private static byte[] toByte(String s) {
 		byte[] b = s.getBytes();
 		return b;
 	}
+	/**
+	 * Convert byte array to string.
+	 * @param b							byte array received from socket
+	 * @param size						size of array
+	 * @return							byte array as String
+	 */
 	private static String byteToString(byte[] b,int size) {
 		byte[] buffer = new byte[size];
 		int i = 0;

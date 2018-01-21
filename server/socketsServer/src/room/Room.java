@@ -14,9 +14,6 @@ import server.Server;
 import users.UserThread;
 
 public class Room extends Window implements Runnable{
-	/**
-	 * 
-	 */
 	private LinkedList<UserThread> players;
 	private LinkedList<UserThread> spectators;
 	private LinkedList<UserThread> guests;
@@ -51,8 +48,8 @@ public class Room extends Window implements Runnable{
 		setViewers(new LinkedList<UserThread>());
 		setBoard(new Board());
 		setRoomName(name);
-		history = new History(viewers,players,this);
-		chat = new Chat(viewers,players,this);
+		history = new History(this);
+		chat = new Chat(this);
 		setTurn(Piece.color.white);
 		setTurnStatus(getTurn()+" turn");
 		UsersHandler.addUser(this,player1);
@@ -81,26 +78,23 @@ public class Room extends Window implements Runnable{
 	 */
 	public void closeRoom() {
 		server.getLob().getRooms().remove(this);
-		lock();
-		ListAPI.terminateList(players);
-		ListAPI.terminateList(viewers);
-		unlock();
 	}
 	/**
 	 * Command list:
-	 * c [text] - new chat entry
-	 * m [chess standard] - play
-	 * x - user left room, user loses game. Game continues
-	 * d - user attempting to draw the game, prompt opponent
-	 * a - user accepted to draw match. Game end
-	 * f - user forfeits current game. Game ends
-	 * default - unknown command. Re-inform players about current turn
+	 * c [text] 			- new chat entry
+	 * m [chess standard] 	- play
+	 * x 					- user left room, user loses game. Game continues
+	 * d 					- user attempting to draw the game, prompt opponent
+	 * a 					- user accepted to draw match. Game end
+	 * f 					- user forfeits current game. Game ends
+	 * default 				- unknown command. Re-inform players about current turn
 	 * @see room.Window#processCommands(java.lang.String, users.UserThread)
 	 */
 	@Override
 	public void processCommands(String input,UserThread user) {
 		Piece.color color = user.getUser().getTurn();
 		char com = input.charAt(0);
+		lock();
 		switch(com) {
 		case 'c':
 			String name = user.getUser().getName();
@@ -133,6 +127,7 @@ public class Room extends Window implements Runnable{
 			break;
 		default: informTurn();
 		}
+		unlock();
 	}
 	/**
 	 * Get user'opponent
@@ -198,14 +193,13 @@ public class Room extends Window implements Runnable{
 	}
 	/**
 	 * Send current board state to users
+	 * Not thread safe.
 	 */
 	public void sendBoard() {
 		String output = "b " + board.toString(Piece.color.white);
-		lock();
 		for(UserThread u : players)
 			SocketAPI.writeToSocket(u.getUser().getSocket(), "b "+board.toString(u.getUser().getTurn()));
 		ListAPI.writeToList(viewers,output);
-		unlock();
 	}
 	/**
 	 * Inform players of who has to play
@@ -213,9 +207,7 @@ public class Room extends Window implements Runnable{
 	public void informTurn() {
 		String output = "p "+turnToString();
 		System.out.println(output);
-		lock();
 		ListAPI.writeToList(players,output);
-		unlock();
 	}
 	/**
 	 * Reverse move's row

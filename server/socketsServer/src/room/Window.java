@@ -6,11 +6,13 @@ import users.UserThread;
 public abstract class Window implements Lock{
 	private boolean locked;
 	private boolean roomEmpty;
+	
 	public Window() {
 		setRoomEmpty(false);
 		setLocked(false);
 	}
 	public abstract void processCommands(String input,UserThread user);
+	
 	public boolean isLocked() {
 		return locked;
 	}
