@@ -1083,4 +1083,34 @@ public class Board {
 		}
 		return true;
 	}
+	public String moveToNotation(String move) {
+		int col_i = move.charAt(0) - 'a';
+		int row_i = move.charAt(1) - '1';
+		int col_f = move.charAt(2) - 'a';
+		int row_f = move.charAt(3) - '1';
+		int[] finalPos = {col_f, row_f};
+		char piece = cells[col_i * 8 + row_i].showPieceName();
+		int checking = checkMoves(cells[col_i * 8 + row_i], finalPos);
+		if(checking == 5) {
+			return "O-O";
+		}
+		else if(checking == 6) {
+			return "O-O-O";
+		}
+		if(piece == 'P') {
+			return (checking == 4 ?(move.charAt(0) +  "x") : "") + move.charAt(2) + move.charAt(3);
+		}
+		else {
+			return piece + (checking == 4 ? "x" : "") + move.charAt(2) + move.charAt(3);
+		}
+	}
+	public String notationAddCheck(String notation, Piece.color attackingSide) {
+		if(checkCheckMate(attackingSide)) {
+			return notation + "#";
+		}
+		else if(checkCheck(attackingSide)) {
+			return notation + "+";
+		}
+		return notation;
+	}
 }
