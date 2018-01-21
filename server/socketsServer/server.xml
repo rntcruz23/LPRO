@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<serverXML>
+    <admin>pawnstars</admin>
+    <adminp>pawnstars</adminp>
+    <db>sibd17g27</db>
+    <jdbc>jdbc</jdbc>
+    <link>dbm.fe.up.pt</link>
+    <password>pedrorenato</password>
+    <port>5432</port>
+    <type>postgresql</type>
+    <username>sibd17g27</username>
+</serverXML>

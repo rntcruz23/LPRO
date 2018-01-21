@@ -6,12 +6,13 @@ import java.net.ServerSocket;
 import room.Landing;
 import room.Lobby;
 import users.UserThread;
+import xml.ServerXML;
 
 public class Server {
 	private ServerSocket socket;
 	private int port,started;
-	private final String admin = "pawnstars";
-	private final String adminp = "pawnstars";
+	private String admin;
+	private String adminp;
 	private DataBase db;
 	private Admin adminW;
 	private Landing land;
@@ -33,6 +34,7 @@ public class Server {
 	 * @param port			port to listen
 	 */
 	public Server(int port) {
+		ServerXML xml = new ServerXML();
 		this.setPort(port);
 		occupation = 0;
 		setStarted(0);
@@ -41,20 +43,31 @@ public class Server {
 		land.getT().start();
 		lob.getT().start();
 		adminW = new Admin(this);
+		try {
+			xml.manageXML();
+			manageAdminLog(xml);
+		} catch(Exception e) {
+			adminW.getStatus().setText(e.getMessage());
+		}
 		while(started == 0) { 
 			while(started == 0)	Thread.yield();
 			try {
-				setDb(new DataBase());
+				setDb(new DataBase(xml.getJdbc(),xml.getType(),xml.getLink(),xml.getPort(),xml.getDb(),xml.getUsername(),xml.getPassword()));
 				setSocket(new ServerSocket(port));
 			} catch (Exception e) {
 				System.out.println("Error opening server: "+e.getMessage());
 				adminW.getStatus().setText(e.getMessage());
 				started = 0;
+				e.printStackTrace();
 			}
 		}
 		adminW.getStatus().setText("Waiting on port: "+ getPort());
 		adminW.getIpLbl().setText("Server ip: "+ getSocket().getInetAddress().getHostAddress());
 		adminW.getOccupationLbl().setText("Connected: "+occupation);
+	}
+	public void manageAdminLog(ServerXML xml){
+		admin = xml.getAdmin();
+		adminp = xml.getAdminp();
 	}
 	/**
 	 * Updates server occupation, updates GUI label

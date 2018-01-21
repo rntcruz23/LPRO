@@ -12,13 +12,11 @@ public class DataBase {
 	 * Starts new database connection
 	 * @throws SQLException
 	 */
-	public DataBase() throws SQLException{
+	public DataBase(String jdbc,String type,String link,String port,String db,String username, String password) throws SQLException{
 		con = null;
-		String username = "sibd17g27";
-		String password = "pedrorenato";
 		try {
 			Class.forName("org.postgresql.Driver");
-			con = DriverManager.getConnection("jdbc:postgresql://dbm.fe.up.pt:5432/sibd17g27",username, password);
+			con = DriverManager.getConnection(jdbc+":"+type+"://"+link+":"+port+"/"+db,username, password);
 			con.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 		} catch (ClassNotFoundException e) {
