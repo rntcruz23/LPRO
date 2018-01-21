@@ -17,13 +17,17 @@ public class Client {
 	private WaitingInput wait;
 	private ObjectInputStream in;
 	private boolean connected;
+	/**
+	 * Start new unconnected client
+	 */
 	public Client() {
 		System.out.println("New client");
 		setConnected(false);
 	}
 	/**
-	 * @param ip
-	 * @param port
+	 * Connect client
+	 * @param ip				destination ip
+	 * @param port				destination port
 	 */
 	public void connect(String ip,int port) throws IOException, UnknownHostException{
 		InetAddress host = InetAddress.getByName(ip);
@@ -32,6 +36,7 @@ public class Client {
 		setConnected(true);
 		setIn(new ObjectInputStream(socket.getInputStream()));
 	}
+	
 	public User getUser() {
 		return user;
 	}
