@@ -1083,6 +1083,11 @@ public class Board {
 		}
 		return true;
 	}
+	/**
+	 * Call before using the method move(...)
+	 * @param move			movement in initialPosition finalPosition (coordinates)
+	 * @return				move in algebraic notation
+	 */
 	public String moveToNotation(String move) {
 		int col_i = move.charAt(0) - 'a';
 		int row_i = move.charAt(1) - '1';
@@ -1104,6 +1109,12 @@ public class Board {
 			return piece + (checking == 4 ? "x" : "") + move.charAt(2) + move.charAt(3);
 		}
 	}
+	/**
+	 * Call after using the method moveToNotation(...) and move(...)
+	 * @param notation				algebraic notation previously calculated
+	 * @param attackingSide			color of the attacking player
+	 * @return						algebraic notation with check and check mate
+	 */
 	public String notationAddCheck(String notation, Piece.color attackingSide) {
 		if(checkCheckMate(attackingSide)) {
 			return notation + "#";
