@@ -8,7 +8,7 @@
 
 ### Javadoc
 * [Server](https://paginas.fe.up.pt/~up201405867/lpro/doc/server)  
-* [Client](https://paginas.fe.up.pt/~up201405867/lpro/doc/client)  
+* [Client](https://paginas.fe.up.pt/~up201405867/lpro/doc/cliente)  
 * [Game Logic](https://paginas.fe.up.pt/~up201405867/lpro/doc/gameLogic)  
 
 ### Youtube
