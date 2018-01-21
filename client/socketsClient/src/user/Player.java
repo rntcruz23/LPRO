@@ -3,6 +3,7 @@ package user;
 import client.Client;
 import pieces.Piece;
 import windows.drawprompt.Draw;
+import windows.game.GameView;
 
 public class Player extends Spectator{
 	private Piece.color turn;
