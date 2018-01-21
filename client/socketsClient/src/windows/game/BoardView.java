@@ -12,6 +12,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.border.MatteBorder;
 
 import user.Player;
+import user.Spectator;
 import user.User;
 
 public class BoardView {
@@ -44,6 +45,12 @@ public class BoardView {
 		ImageIcon aux2;
 		aux1 = createImageIcon("black_cell.jpg"); 
 		aux2 = createImageIcon("white_cell.jpg");
+		if(getUser().getClass() == (new Player()).getClass()) {
+			if(((Player) getUser()).getTurn() == 'b') {
+				aux2 = createImageIcon("black_cell.jpg"); 
+				aux1 = createImageIcon("white_cell.jpg");
+			}
+		}
 		pos[0]= 5;
 		pos[1]= 5;
 		int n_cell = 0;
