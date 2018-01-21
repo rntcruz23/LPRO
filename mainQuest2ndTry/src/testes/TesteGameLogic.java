@@ -21,7 +21,7 @@ public class TesteGameLogic {
 	public void emptyBoard() {
 		board = new Board('t');
 	}
-	/*
+	
 	@Test
 	public void emptyCell() {
 		assertEquals(board.cells[0].isEmpty(), true);
@@ -281,7 +281,7 @@ public class TesteGameLogic {
 		assertTrue(board.cells[7 * 8 + 7].isEmpty());
 		board.printBoard(Piece.color.black);
 	}
-	*/
+	
 	@Test
 	public void checkEnPassant() {
 		Piece wpawn = new Pawn(Piece.color.white);
