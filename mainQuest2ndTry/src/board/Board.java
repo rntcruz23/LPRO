@@ -925,6 +925,7 @@ public class Board {
 	 * @return					name of the piece to replace
 	 */
 	public char getPromotion() {
+		/*
 		Scanner in = new Scanner(System.in);
 		System.out.println("What piece do you want? (Q, R, N, B)");
 		char inc;
@@ -934,7 +935,8 @@ public class Board {
 				in.close();
 				return inc;
 			}
-		}
+		}*/
+		return 'Q';	
 	}
 	/**
 	 * @return					returns white player points

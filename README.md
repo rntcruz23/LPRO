@@ -7,9 +7,9 @@
 [![Build Status](https://travis-ci.com/rntcruz23/LPRO.svg?token=VymBesuwp4p7qziuLL5L&branch=master)](https://travis-ci.com/rntcruz23/LPRO)
 
 ### Javadoc
-[Server](https://paginas.fe.up.pt/~up201405867/lpro/doc/server)  
-[Client](https://paginas.fe.up.pt/~up201405867/lpro/doc/client)  
-[Game Logic](https://paginas.fe.up.pt/~up201405867/lpro/doc/gameLogic)  
+* [Server](https://paginas.fe.up.pt/~up201405867/lpro/doc/server)  
+* [Client](https://paginas.fe.up.pt/~up201405867/lpro/doc/client)  
+* [Game Logic](https://paginas.fe.up.pt/~up201405867/lpro/doc/gameLogic)  
 
 ### Youtube
 Porque deve usar a nossa aplicação: [Video](https://youtu.be/_-qpPAE1zSM)
