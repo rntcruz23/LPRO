@@ -1094,6 +1094,9 @@ public class Board {
 		int col_f = move.charAt(2) - 'a';
 		int row_f = move.charAt(3) - '1';
 		int[] finalPos = {col_f, row_f};
+		if(cells[col_i * 8 + row_i].isEmpty()) {
+			return null;
+		}
 		char piece = cells[col_i * 8 + row_i].showPieceName();
 		int checking = checkMoves(cells[col_i * 8 + row_i], finalPos);
 		if(checking == 5) {
