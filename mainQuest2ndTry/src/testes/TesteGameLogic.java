@@ -23,7 +23,7 @@ public class TesteGameLogic {
 	public void emptyBoard() {
 		board = new Board('t');
 	}
-	/*
+	
 	@Test
 	public void emptyCell() {
 		assertEquals(board.cells[0].isEmpty(), true);
@@ -331,7 +331,7 @@ public class TesteGameLogic {
 		assertTrue(board.move(initialPos, finalPos, Piece.color.black));
 		board.printBoard(Piece.color.white);
 	}
-	*/
+	
 	@Test
 	public void testNotation() {
 		Board board_c = new Board();
