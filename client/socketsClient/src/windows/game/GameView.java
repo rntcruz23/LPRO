@@ -29,6 +29,7 @@ import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultCaret;
 
 import pieces.Piece;
 import user.Guest;
@@ -146,6 +147,7 @@ public class GameView extends Window{
 		historyArea.setWrapStyleWord(true);
 		historyArea.setLineWrap(true);
 		historyArea.setBackground(new Color(192, 192, 192));
+		historyArea.setEditable(false);
 
 		JPanel chat = new JPanel();
 		frmChess.getContentPane().add(chat, BorderLayout.EAST);
@@ -170,6 +172,8 @@ public class GameView extends Window{
 
 		chatArea = new JTextArea();
 		chatArea.setEditable(false);
+		DefaultCaret caret = (DefaultCaret) chatArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		scrollPane.setViewportView(chatArea);
 
 		JPanel chatMenu = new JPanel();

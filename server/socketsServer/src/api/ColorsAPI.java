@@ -25,6 +25,7 @@ public class ColorsAPI {
 		return 'U';
 	}
 	/**
+	 * Get opponent of a color
 	 * @param color				color enum
 	 * @return					opposite color (enum)
 	 */

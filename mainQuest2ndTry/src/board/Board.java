@@ -15,8 +15,12 @@ public class Board {
 	public Cell[] cells = new Cell[64];
 	private LinkedList<Piece> capturedPiecesByWhite = new LinkedList<Piece>();
 	private LinkedList<Piece> capturedPiecesByBlack = new LinkedList<Piece>();
+	private Stack<int[]> lastMovesInit = new Stack();
+	private Stack<int[]> lastMovesFin = new Stack();
 	private int whitePoints = 0;
 	private int blackPoints = 0;
+	private boolean flagCheckWhite = false;
+	private boolean flagCheckBlack = false;
 	private int[] lastMovePos = {0,0};
 	private int[] lastMoveInit = {0,0};
 	private boolean capturedPieceLastMove = false;
