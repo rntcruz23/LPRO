@@ -89,6 +89,8 @@ public class Player extends Spectator{
 			case 't':
 				System.out.println("Setting my turn to "+command.charAt(2));
 				turnString(command);
+				getRoom().getFrmChess().setVisible(false);
+				setRoom(new GameView(this));
 				break;
 			case 'd':
 				setBackWindow(getRoom());

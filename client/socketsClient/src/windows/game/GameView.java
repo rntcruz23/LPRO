@@ -113,12 +113,12 @@ public class GameView extends Window{
 		btnReturnToLobby.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmChess.setVisible(false);
+				getUser().sendCommand("x");
 				Lobby lob =  new Lobby();
 				lob.setUser(getUser());
 				getUser().setRoom(lob);
 				if (getUser().getClass() == (new Guest()).getClass())
 					lob.removeUserButtons();
-				getUser().sendCommand("x");
 			}
 		});
 

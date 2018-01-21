@@ -88,7 +88,6 @@ public class User {
 				window.getFrmChess().setVisible(false);
 				backWindow.getFrmChess().setVisible(false);
 				setType(new Spectator(client),info[0],info[1],new Lobby());
-				SocketAPI.writeToSocket(client.getSocket(), "u");
 				valid = false;
 			}
 			else {
