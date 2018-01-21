@@ -26,7 +26,6 @@ public class XMLMonitor {
 		jaxbContext = JAXBContext.newInstance(ServerXML.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		ServerXML server = (ServerXML) jaxbUnmarshaller.unmarshal(file);
-		System.out.println(server);
 		toXML(server,xml);
 	}
 	public static boolean fileExists() {

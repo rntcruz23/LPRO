@@ -151,6 +151,7 @@ public class Room extends Window implements Runnable{
 		int[][] movement = inputInt(move);
 		sendBoard();
 		board.printBoard(getTurn());
+		String notation = board.moveToNotation(move);
 		if(board.move(movement[0],movement[1],color)) {
 			setCheck(board.checkCheck(getTurn()));
 			setCheckmate(board.checkCheckMate(getTurn()));
@@ -162,7 +163,8 @@ public class Room extends Window implements Runnable{
 				gameRunning = false;
 				gameFinished = true;
 			}
-			history.broadcast(ColorsAPI.colorToString(color) + ": " + move);
+			notation = board.notationAddCheck(notation, getTurn());
+			history.broadcast(ColorsAPI.colorToString(color) + ": " + notation);
 			turnStatus = isCheckmate()?color + " won!!!":getTurn() + " turn";
 			setTurn(ColorsAPI.getOp(color));
 			setTurnStatus(turnStatus);

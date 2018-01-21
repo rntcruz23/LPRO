@@ -1,15 +1,14 @@
 package board;
 
 import java.util.LinkedList;
-import java.util.Scanner;
 import java.util.Stack;
 
+import api.ColorsAPI;
 import pieces.Bishop;
 import pieces.Knight;
 import pieces.Piece;
 import pieces.Queen;
 import pieces.Rook;
-import api.ColorsAPI;
 
 public class Board {
 	public Cell[] cells = new Cell[64];

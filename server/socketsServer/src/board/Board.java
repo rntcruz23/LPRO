@@ -1,15 +1,14 @@
 package board;
 
 import java.util.LinkedList;
-import java.util.Scanner;
 import java.util.Stack;
 
+import api.ColorsAPI;
 import pieces.Bishop;
 import pieces.Knight;
 import pieces.Piece;
 import pieces.Queen;
 import pieces.Rook;
-import api.ColorsAPI;
 
 public class Board {
 	public Cell[] cells = new Cell[64];
@@ -925,6 +924,7 @@ public class Board {
 	 * @return					name of the piece to replace
 	 */
 	public char getPromotion() {
+		/*
 		Scanner in = new Scanner(System.in);
 		System.out.println("What piece do you want? (Q, R, N, B)");
 		char inc;
@@ -934,7 +934,8 @@ public class Board {
 				in.close();
 				return inc;
 			}
-		}
+		}*/
+		return 'Q';	
 	}
 	/**
 	 * @return					returns white player points
@@ -1080,5 +1081,49 @@ public class Board {
 			}
 		}
 		return true;
+	}
+	/**
+	 * Call before using the method move(...)
+	 * @param move			movement in initialPosition finalPosition (coordinates)
+	 * @return				move in algebraic notation
+	 */
+	public String moveToNotation(String move) {
+		int col_i = move.charAt(0) - 'a';
+		int row_i = move.charAt(1) - '1';
+		int col_f = move.charAt(2) - 'a';
+		int row_f = move.charAt(3) - '1';
+		int[] finalPos = {col_f, row_f};
+		if(cells[col_i * 8 + row_i].isEmpty()) {
+			return null;
+		}
+		char piece = cells[col_i * 8 + row_i].showPieceName();
+		int checking = checkMoves(cells[col_i * 8 + row_i], finalPos);
+		if(checking == 5) {
+			return "O-O";
+		}
+		else if(checking == 6) {
+			return "O-O-O";
+		}
+		if(piece == 'P') {
+			return (checking == 4 ?(move.charAt(0) +  "x") : "") + move.charAt(2) + move.charAt(3);
+		}
+		else {
+			return piece + (checking == 4 ? "x" : "") + move.charAt(2) + move.charAt(3);
+		}
+	}
+	/**
+	 * Call after using the method moveToNotation(...) and move(...)
+	 * @param notation				algebraic notation previously calculated
+	 * @param attackingSide			color of the attacking player
+	 * @return						algebraic notation with check and check mate
+	 */
+	public String notationAddCheck(String notation, Piece.color attackingSide) {
+		if(checkCheckMate(attackingSide)) {
+			return notation + "#";
+		}
+		else if(checkCheck(attackingSide)) {
+			return notation + "+";
+		}
+		return notation;
 	}
 }
