@@ -31,7 +31,6 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 
 import pieces.Piece;
-import server.SocketAPI;
 import user.Guest;
 import user.Spectator;
 import user.User;
@@ -119,7 +118,7 @@ public class GameView extends Window{
 				getUser().setRoom(lob);
 				if (getUser().getClass() == (new Guest()).getClass())
 					lob.removeUserButtons();
-				SocketAPI.writeToSocket(getUser().getClient().getSocket(), "x");
+				getUser().sendCommand("x");
 			}
 		});
 
@@ -220,7 +219,6 @@ public class GameView extends Window{
 				}		
 			}});
 
-		
 		ImageIcon checkMate=getScaledImage(createImageIcon("checkmate.png"),60,50);
 		LabelcheckMate = new JLabel();
 		GridBagConstraints gbc_LabelcheckMate = new GridBagConstraints();
@@ -230,7 +228,6 @@ public class GameView extends Window{
 		exit.add(LabelcheckMate, gbc_LabelcheckMate,new Integer(1));
 		LabelcheckMate.setIcon(checkMate);
 		
-		
 		ImageIcon check=getScaledImage(createImageIcon("check.png"),60,50);
 		 Labelcheck = new JLabel();
 		GridBagConstraints gbc_Labelcheck = new GridBagConstraints();
@@ -239,15 +236,7 @@ public class GameView extends Window{
 		 gbc_Labelcheck.gridy = 1;
 		exit.add(Labelcheck, gbc_Labelcheck,new Integer(1));
 		Labelcheck.setIcon(check);
-		
-		/*
-		joinLabel = new JLabel("");
-		GridBagConstraints gbc_joinLabel = new GridBagConstraints();
-		gbc_joinLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_joinLabel.gridx = 4;
-		gbc_joinLabel.gridy = 1;
-		exit.add(joinLabel, gbc_joinLabel);
-*/
+	
 		turnLabel = new JLabel("");
 		GridBagConstraints gbc_turnLabel = new GridBagConstraints();
 		gbc_turnLabel.insets = new Insets(0, 0, 5, 5);

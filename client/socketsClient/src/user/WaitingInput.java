@@ -8,10 +8,20 @@ import java.util.concurrent.locks.Lock;
 public class WaitingInput extends Thread implements Lock{
 	private User caller;
 	private boolean locked;
+	
+	/**
+	 * Start new waiting thread, reading server commands
+	 * @param waiting
+	 */
 	public WaitingInput(User waiting) {
 		caller = waiting;
 		locked = false;
 	}
+	/**
+	 * Main loop reading from server
+	 * Processing user commands
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run() {
 		String readFromSocket = "new";
@@ -32,6 +42,7 @@ public class WaitingInput extends Thread implements Lock{
 		System.out.println("Goodbye");
 		caller.goodbye();
 	}
+
 	public User getCaller() {
 		return caller;
 	}

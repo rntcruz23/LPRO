@@ -11,9 +11,19 @@ public class UserThread extends Thread{
 	private User user;
 	private Window window;
 	private ObjectOutputStream out;
+	
+	/**
+	 * Start new user thread
+	 * Used only for class comparison purposes
+	 * @param name				useless, empty name and passwords used
+	 */
 	public UserThread(String name) {
 		user = new User("","");
 	}
+	/**
+	 * Start new user thread connected to socket
+	 * @param socket			socket to connect and retrieve ObjectOutputStream
+	 */
 	public UserThread(Socket socket) {
 		user = new User(socket);
 		try {
@@ -22,18 +32,11 @@ public class UserThread extends Thread{
 			e.printStackTrace();
 		}
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public Window getRoom() {
-		return window;
-	}
-	public void setRoom(Window room) {
-		this.window = room;
-	}
+	/**
+	 * Main loop
+	 * Waits for user to disconnect
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run() {
 		String read ="";
@@ -48,6 +51,19 @@ public class UserThread extends Thread{
 			System.out.println(read);
 			window.processCommands(read,this);
 		}
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Window getRoom() {
+		return window;
+	}
+	public void setRoom(Window room) {
+		this.window = room;
 	}
 	public ObjectOutputStream getOut() {
 		return out;

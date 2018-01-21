@@ -12,16 +12,35 @@ public class Landing extends Window implements Runnable{
 	private LinkedList<UserThread> users;
 	private Thread t;
 	private Server server;
+	
+	/**
+	 * Start new landing room
+	 * @param server				server associated with this landing room
+	 */
 	public Landing(Server server) {
 		super();
 		setServer(server);
 		setUsers(new LinkedList<UserThread>());
 		setT(new Thread(this));
 	}
+	/**
+	 * Main loop
+	 * does nothing
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		while(true) Thread.yield();
 	}
+	/** 
+	 * Command list:
+	 * l [username] [password]		- login with combination given username/password
+	 * g							- enter as guest
+	 * r [username] [password]		- register with combination given username/password
+	 * e							- exit landing page. Terminates connection
+	 * default						- prints "Unkown command" to terminal
+	 * @see room.Window#processCommands(java.lang.String, users.UserThread)
+	 */
 	@Override
 	public void processCommands(String input, UserThread user) {
 		char com = input.charAt(0);
@@ -65,6 +84,11 @@ public class Landing extends Window implements Runnable{
 			default:System.out.println("Unknown commad");
 		}
 	}
+	/**
+	 * Change user thread to lobby room
+	 * @param user					user to send to lobby
+	 * @param info					credentials to give to user
+	 */
 	public void changeToLobby(UserThread user,String[] info) {
 		user.getUser().setName(info[0]);
 		user.getUser().setPassword(info[1]);
@@ -72,6 +96,11 @@ public class Landing extends Window implements Runnable{
 		user.setRoom(server.getLob());
 		users.remove(user);
 	}
+	/**
+	 * Get login information from client command: l [username] [password]
+	 * @param input					input command: l [username] [password]
+	 * @return						String array containing username and password
+	 */
 	public String[] getLogin(String input) {
 		input += " ";
 		System.out.println(input);
@@ -81,6 +110,7 @@ public class Landing extends Window implements Runnable{
 		output[1] = tok.nextToken();
 		return output;
 	}
+	
 	public Thread getT() {
 		return t;
 	}

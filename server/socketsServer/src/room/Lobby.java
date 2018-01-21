@@ -13,6 +13,10 @@ public class Lobby extends Window implements Runnable{
 	private Server server;
 	private Thread t;
 	
+	/**
+	 * Start new lobby
+	 * @param server			server where lobby will run
+	 */
 	public Lobby(Server server) {
 		super();
 		users = new LinkedList<UserThread> ();
@@ -20,10 +24,24 @@ public class Lobby extends Window implements Runnable{
 		rooms = new LinkedList<Room>();
 		this.setServer(server);
 	}
+	/**
+	 * Main loop
+	 * does nothing
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		while(true) Thread.yield();
 	}
+	/**
+	 * Command list:
+	 * j [room name]				- join room
+	 * y							- request statistics
+	 * n [room name]				- create new room
+	 * u							- request room list
+	 * x							- return to landing room 
+	 * @see room.Window#processCommands(java.lang.String, users.UserThread)
+	 */
 	@Override
 	public void processCommands(String input, UserThread user) {
 		char com = input.charAt(0);
@@ -68,22 +86,41 @@ public class Lobby extends Window implements Runnable{
 			default:System.out.println("Unknown commad");
 		}
 	}
+	/**
+	 * Send room list to user
+	 * @param user					user requesting rooms
+	 */
 	public void refresh(UserThread user) {
 		String room = "u "+listToString(rooms);
 		SocketAPI.writeToSocket(user.getUser().getSocket(),room);
 	}
+	/**
+	 * Converts list of rooms to string
+	 * @param room					list of rooms to convert
+	 * @return						[room name]:[number of players]:[number of spectators]:[number of guest]
+	 */
 	public String listToString(LinkedList<Room> room) {
 		String output = "";
 		for(Room r: room)
 			output += r.getRoomName()+":"+ r.getPlayers().size() +":"+r.getSpectators().size()+":"+r.getGuests().size()+" ";
 		return output;
 	}
+	/**
+	 * Get room with given name
+	 * @param name					name to search
+	 * @return						room with given name
+	 */
 	public Room getRoom(String name) {
 		for(Room r : rooms)
 			if(r.getRoomName().equals(name))
 				return r;
 		return null;
 	}
+	/**
+	 * Check if room with given name exists
+	 * @param name					name to search
+	 * @return						<code>true</code> if room with given name exists
+	 */
 	public boolean checkRoom(String name) {
 		if (name.contains(" ")) return true;
 		for(Room r : rooms)

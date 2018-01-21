@@ -10,13 +10,24 @@ public class User {
 	private Socket socket;
 	private char type;
 	private Piece.color turn;
+	
+	/**
+	 * Start new user object
+	 * @param socket			socket user is connected to
+	 */
 	public User(Socket socket) {
 		setSocket(socket);
 	}
+	/**
+	 * Start new user object
+	 * @param name				username
+	 * @param pass				password
+	 */
 	public User(String name,String pass) {
 		setName(name);
 		setPassword(pass);
 	}
+	
 	public Socket getSocket() {
 		return socket;
 	}

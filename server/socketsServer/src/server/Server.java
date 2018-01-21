@@ -17,9 +17,21 @@ public class Server {
 	private Landing land;
 	private Lobby lob;
 	private int occupation;
+	
+	/**
+	 * Check administrator credentials
+	 * @param user			administrator username (default: pawnstars)
+	 * @param pass			administrator password (default: pawnstars)
+	 * @return
+	 */
 	public boolean loginCheck(String user,String pass) {
 		return (admin.equals(user) && adminp.equals(pass));
 	}
+	/**
+	 * Start new server
+	 * Waits for successful database connection
+	 * @param port			port to listen
+	 */
 	public Server(int port) {
 		this.setPort(port);
 		occupation = 0;
@@ -44,10 +56,18 @@ public class Server {
 		adminW.getIpLbl().setText("Server ip: "+ getSocket().getInetAddress().getHostAddress());
 		adminW.getOccupationLbl().setText("Connected: "+occupation);
 	}
+	/**
+	 * Updates server occupation, updates GUI label
+	 * @param change		change in occupation
+	 */
 	public void updateOccupation(int change) {
 		occupation += change;
 		adminW.getOccupationLbl().setText("Connected: "+occupation);
 	}
+	/**
+	 * Wait for new connection
+	 * @return			new thread representing new connection
+	 */
 	public UserThread waitNewConnection() {
 		UserThread u = null;
 		try {
@@ -58,6 +78,21 @@ public class Server {
 		}
 		return u;
 	}
+	/**
+	 * Main loop waiting for new users to join
+	 * Creates new thread on landing room
+	 */
+	public void waitUsers() {
+		while(true) {
+			UserThread newUser = waitNewConnection();
+			land.getUsers().add(newUser);
+			newUser.setRoom(land);
+			newUser.start();
+			updateOccupation(1);
+		}
+	}
+	
+	
 	public ServerSocket getSocket() {
 		return socket;
 	}
@@ -93,18 +128,6 @@ public class Server {
 	}
 	public void setStarted(int started) {
 		this.started = started;
-	}
-	/**
-	 * 
-	 */
-	public void waitUsers() {
-		while(true) {
-			UserThread newUser = waitNewConnection();
-			land.getUsers().add(newUser);
-			newUser.setRoom(land);
-			newUser.start();
-			updateOccupation(1);
-		}
 	}
 	public int getOccupation() {
 		return occupation;
